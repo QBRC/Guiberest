@@ -30,7 +30,7 @@ git clone https://github.com/QBRC/Guiberest.git
 
 Compile the Guiberest library
 ```bash
-cd guiberest/
+cd Guiberest/
 mvn clean install  
 ```
 
