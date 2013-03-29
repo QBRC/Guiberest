@@ -1,0 +1,110 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>edu.swmed.qbrc.guiberest</groupId>
+	<artifactId>guiberest-shared</artifactId>
+	<packaging>jar</packaging>
+	<name>Guiberest Shared Library for REST Application</name>
+	<url>http://maven.apache.org</url>
+
+	<parent>
+		<groupId>edu.swmed.qbrc</groupId>
+		<artifactId>guiberest</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<project.deployment.encoding>UTF-8</project.deployment.encoding>
+
+		<maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
+		<maven-war-plugin.version>2.2</maven-war-plugin.version>
+		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
+
+		<hibernate.version>4.1.4.Final</hibernate.version>
+		<resteasy.version>2.3.5.Final</resteasy.version>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>edu.swmed.qbrc.auth.cashmac</groupId>
+			<artifactId>cashmac-shared</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.1</version>
+  		</dependency>
+
+		<!-- JUnit testing framework -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+		      <groupId>org.jboss.resteasy</groupId>
+		      <artifactId>resteasy-jaxrs</artifactId>
+		      <version>${resteasy.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jackson-provider</artifactId>
+			<version>${resteasy.version}</version>
+		</dependency>	
+				
+		<!-- Hibernate framework -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		
+
+	</dependencies>
+	<build>
+
+                <resources>
+                        <resource>
+                                <directory>${basedir}/src/main/resources</directory>
+                        </resource>
+                </resources>
+
+                <testResources>
+                        <testResource>
+                                <directory>${basedir}/src/test/resources</directory>
+			</testResource>
+                </testResources>
+		
+
+		<plugins>
+			<plugin>
+                           <groupId>org.apache.maven.plugins</groupId>
+			   <artifactId>maven-compiler-plugin</artifactId>
+                           <version>${maven-compiler-plugin.version}</version>
+                           <configuration>
+                                        <source>${target.jdk}</source>
+                                        <target>${target.jdk}</target>
+                                        <encoding>${project.build.sourceEncoding}</encoding>
+                                        <!-- Disable annotation processors during normal compilation -->
+                                        <proc>none</proc>
+                            </configuration>
+                	 </plugin>	
+
+		</plugins>
+	</build>
+	
+</project>

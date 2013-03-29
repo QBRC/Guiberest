@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>edu.swmed.qbrc</groupId>
+	<artifactId>guiberest</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0.0-SNAPSHOT</version>
+	<name>LCDB RESTful Web Service</name>
+	<url>http://maven.apache.org</url>
+
+	<modules>
+		<module>guiberest-server</module>
+		<module>guiberest-client</module>
+		<module>guiberest-web-client</module>
+		<module>guiberest-shared</module>
+  </modules>
+
+	<properties>
+		<maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
+		<maven-deploy-plugin.version>2.7</maven-deploy-plugin.version>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>JBoss repository</id>
+			<url>https://maven.nuxeo.org/nexus/content/groups/public/</url>
+		</repository>
+		
+		<!-- QBRI maven repositories.  Will need to remove this.  -->
+		<repository>
+			<id>qbri-snap</id>
+			<url>http://qbri.swmed.edu/nexus/content/repositories/snapshots/</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>qbri-rel</id>
+			<url>http://qbri.swmed.edu/nexus/content/repositories/releases/</url>
+		</repository>
+		
+		
+	</repositories>
+
+	<profiles>
+		<profile>
+			<id>non-deployment</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+
+			<build>
+			    <plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-deploy-plugin</artifactId>
+					<version>${maven-deploy-plugin.version}</version>
+	
+					<configuration>
+						<skip>true</skip>
+					</configuration>
+			    	</plugin>
+			    </plugins>
+
+			</build>
+		</profile>
+
+		<profile>
+                	<id>deployment</id>
+	                <build>
+        	                <plugins>
+                	                <plugin>
+                        	                <groupId>org.apache.maven.plugins</groupId>
+                                	        <artifactId>maven-deploy-plugin</artifactId>
+                                        	<version>2.7</version>
+
+	                                        <configuration>
+        	                                    <skip>false</skip>
+                	                        </configuration>
+                        	        </plugin>
+				</plugins>
+        	        </build>
+	        </profile>
+	</profiles>		
+
+</project>

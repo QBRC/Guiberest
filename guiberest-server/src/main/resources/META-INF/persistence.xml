@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+    
+    <persistence-unit name="${guiberest.persistence.unit}" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+        <class>edu.swmed.qbrc.guiberest.shared.domain.guiberest.User</class>
+        <class>edu.swmed.qbrc.guiberest.shared.domain.guiberest.Role</class>
+        		
+		<exclude-unlisted-classes>true</exclude-unlisted-classes> 
+        <properties>            
+            <property name="hibernate.connection.driver_class" value="${guiberest.persistence.driver}"/>
+            <property name="hibernate.connection.url" value="${guiberest.persistence.url}"/>
+            <property name="hibernate.connection.username" value="${guiberest.persistence.server.username}"/>
+            <property name="hibernate.connection.password" value="${guiberest.persistence.server.password}"/>
+            <property name="hibernate.dialect" value="${guiberest.persistence.dialect}"/>
+            <property name="hibernate.hbm2ddl.auto" value="${guiberest.persistence.hbm2ddl.auto}"/>            
+            <property name="hibernate.c3p0.acquire_increment" value="${guiberest.persistence.c3p0.acquire_increment}" /> 
+			<property name="hibernate.c3p0.idle_test_period" value="100" /> 
+			<property name="hibernate.c3p0.max_size" value="${guiberest.persistence.c3p0.max_size}" /> 
+			<property name="hibernate.c3p0.max_statements" value="0" /> 
+			<property name="hibernate.c3p0.min_size" value="${guiberest.persistence.c3p0.min_size}" /> 
+			<property name="hibernate.c3p0.timeout" value="${guiberest.persistence.c3p0.timeout}" /> 
+			<!-- For debugging, you can uncomment the line below and all SQL queries will be written to STDOUT -->
+			<property name="hibernate.show_sql" value="true" />
+        </properties>
+    </persistence-unit>
+</persistence>

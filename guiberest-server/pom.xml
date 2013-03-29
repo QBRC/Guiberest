@@ -1,0 +1,362 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>edu.swmed.qbrc.guiberest</groupId>
+	<artifactId>guiberest-server</artifactId>
+	<packaging>war</packaging>
+	<name>Guiberest RESTful Server</name>
+	<url>http://maven.apache.org</url>
+
+	<parent>
+		<groupId>edu.swmed.qbrc</groupId>
+		<artifactId>guiberest</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<project.deployment.encoding>UTF-8</project.deployment.encoding>
+		<maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
+		<maven-war-plugin.version>2.2</maven-war-plugin.version>
+		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
+		<jetty-plugin.version>8.1.0.v20120127</jetty-plugin.version>
+		<tomcat-maven-plugin.version>2.0-beta-1</tomcat-maven-plugin.version>
+
+		<hibernate.version>4.1.4.Final</hibernate.version>
+		<hibernate-validator.version>4.3.0.Final</hibernate-validator.version>
+	    <cas.version>3.2.1</cas.version>
+		<guava.version>13.0-rc2</guava.version>
+		<guice.version>3.0</guice.version>
+		<resteasy.version>2.3.5.Final</resteasy.version>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.3</version>
+			<scope>provided</scope>
+		</dependency>
+            
+		<!-- QBRC Dependencies -->
+		<dependency>
+			<groupId>edu.swmed.qbrc.auth.cashmac</groupId>
+			<artifactId>cashmac-server</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>guiberest-shared</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+
+		<!-- JUnit testing framework -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Jasig CAS Client -->
+		<dependency>
+		   <groupId>org.jasig.cas.client</groupId>
+		   <artifactId>cas-client-core</artifactId>
+		   <type>jar</type>
+		   <version>${cas.version}</version>
+		</dependency>	
+
+
+		<!-- H2 (in memory) default database driver -->
+		<dependency>
+		    <groupId>com.h2database</groupId>
+		    <artifactId>h2</artifactId>
+		    <version>1.3.170</version>
+		</dependency>
+            
+		<!-- MySQL database driver -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.9</version>
+		</dependency>
+
+		<!-- Hibernate framework -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate-validator.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-persist</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-c3p0</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		
+		<!-- Guava -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+		</dependency>
+
+		<!-- DI dependencies -->
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-servlet</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-assistedinject</artifactId>
+			<version>${guice.version}</version>
+		</dependency>
+
+		<!-- JBOSS RESTEasy -->
+		<dependency>
+		      <groupId>org.jboss.resteasy</groupId>
+		      <artifactId>resteasy-jaxrs</artifactId>
+		      <version>${resteasy.version}</version>
+		</dependency>
+	    <!-- Guice integration -->
+	   	<dependency>
+	    	<groupId>org.jboss.resteasy</groupId>
+	     	<artifactId>resteasy-guice</artifactId>
+	    	<version>${resteasy.version}</version>
+	    	<!-- Exclude Guice 2.0 Dependency, since we're on 3.0 -->
+			<exclusions>
+				<exclusion>
+					<groupId>com.google.code.guice</groupId>
+					<artifactId>guice</artifactId>
+				</exclusion>
+			</exclusions>
+	   	</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jackson-provider</artifactId>
+			<version>${resteasy.version}</version>
+		</dependency>	
+		   	
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.5</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+	
+	<build>
+		<outputDirectory>${webappDirectory}/WEB-INF/classes</outputDirectory>
+
+        <resources>
+	        <resource>
+	            <directory>${basedir}/src/main/resources</directory>
+	            <filtering>true</filtering>
+	            <includes>
+	            	<include>database.properties</include>
+	            	<include>import.sql</include>
+	            </includes>
+	        </resource>
+	        <resource>
+	            <directory>${basedir}/src/main/resources/META-INF</directory>
+	            <filtering>true</filtering>
+	            <includes>
+	            	<include>persistence.xml</include>
+	            </includes>
+				<targetPath>META-INF</targetPath>
+	        </resource>
+        </resources>
+        
+        <testResources>
+	        <testResource>
+	            <directory>${basedir}/src/test/resources</directory>
+	        </testResource>
+	
+	        <testResource>
+	            <directory>src/test/resources</directory>
+	            <filtering>true</filtering>
+	            <includes>
+	                <include>integration-test.properties</include>
+	            </includes>
+	        </testResource>
+        </testResources>
+
+		<plugins>
+			<plugin>
+            	<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+               	<version>${maven-compiler-plugin.version}</version>
+                   <configuration>
+                    <source>${target.jdk}</source>
+                    <target>${target.jdk}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <!-- Disable annotation processors during normal compilation -->
+                    <proc>none</proc>
+                   </configuration>
+             </plugin>	
+			 <plugin>
+	             <groupId>org.apache.maven.plugins</groupId>
+	             <artifactId>maven-war-plugin</artifactId>
+	             <version>${maven-war-plugin.version}</version>
+	             <executions>
+                     <execution>
+	                     <phase>compile</phase>
+                     </execution>
+	             </executions>
+	             <configuration>
+                     <webappDirectory>${webappDirectory}</webappDirectory>
+                     <webResources>
+	                     <resource>
+	                         <directory>${basedir}/src/main/webapp/WEB-INF</directory>
+	                         <filtering>true</filtering>
+	                         <includes>
+	                             <include>web.xml</include>
+	                         </includes>
+	                         <targetPath>WEB-INF</targetPath>
+	                     </resource>
+                     </webResources>
+	             </configuration>
+	        </plugin>
+		</plugins>
+	</build>
+
+  	<profiles>
+		<profile>
+			<id>local-nonWin</id>
+
+
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<os>
+					<family>!windows</family>
+				</os>
+			</activation>
+
+			<properties>
+				<profile>dev</profile>
+				<guiberest.persistence.unit>guiberest</guiberest.persistence.unit>
+				<!-- MySQL Settings -->
+				<!--
+				<guiberest.persistence.driver>com.mysql.jdbc.Driver</guiberest.persistence.driver>
+				<guiberest.persistence.url>jdbc:mysql://server:3306/database</guiberest.persistence.url>
+				<guiberest.persistence.hbm2ddl.auto>validate</guiberest.persistence.hbm2ddl.auto>
+				<guiberest.persistence.server.username>username</guiberest.persistence.server.username>
+				<guiberest.persistence.server.password>password</guiberest.persistence.server.password>
+				<guiberest.persistence.dialect>org.hibernate.dialect.MySQL5InnoDBDialect</guiberest.persistence.dialect>
+				<guiberest.persistence.c3p0.max_size>100</guiberest.persistence.c3p0.max_size>
+				<guiberest.persistence.c3p0.min_size>5</guiberest.persistence.c3p0.min_size>
+				<guiberest.persistence.c3p0.acquire_increment>1</guiberest.persistence.c3p0.acquire_increment>
+				<guiberest.persistence.c3p0.timeout>500</guiberest.persistence.c3p0.timeout>
+				-->
+				
+				<!-- H2 Settings -->
+				<guiberest.persistence.driver>org.h2.Driver</guiberest.persistence.driver>
+				<guiberest.persistence.url>jdbc:h2:~/guiberest-sample;AUTO_SERVER=TRUE</guiberest.persistence.url>
+				<guiberest.persistence.hbm2ddl.auto>create</guiberest.persistence.hbm2ddl.auto>
+				<guiberest.persistence.server.username>sa</guiberest.persistence.server.username>
+				<guiberest.persistence.server.password></guiberest.persistence.server.password>
+				<guiberest.persistence.dialect>org.hibernate.dialect.H2Dialect</guiberest.persistence.dialect>
+				<guiberest.persistence.c3p0.max_size>20</guiberest.persistence.c3p0.max_size>
+				<guiberest.persistence.c3p0.min_size>1</guiberest.persistence.c3p0.min_size>
+				<guiberest.persistence.c3p0.acquire_increment>1</guiberest.persistence.c3p0.acquire_increment>
+				<guiberest.persistence.c3p0.timeout>300</guiberest.persistence.c3p0.timeout>
+				
+				<!-- CasHmac -->
+				<edu.swmed.qbrc.auth.cashmac.cas.serverLoginUrl>https://cas.jon.swmed.edu:8443/cas-server-webapp-3.5.1/login</edu.swmed.qbrc.auth.cashmac.cas.serverLoginUrl>
+				<edu.swmed.qbrc.auth.cashmac.cas.serviceName>http://127.0.0.1:9090</edu.swmed.qbrc.auth.cashmac.cas.serviceName>
+				<edu.swmed.qbrc.auth.cashmac.hmac.table.Role>roles</edu.swmed.qbrc.auth.cashmac.hmac.table.Role>
+				<edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.Role>id</edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.Role>
+				<edu.swmed.qbrc.auth.cashmac.hmac.table.usercol.Role>username</edu.swmed.qbrc.auth.cashmac.hmac.table.usercol.Role>
+				<edu.swmed.qbrc.auth.cashmac.hmac.table.rolecol.Role>role</edu.swmed.qbrc.auth.cashmac.hmac.table.rolecol.Role>
+				<edu.swmed.qbrc.auth.cashmac.hmac.table.User>users</edu.swmed.qbrc.auth.cashmac.hmac.table.User>
+				<edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.User>id</edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.User>
+				<edu.swmed.qbrc.auth.cashmac.hmac.table.secretCol.User>secret</edu.swmed.qbrc.auth.cashmac.hmac.table.secretCol.User>
+				<edu.swmed.qbrc.auth.cashmac.hmac.jdbcdriver>org.h2.Driver</edu.swmed.qbrc.auth.cashmac.hmac.jdbcdriver>
+				<edu.swmed.qbrc.auth.cashmac.hmac.jdbcurl>jdbc:h2:~/guiberest-sample;AUTO_SERVER=TRUE</edu.swmed.qbrc.auth.cashmac.hmac.jdbcurl>
+				<edu.swmed.qbrc.auth.cashmac.hmac.username>sa</edu.swmed.qbrc.auth.cashmac.hmac.username>
+				<edu.swmed.qbrc.auth.cashmac.hmac.password></edu.swmed.qbrc.auth.cashmac.hmac.password>
+				
+				<!-- CAS -->	
+				<cas.casserverurlprefix>https://cas.jon.swmed.edu:8443/cas-server-webapp-3.5.1/</cas.casserverurlprefix>
+				<cas.servername>http://127.0.0.1:9090</cas.servername>
+				<cas.proxycallbackurl>http://127.0.0.1:9090/proxyCallback</cas.proxycallbackurl>
+				<cas.proxyreceptorurl>/proxyCallback</cas.proxyreceptorurl>
+				
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.mortbay.jetty</groupId>
+						<artifactId>jetty-maven-plugin</artifactId>
+						<version>${jetty-plugin.version}</version>
+						<configuration>
+							<scanIntervalSeconds>10</scanIntervalSeconds>
+							<stopPort>9966</stopPort>
+							<stopKey>stop-jetty</stopKey>
+							<connectors>
+								<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+									<port>9090</port>
+									<maxIdleTime>60000</maxIdleTime>
+								</connector>
+							</connectors>
+
+							<webAppSourceDirectory>${webappDirectory}</webAppSourceDirectory>
+							<webApp>
+								<descriptor>${webappDirectory}/WEB-INF</descriptor>
+							</webApp>
+						</configuration>
+						<executions>
+							<execution>
+								<id>start-jetty</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<configuration>
+									<daemon>true</daemon>
+									<scanIntervalSeconds>0</scanIntervalSeconds>
+								</configuration>
+							</execution>
+							<execution>
+								<id>stop-jetty</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>stop</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+  
+  				</plugins>
+  			</build>
+  		</profile>
+
+
+  	</profiles>
+	
+</project>
