@@ -8,10 +8,9 @@ Getting Started
 
 You should first clone the CasHmac repository, compile and install it:
 
-Download the CasHmac library and the Sample Application
+Download the CasHmac library
 ```bash
 git clone https://github.com/QBRC/CasHmac.git
-git clone https://github.com/QBRC/CasHmac-Sample.git
 ```
 
 Compile the CasHmac library
