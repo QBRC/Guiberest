@@ -47,7 +47,7 @@ cd guiberest-client
 mvn exec:java
 ```
 
-You should see this output from the sample application
+You should see this output from the sample application (you may also see some CasHmac messages regarding HMAC).
 ```bash
 User: thomas
 User: roger
