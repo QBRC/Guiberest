@@ -82,9 +82,9 @@ This module includes packages which should be shared between the server and the 
 
 This module depends on the `Shared` module and implements the server-side code necessary for the web-service. It uses Guice for DI and Hibernate for ORM. It implements the interface(s) described in the `Shared` module to serve thsoe REST services. It will be packaged as a `war` file and must be deployed to some Servlet container (Tomcat, Jetty, etc.).
 
-###Client
+###Client and Web-Client
 
-This module offers no new functionality and likely would be excluded from any forks of this project deployed in production, but merely provides an example of how to use the web service "remotely".
+These modules offer no new functionality and likely would be excluded from any forks of this project deployed in production, but merely provide examples of how to use the web service "remotely".
 
 Authentication
 --------------
