@@ -49,9 +49,11 @@ mvn exec:java
 
 You should see this output from the sample application
 ```bash
-Hello, anonymous user from QBRC : Anonymous Message
-Hello from QBRC : Authenticated Message
-User [id=thomas, password=??, secret=123456789]
+User: thomas
+User: roger
+
+Role: admin
+Role: manager
 ```
 
 Run Sample Web application
@@ -63,9 +65,10 @@ mvn jetty:run
 
 Browse to http://127.0.0.1:9091, and you should see the following output
 ```bash
-Hello, anonymous user from QBRC : Anonymous Message
-Hello from QBRC : Authenticated Message
-User [id=thomas, password=??, secret=123456789]
+User: thomas
+User: roger
+Role: admin
+Role: manager
 ```
 
 Modules
