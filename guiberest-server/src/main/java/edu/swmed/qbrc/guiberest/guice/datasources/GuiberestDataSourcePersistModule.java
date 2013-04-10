@@ -1,4 +1,4 @@
-package edu.swmed.qbrc.guiberest.guice;
+package edu.swmed.qbrc.guiberest.guice.datasources;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +18,6 @@ public class GuiberestDataSourcePersistModule extends PrivateModule {
 	protected void configure() {
 
 	    install(new JpaPersistModule(getGuiberestPersistenceUnit()));
-	    install(new PersistenceInitModule());
 	    
 	    final Provider<EntityManager> entityManagerProvider = binder().getProvider(EntityManager.class);
 	    bind(EntityManager.class).annotatedWith(GuiberestDataSource.class).toProvider(entityManagerProvider);

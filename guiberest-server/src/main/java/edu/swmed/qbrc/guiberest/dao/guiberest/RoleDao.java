@@ -7,7 +7,7 @@ import javax.inject.Provider;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import edu.swmed.qbrc.guiberest.dao.BaseDao;
-import edu.swmed.qbrc.guiberest.guice.GuiberestDataSource;
+import edu.swmed.qbrc.guiberest.guice.datasources.GuiberestDataSource;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Role;
 
 public class RoleDao extends BaseDao<Role> {

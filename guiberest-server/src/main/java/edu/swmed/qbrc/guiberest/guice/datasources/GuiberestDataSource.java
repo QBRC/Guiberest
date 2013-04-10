@@ -1,4 +1,4 @@
-package edu.swmed.qbrc.guiberest.guice;
+package edu.swmed.qbrc.guiberest.guice.datasources;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

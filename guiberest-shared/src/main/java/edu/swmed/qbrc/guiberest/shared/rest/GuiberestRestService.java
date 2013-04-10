@@ -2,7 +2,6 @@ package edu.swmed.qbrc.guiberest.shared.rest;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -12,6 +11,7 @@ import org.jboss.resteasy.annotations.StringParameterUnmarshallerBinder;
 import edu.swmed.qbrc.auth.cashmac.shared.util.Securable;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Role;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.User;
+import edu.swmed.qbrc.guiberest.shared.rest.datapackage.DataPackage;
 import edu.swmed.qbrc.guiberest.shared.rest.jackson.TableJSONContainer;
 import edu.swmed.qbrc.guiberest.shared.rest.util.CharArrayUnmarshaller;
 import edu.swmed.qbrc.guiberest.shared.rest.util.StringArray;
@@ -41,6 +41,12 @@ public interface GuiberestRestService {
 	@StringParameterUnmarshallerBinder(UserIDArrayUnmarshaller.class)
 	public @interface UserIDArrayAnnot {
 	}
+	
+	@Securable()
+	@GET
+	@Path("/datapackage.json")
+	@Produces("application/json")
+	public DataPackage getDataPackage();
 
 	@Securable()
 	@GET
@@ -59,6 +65,6 @@ public interface GuiberestRestService {
 	@GET
 	@Path("/role/{param}")
 	@Produces("application/json")
-	public List<Role> getRoles(@PathParam("param") @StringArrayAnnot StringArray userids);
+	public TableJSONContainer<Role> getRoles(@PathParam("param") @StringArrayAnnot StringArray userids);
 	
 }

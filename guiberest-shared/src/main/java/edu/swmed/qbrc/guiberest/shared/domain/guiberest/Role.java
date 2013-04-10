@@ -5,12 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import edu.swmed.qbrc.guiberest.shared.domain.BaseEntity;
+import edu.swmed.qbrc.guiberest.shared.rest.datapackage.DataPackage.DataPackageClass;
 
 @Entity
 @Table(name = "roles")
 @XmlRootElement(name = "Role")
+@DataPackageClass(url="/user")
 public class Role implements BaseEntity {
 	private static final long serialVersionUID = 3587913229532814544L;
 	

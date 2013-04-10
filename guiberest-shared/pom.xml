@@ -26,6 +26,7 @@
 
 		<hibernate.version>4.1.4.Final</hibernate.version>
 		<resteasy.version>2.3.5.Final</resteasy.version>
+        <guice.version>3.0</guice.version>
 	</properties>
 
 	<dependencies>
@@ -73,6 +74,24 @@
 			<version>${hibernate.version}</version>
 		</dependency>
 		
+        <!-- DI dependencies -->
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>${guice.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.inject.extensions</groupId>
+            <artifactId>guice-assistedinject</artifactId>
+            <version>${guice.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.9.9-RC1</version>
+        </dependency>
+
 
 	</dependencies>
 	<build>

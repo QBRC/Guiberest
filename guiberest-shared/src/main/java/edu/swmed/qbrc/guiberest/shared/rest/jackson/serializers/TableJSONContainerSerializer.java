@@ -6,32 +6,30 @@ import org.codehaus.jackson.JsonGenerator;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
-
+import edu.swmed.qbrc.guiberest.shared.rest.jackson.JacksonUtils;
+import edu.swmed.qbrc.guiberest.shared.rest.jackson.ReflectionFactory;
 import edu.swmed.qbrc.guiberest.shared.rest.jackson.TableJSONContainer;
-import edu.swmed.qbrc.guiberest.shared.rest.jackson.TableJSONField;
-import edu.swmed.qbrc.guiberest.shared.rest.jackson.TableJSONSerializable;
 
 @SuppressWarnings("rawtypes")
 public class TableJSONContainerSerializer extends JsonSerializer<TableJSONContainer> {
+
+	private final ReflectionFactory reflectionFactory;
 	
+	public TableJSONContainerSerializer(final ReflectionFactory reflectionFactory) {
+		this.reflectionFactory = reflectionFactory;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public void serialize(TableJSONContainer container, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
-		List<TableJSONSerializable> data = (List<TableJSONSerializable>)container.getData();
+		List<Object> data = (List<Object>)container.getData();
 		jgen.writeStartObject();
 		if (data.size() > 0) {
-			jgen.writeArrayFieldStart("fields");
-			for (TableJSONField field : data.get(0).getFields()) {
-				jgen.writeStartObject();
-				jgen.writeStringField("id", field.getFieldId());
-				jgen.writeStringField("name", field.getFieldName());
-				jgen.writeStringField("label", field.getFieldLabel());
-				jgen.writeStringField("type", field.getFieldType());
-				jgen.writeEndObject();
-			}
-			jgen.writeEndArray();
+			
+			JacksonUtils.writeJSONSchema(data.get(0).getClass(), jgen, reflectionFactory);
+			
 			jgen.writeArrayFieldStart("data");
-			for (TableJSONSerializable row : data) {
+			for (Object row : data) {
 				jgen.writeObject(row);
 			}
 			jgen.writeEndArray();

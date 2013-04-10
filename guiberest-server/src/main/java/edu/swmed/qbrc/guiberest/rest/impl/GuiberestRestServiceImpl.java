@@ -13,6 +13,7 @@ import edu.swmed.qbrc.guiberest.shared.domain.Constraint.Operator;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Role;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.User;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
+import edu.swmed.qbrc.guiberest.shared.rest.datapackage.DataPackage;
 import edu.swmed.qbrc.guiberest.shared.rest.jackson.TableJSONContainer;
 import edu.swmed.qbrc.guiberest.shared.rest.util.StringArray;
  
@@ -23,6 +24,9 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 	@Inject
 	RoleDao roleDao;
 
+	public DataPackage getDataPackage() {
+		return new DataPackage();
+	}
 
 	@SuppressWarnings("rawtypes")
 	public TableJSONContainer<User> getUsers() {
@@ -43,9 +47,9 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 			throw new BadRequestException("Invalid smoking status query provided -- no such smoking status/es.");
 		}
 	}
-	public List<Role> getRoles(@PathParam("param") @StringArrayAnnot StringArray ids) {
+	public TableJSONContainer<Role> getRoles(@PathParam("param") @StringArrayAnnot StringArray ids) {
 		try {
-			return roleDao.getRolesForUser(ids.getList());
+			return new TableJSONContainer<Role>(roleDao.getRolesForUser(ids.getList()));
 		} catch(NoResultException e) {
 			throw new BadRequestException("Invalid smoking status query provided -- no such smoking status/es.");
 		}

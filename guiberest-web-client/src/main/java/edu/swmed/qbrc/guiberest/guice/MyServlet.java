@@ -53,8 +53,8 @@ public class MyServlet extends HttpServlet {
 
 		StringArray useridsforrole = new StringArray();
 		useridsforrole.getList().add("thomas");
-		List<Role> roles = guibRestService.getRoles(useridsforrole);
-		for (Role role : roles) {
+		TableJSONContainer<Role> roles = guibRestService.getRoles(useridsforrole);
+		for (Role role : roles.getData()) {
 			out.append("Role: " + role.getRole() + "<br/>");
 		}
 		

@@ -4,7 +4,7 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.persistence.EntityManager;
 import edu.swmed.qbrc.guiberest.dao.BaseDao;
-import edu.swmed.qbrc.guiberest.guice.GuiberestDataSource;
+import edu.swmed.qbrc.guiberest.guice.datasources.GuiberestDataSource;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.User;
 
 public class UserDao extends BaseDao<User> {

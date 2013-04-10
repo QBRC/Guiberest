@@ -4,11 +4,13 @@ import java.util.List;
 import org.jboss.resteasy.client.ClientRequestFactory;
 import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
+import org.reflections.Reflections;
 import edu.swmed.qbrc.auth.cashmac.client.ClientAuthInterceptor;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Role;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.User;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
 import edu.swmed.qbrc.guiberest.shared.rest.jackson.JacksonConfigProvider;
+import edu.swmed.qbrc.guiberest.shared.rest.jackson.ReflectionFactory;
 import edu.swmed.qbrc.guiberest.shared.rest.jackson.TableJSONContainer;
 import edu.swmed.qbrc.guiberest.shared.rest.util.StringArray;
 
@@ -20,7 +22,9 @@ public class App {
 		ResteasyProviderFactory instance = ResteasyProviderFactory.getInstance();
 		RegisterBuiltin.register(instance);
 		instance.registerProvider(GuiberestRestService.class);
-		instance.registerProvider(JacksonConfigProvider.class); // For custom serialization/deserialization
+		ReflectionFactory reflectionFactory = new ReflectionFactory();
+		Reflections reflections = new Reflections("edu.swmed.qbrc.guiberest.shared.domain.guiberest");
+		instance.registerProviderInstance(new JacksonConfigProvider(reflectionFactory, reflections)); // For custom serialization/deserialization
 	 
 		ClientRequestFactory clientRequestFactory = new ClientRequestFactory();
 		ClientAuthInterceptor interceptor = new ClientAuthInterceptor();
@@ -43,14 +47,14 @@ public class App {
 		List<User> users = tblexp.getData();
 		if (users != null) {
 			for (User user : users) {
-				System.out.println("User: " + user.getId());
+				System.out.println("User Secret: " + user.getSecret());
 			}
 		}
 
 		StringArray useridsforrole = new StringArray();
 		useridsforrole.getList().add("thomas");
-		List<Role> roles = guibRestService.getRoles(useridsforrole);
-		for (Role role : roles) {
+		TableJSONContainer<Role> roles = guibRestService.getRoles(useridsforrole);
+		for (Role role : roles.getData()) {
 			System.out.println("Role: " + role.getRole());
 		}
 		

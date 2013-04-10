@@ -1,6 +1,5 @@
 package edu.swmed.qbrc.guiberest.shared.domain.guiberest;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,15 +8,14 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import edu.swmed.qbrc.guiberest.shared.domain.BaseEntity;
-import edu.swmed.qbrc.guiberest.shared.rest.jackson.TableJSONField;
-import edu.swmed.qbrc.guiberest.shared.rest.jackson.TableJSONSerializable;
-import edu.swmed.qbrc.guiberest.shared.rest.jackson.TableJSONField.JSONFieldTypes;
+import edu.swmed.qbrc.guiberest.shared.rest.datapackage.DataPackage.DataPackageClass;
 
 @SuppressWarnings("rawtypes")
 @Entity
 @Table(name = "users")
 @XmlRootElement(name = "User")
-public class User extends TableJSONSerializable implements BaseEntity, Comparable {
+@DataPackageClass(url="/user")
+public class User implements BaseEntity, Comparable {
 	private static final long serialVersionUID = 5489594906310275717L;
 	
 	@Id
@@ -101,15 +99,6 @@ public class User extends TableJSONSerializable implements BaseEntity, Comparabl
 		} else if (!getId().equals(other.getId()))
 			return 0;
 		return 1;
-	}
-
-	@Override
-	public List<TableJSONField> getFields() {
-		List<TableJSONField> fields = new ArrayList<TableJSONField>();
-		fields.add(new TableJSONField("A", JSONFieldTypes.STRING, "UserID", "User ID"));
-		fields.add(new TableJSONField("B", JSONFieldTypes.STRING, "Password", "User Password"));
-		fields.add(new TableJSONField("C", JSONFieldTypes.STRING, "Secret", "User Secret for HMAC"));
-		return fields;
 	}
 	
 }
