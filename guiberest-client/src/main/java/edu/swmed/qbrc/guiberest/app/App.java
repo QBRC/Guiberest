@@ -47,7 +47,7 @@ public class App {
 		List<User> users = tblexp.getData();
 		if (users != null) {
 			for (User user : users) {
-				System.out.println("User Secret: " + user.getSecret());
+				System.out.println("User: " + user.getId());
 			}
 		}
 

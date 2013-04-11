@@ -37,7 +37,7 @@ public class Role implements BaseEntity {
 	}
 
 	@Override
-	public Object getId() {
+	public Integer getId() {
 		return this.id;
 	}
 

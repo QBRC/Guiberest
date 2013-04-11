@@ -7,6 +7,8 @@ import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.jboss.resteasy.client.ClientExecutor;
 import org.jboss.resteasy.client.ProxyFactory;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
+import org.reflections.Reflections;
+
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
@@ -14,6 +16,7 @@ import edu.swmed.qbrc.auth.cashmac.client.ClientAuthInterceptor;
 import edu.swmed.qbrc.auth.cashmac.client.GWTClientExecutor;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
 import edu.swmed.qbrc.guiberest.shared.rest.jackson.JacksonConfigProvider;
+import edu.swmed.qbrc.guiberest.shared.rest.jackson.ReflectionFactory;
 
 public class GuiberestRestServiceProvider implements Provider<GuiberestRestService> {
 
@@ -21,17 +24,20 @@ public class GuiberestRestServiceProvider implements Provider<GuiberestRestServi
 	private final String secret;
 	private final String hostName;
 	private final String restURL;
+	private final ReflectionFactory reflectionFactory;
 	
 	@Inject
 	public GuiberestRestServiceProvider(
 							@Named("ClientId") final String clientId,
 							@Named("Secret") final String secret,
 							@Named("HostName") final String hostName,
-							@Named("RestURL") final String restURL) {
+							@Named("RestURL") final String restURL,
+							final ReflectionFactory reflectionFactory) {
 		this.clientId = clientId;
 		this.secret = secret;
 		this.hostName = hostName;
 		this.restURL = restURL;
+		this.reflectionFactory = reflectionFactory;
 	}
 	
 	public GuiberestRestService get() {
@@ -48,7 +54,8 @@ public class GuiberestRestServiceProvider implements Provider<GuiberestRestServi
 		ResteasyProviderFactory.getInstance().getClientExecutionInterceptorRegistry().register(interceptor);
 
 		/* For custom serialization/deserialization */
-		ResteasyProviderFactory.getInstance().registerProvider(JacksonConfigProvider.class);
+		Reflections reflections = new Reflections("edu.swmed.qbrc.lcdb.shared.domain.lcdb");
+		ResteasyProviderFactory.getInstance().registerProviderInstance(new JacksonConfigProvider(reflectionFactory, reflections));
 		
 		/* Optional:
 		 * 

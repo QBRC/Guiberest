@@ -60,7 +60,7 @@ public class User implements BaseEntity, Comparable {
 	}
 
 	@Override
-	public Object getId() {
+	public String getId() {
 		return this.id;
 	}
 

@@ -74,6 +74,8 @@ public class TableRowDeserializer<T> extends JsonDeserializer<T> {
 			return (float)node.getNumberValue().doubleValue();
 		else if (propertyType.equals(Double.class) && node.isNumber() && ! node.isNull())
 			return node.getNumberValue().doubleValue();
+		else if (propertyType.equals(Object.class) && ! node.isNull())
+			return node.getTextValue();
 		
 		return null;
 	}

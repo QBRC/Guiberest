@@ -5,6 +5,7 @@ import com.google.inject.Scopes;
 import com.google.inject.name.Names;
 import com.google.inject.servlet.ServletModule;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
+import edu.swmed.qbrc.guiberest.shared.rest.jackson.ReflectionFactory;
 
 public class MyServletModule extends ServletModule {
 
@@ -12,6 +13,7 @@ public class MyServletModule extends ServletModule {
 	protected void configureServlets() {
 		Names.bindProperties(binder(), loadProperties());
 		bind(GuiberestRestService.class).toProvider(GuiberestRestServiceProvider.class).in(Scopes.SINGLETON);
+		bind(ReflectionFactory.class).in(Scopes.SINGLETON);
 		serve("/*").with(MyServlet.class);
 		super.configureServlets();
 	}
