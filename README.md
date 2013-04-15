@@ -6,16 +6,23 @@ Guiberest
 Getting Started
 ---------------
 
-You should first clone the CasHmac repository, compile and install it:
+You should first clone the CasHmac and Jacksonate repositories, compile them, and install them:
 
-Download the CasHmac library
+Download the libraries
 ```bash
 git clone https://github.com/QBRC/CasHmac.git
+git clone https://github.com/QBRC/Jacksonate.git
 ```
 
-Compile the CasHmac library
+Compile and install the CasHmac library
 ```bash
 cd CasHmac/
+mvn clean install  
+```
+
+Compile and install the Jacksonate library
+```bash
+cd Jacksonate/
 mvn clean install  
 ```
 
