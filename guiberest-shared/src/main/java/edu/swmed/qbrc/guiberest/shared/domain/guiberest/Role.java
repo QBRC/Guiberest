@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import edu.swmed.qbrc.guiberest.shared.domain.BaseEntity;
-import edu.swmed.qbrc.guiberest.shared.rest.datapackage.DataPackage.DataPackageClass;
+import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage.DataPackageClass;
 
 @Entity
 @Table(name = "roles")

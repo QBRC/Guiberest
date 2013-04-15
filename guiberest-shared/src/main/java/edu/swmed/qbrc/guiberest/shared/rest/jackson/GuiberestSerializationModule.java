@@ -2,30 +2,36 @@ package edu.swmed.qbrc.guiberest.shared.rest.jackson;
 
 import java.util.HashMap;
 import java.util.List;
-import org.codehaus.jackson.Version;
-import org.codehaus.jackson.map.module.SimpleModule;
 import org.codehaus.jackson.type.TypeReference;
 import org.reflections.Reflections;
+
+import com.google.inject.Inject;
+
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Role;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.User;
-import edu.swmed.qbrc.guiberest.shared.rest.datapackage.DataPackage;
-import edu.swmed.qbrc.guiberest.shared.rest.jackson.deserializers.TableJSONContainerDeserializer;
-import edu.swmed.qbrc.guiberest.shared.rest.jackson.deserializers.TableRowDeserializer;
-import edu.swmed.qbrc.guiberest.shared.rest.jackson.serializers.DataPackageSerializer;
-import edu.swmed.qbrc.guiberest.shared.rest.jackson.serializers.TableJSONContainerSerializer;
-import edu.swmed.qbrc.guiberest.shared.rest.jackson.serializers.TableRowSerializer;
+import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage;
+import edu.swmed.qbrc.jacksonate.rest.jackson.JacksonSerializationModule;
+import edu.swmed.qbrc.jacksonate.rest.jackson.ReflectionFactory;
+import edu.swmed.qbrc.jacksonate.rest.jackson.RestBaseUrl;
+import edu.swmed.qbrc.jacksonate.rest.jackson.TableJSONContainer;
+import edu.swmed.qbrc.jacksonate.rest.jackson.deserializers.TableJSONContainerDeserializer;
+import edu.swmed.qbrc.jacksonate.rest.jackson.deserializers.TableRowDeserializer;
+import edu.swmed.qbrc.jacksonate.rest.jackson.serializers.DataPackageSerializer;
+import edu.swmed.qbrc.jacksonate.rest.jackson.serializers.TableJSONContainerSerializer;
+import edu.swmed.qbrc.jacksonate.rest.jackson.serializers.TableRowSerializer;
 
-public class JacksonSerializationModule extends SimpleModule {
+public class GuiberestSerializationModule extends JacksonSerializationModule {
 	
 	@SuppressWarnings("rawtypes")
-	public JacksonSerializationModule(final ReflectionFactory reflectionFactory, final Reflections reflections) {
+	@Inject
+	public GuiberestSerializationModule(final ReflectionFactory reflectionFactory, final Reflections reflections, final RestBaseUrl restBaseUrl) {
 		
-		super("JacksonSerializationModule", new Version(1, 0, 0, null));
+		super(reflectionFactory, reflections, restBaseUrl);
 
 		// Serialization for container (table schema, etc.)
-		addSerializer(TableJSONContainer.class, new TableJSONContainerSerializer(reflectionFactory));
+		addSerializer(TableJSONContainer.class, new TableJSONContainerSerializer(reflectionFactory, restBaseUrl));
 		
-		addSerializer(DataPackage.class, new DataPackageSerializer(reflectionFactory, reflections));
+		addSerializer(DataPackage.class, new DataPackageSerializer(reflectionFactory, reflections, restBaseUrl));
 		
 		// Serialization for data types (rows)
 		addSerializer(User.class, new TableRowSerializer<User>(reflectionFactory));

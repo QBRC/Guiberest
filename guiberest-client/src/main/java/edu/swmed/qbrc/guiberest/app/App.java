@@ -9,10 +9,11 @@ import edu.swmed.qbrc.auth.cashmac.client.ClientAuthInterceptor;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Role;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.User;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
-import edu.swmed.qbrc.guiberest.shared.rest.jackson.JacksonConfigProvider;
-import edu.swmed.qbrc.guiberest.shared.rest.jackson.ReflectionFactory;
-import edu.swmed.qbrc.guiberest.shared.rest.jackson.TableJSONContainer;
-import edu.swmed.qbrc.guiberest.shared.rest.util.StringArray;
+import edu.swmed.qbrc.guiberest.shared.rest.jackson.GuiberestSerializationModule;
+import edu.swmed.qbrc.jacksonate.rest.jackson.JacksonConfigProvider;
+import edu.swmed.qbrc.jacksonate.rest.jackson.ReflectionFactory;
+import edu.swmed.qbrc.jacksonate.rest.jackson.TableJSONContainer;
+import edu.swmed.qbrc.jacksonate.rest.util.StringArray;
 
 public class App {
 	
@@ -24,7 +25,7 @@ public class App {
 		instance.registerProvider(GuiberestRestService.class);
 		ReflectionFactory reflectionFactory = new ReflectionFactory();
 		Reflections reflections = new Reflections("edu.swmed.qbrc.guiberest.shared.domain.guiberest");
-		instance.registerProviderInstance(new JacksonConfigProvider(reflectionFactory, reflections)); // For custom serialization/deserialization
+		instance.registerProviderInstance(new JacksonConfigProvider(new GuiberestSerializationModule(reflectionFactory, reflections, null))); // For custom serialization/deserialization
 	 
 		ClientRequestFactory clientRequestFactory = new ClientRequestFactory();
 		ClientAuthInterceptor interceptor = new ClientAuthInterceptor();

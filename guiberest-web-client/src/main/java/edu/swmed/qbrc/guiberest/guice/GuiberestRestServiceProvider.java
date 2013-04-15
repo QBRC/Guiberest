@@ -7,16 +7,13 @@ import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.jboss.resteasy.client.ClientExecutor;
 import org.jboss.resteasy.client.ProxyFactory;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
-import org.reflections.Reflections;
-
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
 import edu.swmed.qbrc.auth.cashmac.client.ClientAuthInterceptor;
 import edu.swmed.qbrc.auth.cashmac.client.GWTClientExecutor;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
-import edu.swmed.qbrc.guiberest.shared.rest.jackson.JacksonConfigProvider;
-import edu.swmed.qbrc.guiberest.shared.rest.jackson.ReflectionFactory;
+import edu.swmed.qbrc.jacksonate.rest.jackson.JacksonConfigProvider;
 
 public class GuiberestRestServiceProvider implements Provider<GuiberestRestService> {
 
@@ -24,7 +21,7 @@ public class GuiberestRestServiceProvider implements Provider<GuiberestRestServi
 	private final String secret;
 	private final String hostName;
 	private final String restURL;
-	private final ReflectionFactory reflectionFactory;
+	private final JacksonConfigProvider jacksonConfigProvider; 
 	
 	@Inject
 	public GuiberestRestServiceProvider(
@@ -32,12 +29,12 @@ public class GuiberestRestServiceProvider implements Provider<GuiberestRestServi
 							@Named("Secret") final String secret,
 							@Named("HostName") final String hostName,
 							@Named("RestURL") final String restURL,
-							final ReflectionFactory reflectionFactory) {
+							final JacksonConfigProvider jacksonConfigProvider) {
 		this.clientId = clientId;
 		this.secret = secret;
 		this.hostName = hostName;
 		this.restURL = restURL;
-		this.reflectionFactory = reflectionFactory;
+		this.jacksonConfigProvider = jacksonConfigProvider;
 	}
 	
 	public GuiberestRestService get() {
@@ -53,9 +50,8 @@ public class GuiberestRestServiceProvider implements Provider<GuiberestRestServi
 		/* Here, we register the interceptor */
 		ResteasyProviderFactory.getInstance().getClientExecutionInterceptorRegistry().register(interceptor);
 
-		/* For custom serialization/deserialization */
-		Reflections reflections = new Reflections("edu.swmed.qbrc.lcdb.shared.domain.lcdb");
-		ResteasyProviderFactory.getInstance().registerProviderInstance(new JacksonConfigProvider(reflectionFactory, reflections));
+		// And the Jackson (de)serialization provider
+		ResteasyProviderFactory.getInstance().registerProviderInstance(jacksonConfigProvider);
 		
 		/* Optional:
 		 * 

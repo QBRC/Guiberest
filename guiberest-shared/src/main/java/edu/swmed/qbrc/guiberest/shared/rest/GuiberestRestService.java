@@ -11,13 +11,13 @@ import org.jboss.resteasy.annotations.StringParameterUnmarshallerBinder;
 import edu.swmed.qbrc.auth.cashmac.shared.util.Securable;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Role;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.User;
-import edu.swmed.qbrc.guiberest.shared.rest.datapackage.DataPackage;
-import edu.swmed.qbrc.guiberest.shared.rest.jackson.TableJSONContainer;
-import edu.swmed.qbrc.guiberest.shared.rest.util.CharArrayUnmarshaller;
-import edu.swmed.qbrc.guiberest.shared.rest.util.StringArray;
+import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage;
+import edu.swmed.qbrc.jacksonate.rest.jackson.TableJSONContainer;
+import edu.swmed.qbrc.jacksonate.rest.util.CharArrayUnmarshaller;
+import edu.swmed.qbrc.jacksonate.rest.util.StringArray;
 import edu.swmed.qbrc.guiberest.shared.rest.util.UserIDArrayUnmarshaller;
-import edu.swmed.qbrc.guiberest.shared.rest.util.IntegerArrayUnmarshaller;
-import edu.swmed.qbrc.guiberest.shared.rest.util.StringArrayUnmarshaller;
+import edu.swmed.qbrc.jacksonate.rest.util.IntegerArrayUnmarshaller;
+import edu.swmed.qbrc.jacksonate.rest.util.StringArrayUnmarshaller;
  
 @Path("/")
 public interface GuiberestRestService {

@@ -53,6 +53,13 @@
 			<artifactId>guiberest-shared</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
+		
+        <dependency>
+            <groupId>edu.swmed.qbrc</groupId>
+            <artifactId>jacksonate</artifactId>
+            <version>${jacksonate.version}</version>
+        </dependency>
+		
 
 		<!-- JUnit testing framework -->
 		<dependency>
@@ -190,6 +197,7 @@
 	            <filtering>true</filtering>
 	            <includes>
 	            	<include>database.properties</include>
+                    <include>rest.properties</include>
 	            	<include>import.sql</include>
 	            </includes>
 	        </resource>
@@ -271,6 +279,9 @@
 			<properties>
 				<profile>dev</profile>
 				<guiberest.persistence.unit>guiberest</guiberest.persistence.unit>
+                <restservice.baseurl>http://127.0.0.1:9090</restservice.baseurl>
+                <restservice.packageurl>/datapackage.json</restservice.packageurl>                  
+
 				<!-- MySQL Settings -->
 				<!--
 				<guiberest.persistence.driver>com.mysql.jdbc.Driver</guiberest.persistence.driver>

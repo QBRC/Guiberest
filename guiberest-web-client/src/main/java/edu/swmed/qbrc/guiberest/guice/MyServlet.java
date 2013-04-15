@@ -13,8 +13,8 @@ import com.google.inject.Singleton;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Role;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.User;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
-import edu.swmed.qbrc.guiberest.shared.rest.jackson.TableJSONContainer;
-import edu.swmed.qbrc.guiberest.shared.rest.util.StringArray;
+import edu.swmed.qbrc.jacksonate.rest.jackson.TableJSONContainer;
+import edu.swmed.qbrc.jacksonate.rest.util.StringArray;
 
 @Singleton
 public class MyServlet extends HttpServlet {

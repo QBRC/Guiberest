@@ -6,10 +6,10 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.User;
-import edu.swmed.qbrc.guiberest.shared.rest.util.CharArray;
-import edu.swmed.qbrc.guiberest.shared.rest.util.IntegerArray;
+import edu.swmed.qbrc.jacksonate.rest.util.CharArray;
+import edu.swmed.qbrc.jacksonate.rest.util.IntegerArray;
 import edu.swmed.qbrc.guiberest.shared.rest.util.UserIDArray;
-import edu.swmed.qbrc.guiberest.shared.rest.util.StringArray;
+import edu.swmed.qbrc.jacksonate.rest.util.StringArray;
 
 public class Constraint<T> implements Serializable {
 
