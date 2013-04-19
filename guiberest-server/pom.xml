@@ -147,12 +147,18 @@
             <artifactId>reflections</artifactId>
             <version>0.9.9-RC1</version>
         </dependency>
+        
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.6.1</version>
         </dependency>       
-
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		
 		<!-- JBOSS RESTEasy -->
 		<dependency>
 		      <groupId>org.jboss.resteasy</groupId>
@@ -197,6 +203,7 @@
 	            <includes>
 	            	<include>database.properties</include>
                     <include>rest.properties</include>
+                    <include>log4j.properties</include>
 	            	<include>import.sql</include>
 	            </includes>
 	        </resource>
