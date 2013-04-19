@@ -5,7 +5,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.ws.rs.ext.Provider;
 import org.jboss.resteasy.core.Dispatcher;
-import org.jboss.resteasy.logging.Logger;
 import org.jboss.resteasy.plugins.guice.GuiceResourceFactory;
 import org.jboss.resteasy.plugins.guice.ModuleProcessor;
 import org.jboss.resteasy.plugins.server.servlet.ListenerBootstrap;
@@ -23,8 +22,6 @@ import edu.swmed.qbrc.guiberest.guice.datasources.GuiberestDataSourcePersistModu
 
 public class GuiceServletConfig extends GuiceServletContextListener {
 
-	private final static Logger logger = Logger.getLogger(ModuleProcessor.class);
-	
 	private ResteasyDeployment deployment;
 	private Injector injector = null;
 	
@@ -98,11 +95,11 @@ public class GuiceServletConfig extends GuiceServletContextListener {
 				final Class<?> beanClass = (Class<?>) type;
 				if (GetRestful.isRootResource(beanClass)) {
 					final ResourceFactory resourceFactory = new GuiceResourceFactory(binding.getProvider(), beanClass);
-					logger.info("registering factory for {0}", beanClass.getName());
+					System.out.println("registering factory for " + beanClass.getName());
 					registry.addResourceFactory(resourceFactory);
 				}
 				if (beanClass.isAnnotationPresent(Provider.class)) {
-					logger.info("registering provider instance for {0}", beanClass.getName());
+					System.out.println("registering provider instance for " + beanClass.getName());
 					providerFactory.registerProviderInstance(binding.getProvider().get());
 				}
 			}
