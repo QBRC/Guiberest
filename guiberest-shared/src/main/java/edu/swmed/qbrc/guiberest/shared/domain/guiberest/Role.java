@@ -11,7 +11,7 @@ import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage.DataPackageClass;
 @Entity
 @Table(name = "roles")
 @XmlRootElement(name = "Role")
-@DataPackageClass(url="/user")
+@DataPackageClass(url="role")
 public class Role implements BaseEntity {
 	private static final long serialVersionUID = 3587913229532814544L;
 	

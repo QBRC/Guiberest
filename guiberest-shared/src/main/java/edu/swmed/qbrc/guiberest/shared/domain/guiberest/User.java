@@ -14,7 +14,7 @@ import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage.DataPackageClass;
 @Entity
 @Table(name = "users")
 @XmlRootElement(name = "User")
-@DataPackageClass(url="/user")
+@DataPackageClass(url="user")
 public class User implements BaseEntity, Comparable {
 	private static final long serialVersionUID = 5489594906310275717L;
 	
