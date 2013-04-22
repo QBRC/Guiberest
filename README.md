@@ -1,7 +1,7 @@
 Guiberest
 ============
 
-(RESTEasy + Guice + Hibernate) - A basic Mavenized REST Web Service with Hibernate, Guice, RESTEasy, and CasHmac (HMAC/CAS Authentication)
+(RESTEasy + Guice + Hibernate) - A basic Mavenized REST Web Service with Hibernate, Guice, RESTEasy, Jacksonate, and CasHmac (HMAC/CAS Authentication)
 
 Getting Started
 ---------------
