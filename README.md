@@ -10,7 +10,7 @@ This sample application gets you up and running very quickly with a RESTful Web 
 1. Shared library to provide domain objects to both client and server (service and consumver)
 2. Fully functional RESTful (JSON output) service (guiberest-server) with sample consumer (guiberest-client)
 3. Support for CAS and HMAC-based authentication using our CasHmac library
-4. Serialization and Deserialization of object arrays using the JSON Table Schema recommended by the dataprotocols project (https://github.com/dataprotocols/dataprotocols)
+4. Serialization and Deserialization of object arrays using the JSON Table Schema recommended by the dataprotocols project (https://github.com/dataprotocols/dataprotocols) and implemented by our Jacksonate project
 5. Guice dependency injection (to set up Servlets, RESTEasy, Serialization)
 6. Hibernate (uses H2 sample database by default)
 
