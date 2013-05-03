@@ -1,7 +1,18 @@
 Guiberest
 ============
 
-(RESTEasy + Guice + Hibernate) - A basic Mavenized REST Web Service with Hibernate, Guice, RESTEasy, and CasHmac (HMAC/CAS Authentication)
+(RESTEasy + Guice + Hibernate) - A basic Mavenized REST Web Service with Hibernate, Guice, RESTEasy, Jacksonate, and CasHmac (HMAC/CAS Authentication)
+
+Description
+---------------
+This sample application gets you up and running very quickly with a RESTful Web service that includes the following features:
+
+1. Shared library to provide domain objects to both client and server (service and consumver)
+2. Fully functional RESTful (JSON output) service (guiberest-server) with sample consumer (guiberest-client)
+3. Support for CAS and HMAC-based authentication using our CasHmac library
+4. Serialization and Deserialization of object arrays using the JSON Table Schema recommended by the dataprotocols project (https://github.com/dataprotocols/dataprotocols) and implemented by our Jacksonate project
+5. Guice dependency injection (to set up Servlets, RESTEasy, Serialization)
+6. Hibernate (uses H2 sample database by default)
 
 Getting Started
 ---------------
@@ -86,7 +97,7 @@ This module includes packages which should be shared between the server and the 
 
 ###Server
 
-This module depends on the `Shared` module and implements the server-side code necessary for the web-service. It uses Guice for DI and Hibernate for ORM. It implements the interface(s) described in the `Shared` module to serve thsoe REST services. It will be packaged as a `war` file and must be deployed to some Servlet container (Tomcat, Jetty, etc.).
+This module depends on the `Shared` module and implements the server-side code necessary for the web-service. It uses Guice for DI and Hibernate for ORM. It implements the interface(s) described in the `Shared` module to serve the REST services. It will be packaged as a `war` file and must be deployed to some Servlet container (Tomcat, Jetty, etc.).
 
 ###Client and Web-Client
 
