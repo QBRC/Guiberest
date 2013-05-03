@@ -25,14 +25,14 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 	RoleDao roleDao;
 
 	public DataPackage getDataPackage() {
-		return new DataPackage();
+		return new DataPackage("Guiberest Test", "Guiberest Test Title", "Guiberest Test Description");
 	}
 
 	@SuppressWarnings("rawtypes")
 	public TableJSONContainer<User> getUsers() {
 		try {
 			List<Constraint> constraints = new ArrayList<Constraint>();
-			return new TableJSONContainer<User>(userDao.findAll(constraints));
+			return new TableJSONContainer<User>(User.class, userDao.findAll(constraints));
 		} catch(NoResultException e) {
 			throw new BadRequestException("Invalid smoking status query provided -- no such smoking status/es.");
 		}
@@ -42,14 +42,14 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 		try {
 			List<Constraint> constraints = new ArrayList<Constraint>();
 			constraints.add(new Constraint<StringArray>("id", Operator.EQUAL, ids, StringArray.class));
-			return new TableJSONContainer<User>(userDao.findAll(constraints));
+			return new TableJSONContainer<User>(User.class, userDao.findAll(constraints));
 		} catch(NoResultException e) {
 			throw new BadRequestException("Invalid smoking status query provided -- no such smoking status/es.");
 		}
 	}
 	public TableJSONContainer<Role> getRoles(@PathParam("param") @StringArrayAnnot StringArray ids) {
 		try {
-			return new TableJSONContainer<Role>(roleDao.getRolesForUser(ids.getList()));
+			return new TableJSONContainer<Role>(Role.class, roleDao.getRolesForUser(ids.getList()));
 		} catch(NoResultException e) {
 			throw new BadRequestException("Invalid smoking status query provided -- no such smoking status/es.");
 		}
