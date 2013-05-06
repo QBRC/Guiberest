@@ -13,6 +13,7 @@ This sample application gets you up and running very quickly with a RESTful Web 
 4. Serialization and Deserialization of object arrays using the JSON Table Schema recommended by the dataprotocols project (https://github.com/dataprotocols/dataprotocols) and implemented by our Jacksonate project
 5. Guice dependency injection (to set up Servlets, RESTEasy, Serialization)
 6. Hibernate (uses H2 sample database by default)
+7. Sample integration tests for RESTful Web service methods using Cucumber (in guiberest-client)
 
 Getting Started
 ---------------
@@ -86,6 +87,17 @@ User: thomas
 User: roger
 Role: admin
 Role: manager
+```
+
+You can also run the integration tests from the client:
+```bash
+cd guiberest-client
+mvn integration-test
+```
+
+Above the "BUILD SUCCESS" message, you should see some output like:
+```bash
+Tests run: 10, Failures: 0, Errors: 0, Skipped: 0
 ```
 
 Modules
