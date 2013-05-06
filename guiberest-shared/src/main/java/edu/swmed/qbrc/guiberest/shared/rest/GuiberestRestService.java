@@ -8,7 +8,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import org.jboss.resteasy.annotations.StringParameterUnmarshallerBinder;
-import edu.swmed.qbrc.auth.cashmac.shared.util.Securable;
+
+import edu.swmed.qbrc.auth.cashmac.shared.annotations.CasHmacAccessLevel;
+import edu.swmed.qbrc.auth.cashmac.shared.constants.CasHmacAccessLevels;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Role;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.User;
 import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage;
@@ -42,26 +44,28 @@ public interface GuiberestRestService {
 	public @interface UserIDArrayAnnot {
 	}
 	
-	@Securable()
+	@RolesAllowed({})
 	@GET
 	@Path("/datapackage.json")
 	@Produces("application/json")
 	public DataPackage getDataPackage();
 
-	@Securable()
+	@RolesAllowed({})
+	@CasHmacAccessLevel({CasHmacAccessLevels.READ})
 	@GET
 	@Path("/user")
 	@Produces("application/json")
 	public TableJSONContainer<User> getUsers();
 
-	@Securable()
+	@RolesAllowed({})
+	@CasHmacAccessLevel({CasHmacAccessLevels.READ})
 	@GET
 	@Path("/user/{param}")
 	@Produces("application/json")
 	public TableJSONContainer<User> getUsers(@PathParam("param") @StringArrayAnnot StringArray ids);
 
-	@Securable()
-	@RolesAllowed({"ProbeMapper-Reader"})
+	@RolesAllowed({"Guiberest-Reader"})
+	@CasHmacAccessLevel({CasHmacAccessLevels.READ, CasHmacAccessLevels.CREATE })
 	@GET
 	@Path("/role/{param}")
 	@Produces("application/json")

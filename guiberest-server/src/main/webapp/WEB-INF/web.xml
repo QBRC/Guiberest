@@ -85,6 +85,44 @@
 		<param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.secretCol.User</param-name>
 		<param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.secretCol.User}</param-value>
 	</context-param>
+
+    <!-- The name of the table that stores ACL information (object-user/role mappings) -->
+    <context-param>
+        <param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.ACL</param-name>
+        <param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.ACL}</param-value>
+    </context-param>
+    <!-- The name of the column that contains the key column in the ACL table -->
+    <context-param>
+        <param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.ACL</param-name>
+        <param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.ACL}</param-value>
+    </context-param>
+    <!-- The name of the column that contains the user name in the ACL table -->
+    <context-param>
+        <param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.usercol.ACL</param-name>
+        <param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.usercol.ACL}</param-value>
+    </context-param>
+    <!-- The name of the column that contains the role ID in the ACL table -->
+    <context-param>
+        <param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.rolecol.ACL</param-name>
+        <param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.rolecol.ACL}</param-value>
+    </context-param>
+    <!-- The name of the column that contains the access level (string) in the ACL table -->
+    <context-param>
+        <param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.accesscol.ACL</param-name>
+        <param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.accesscol.ACL}</param-value>
+    </context-param>
+    <!-- The name of the column that contains the object class (full class) in the ACL table -->
+    <context-param>
+        <param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.classcol.ACL</param-name>
+        <param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.classcol.ACL}</param-value>
+    </context-param>
+    <!-- The name of the column that contains the PK value in the ACL table -->
+    <context-param>
+        <param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.pkcol.ACL</param-name>
+        <param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.pkcol.ACL}</param-value>
+    </context-param>
+        
+	
 	<!-- The class of the JDBC driver to use -->
 	<context-param>
 		<param-name>edu.swmed.qbrc.auth.cashmac.hmac.jdbcdriver</param-name>

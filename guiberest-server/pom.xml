@@ -324,6 +324,13 @@
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.User>users</edu.swmed.qbrc.auth.cashmac.hmac.table.User>
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.User>id</edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.User>
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.secretCol.User>secret</edu.swmed.qbrc.auth.cashmac.hmac.table.secretCol.User>
+				<edu.swmed.qbrc.auth.cashmac.hmac.table.ACL>acl</edu.swmed.qbrc.auth.cashmac.hmac.table.ACL>
+				<edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.ACL>id</edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.ACL>
+				<edu.swmed.qbrc.auth.cashmac.hmac.table.usercol.ACL>username</edu.swmed.qbrc.auth.cashmac.hmac.table.usercol.ACL>
+				<edu.swmed.qbrc.auth.cashmac.hmac.table.rolecol.ACL>role_id</edu.swmed.qbrc.auth.cashmac.hmac.table.rolecol.ACL>
+				<edu.swmed.qbrc.auth.cashmac.hmac.table.accesscol.ACL>access</edu.swmed.qbrc.auth.cashmac.hmac.table.accesscol.ACL>
+				<edu.swmed.qbrc.auth.cashmac.hmac.table.classcol.ACL>class</edu.swmed.qbrc.auth.cashmac.hmac.table.classcol.ACL>
+				<edu.swmed.qbrc.auth.cashmac.hmac.table.pkcol.ACL>pk</edu.swmed.qbrc.auth.cashmac.hmac.table.pkcol.ACL>
 				<edu.swmed.qbrc.auth.cashmac.hmac.jdbcdriver>org.h2.Driver</edu.swmed.qbrc.auth.cashmac.hmac.jdbcdriver>
 				<edu.swmed.qbrc.auth.cashmac.hmac.jdbcurl>jdbc:h2:~/guiberest-sample;AUTO_SERVER=TRUE</edu.swmed.qbrc.auth.cashmac.hmac.jdbcurl>
 				<edu.swmed.qbrc.auth.cashmac.hmac.username>sa</edu.swmed.qbrc.auth.cashmac.hmac.username>
