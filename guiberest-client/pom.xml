@@ -20,11 +20,13 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<project.deployment.encoding>UTF-8</project.deployment.encoding>
 
+        <maven-failsafe-plugin.version>2.12</maven-failsafe-plugin.version>
 		<maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
 		<maven-war-plugin.version>2.2</maven-war-plugin.version>
 		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
 
 		<hibernate.jpa.version>2.0-cr-1</hibernate.jpa.version>
+        <cucumber.version>1.0.11</cucumber.version>
 	</properties>
 
 	<dependencies>
@@ -73,43 +75,101 @@
             <version>0.9.9-RC1</version>
         </dependency>
         
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-guice</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.6.1</version>
+        </dependency>                
+
 	</dependencies>
-	<build>
 
-                <resources>
-                        <resource>
-                                <directory>${basedir}/src/main/resources</directory>
-                        </resource>
-                </resources>
+    <build>
 
-                <testResources>
-                        <testResource>
-                                <directory>${basedir}/src/test/resources</directory>
+		<resources>
+			<resource>
+		    	<directory>${basedir}/src/main/resources</directory>
+			</resource>
+		</resources>
+		
+		<testResources>
+			<testResource>
+			    <directory>${basedir}/src/test/resources</directory>
 			</testResource>
-                </testResources>
+		</testResources>
 		
 
 		<plugins>
 			<plugin>
-                           <groupId>org.apache.maven.plugins</groupId>
-			   <artifactId>maven-compiler-plugin</artifactId>
-                           <version>${maven-compiler-plugin.version}</version>
-                           <configuration>
-                                        <source>${target.jdk}</source>
-                                        <target>${target.jdk}</target>
-                                        <encoding>${project.build.sourceEncoding}</encoding>
-                                        <!-- Disable annotation processors during normal compilation -->
-                                        <proc>none</proc>
-                            </configuration>
-                	 </plugin>	
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<source>${target.jdk}</source>
+					<target>${target.jdk}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<!-- Disable annotation processors during normal compilation -->
+					<proc>none</proc>
+				</configuration>
+			</plugin>	
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-failsafe-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+                        <configuration>
+                            <includes>
+                                <include>**/*TestInt.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>verify</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>   
 
 			<plugin>
-			  <groupId>org.codehaus.mojo</groupId>
-			  <artifactId>exec-maven-plugin</artifactId>
-			  <version>1.1</version>
-			  <configuration>
-			    <mainClass>edu.swmed.qbrc.guiberest.app.App</mainClass>
-			  </configuration>
+    			<groupId>org.codehaus.mojo</groupId>
+			    <artifactId>exec-maven-plugin</artifactId>
+                <version>1.1</version>
+                <configuration>
+                    <mainClass>edu.swmed.qbrc.guiberest.app.App</mainClass>
+                </configuration>
 			</plugin>
 
 
