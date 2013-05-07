@@ -23,9 +23,11 @@
 			<property name="hibernate.c3p0.max_size" value="${guiberest.persistence.c3p0.max_size}" /> 
 			<property name="hibernate.c3p0.max_statements" value="0" /> 
 			<property name="hibernate.c3p0.min_size" value="${guiberest.persistence.c3p0.min_size}" /> 
-			<property name="hibernate.c3p0.timeout" value="${guiberest.persistence.c3p0.timeout}" /> 
+			<property name="hibernate.c3p0.timeout" value="${guiberest.persistence.c3p0.timeout}" />
+			<!-- Include this interceptor so CasHmac can intercept Hibernate events for ACL authorization. --> 
+        	<property name="hibernate.ejb.interceptor" value="edu.swmed.qbrc.auth.cashmac.server.hibernate.interceptors.CasHmacInterceptor"/>
 			<!-- For debugging, you can uncomment the line below and all SQL queries will be written to STDOUT -->
-			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.show_sql" value="false" />
         </properties>
     </persistence-unit>
 </persistence>
