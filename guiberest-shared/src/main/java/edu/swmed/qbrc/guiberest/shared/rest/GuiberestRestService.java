@@ -11,11 +11,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
-
 import org.jboss.resteasy.annotations.StringParameterUnmarshallerBinder;
-
-import edu.swmed.qbrc.auth.cashmac.shared.annotations.CasHmacAccessLevel;
-import edu.swmed.qbrc.auth.cashmac.shared.constants.CasHmacAccessLevels;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Role;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.User;
 import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage;
@@ -56,14 +52,12 @@ public interface GuiberestRestService {
 	public DataPackage getDataPackage();
 
 	@RolesAllowed({})
-	@CasHmacAccessLevel({CasHmacAccessLevels.READ})
 	@GET
 	@Path("/user")
 	@Produces("application/json")
 	public TableJSONContainer<User> getUsers();
 
 	@RolesAllowed({})
-	@CasHmacAccessLevel({CasHmacAccessLevels.READ})
 	@GET
 	@Path("/user/{param}")
 	@Produces("application/json")
@@ -82,7 +76,6 @@ public interface GuiberestRestService {
 	public Response deleteUser(@PathParam("param") String userName);
 
 	@RolesAllowed({"Guiberest-Reader", "Guiberest-Writer"})
-	@CasHmacAccessLevel({CasHmacAccessLevels.READ, CasHmacAccessLevels.CREATE })
 	@GET
 	@Path("/role/{param}")
 	@Produces("application/json")
