@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.ws.rs.FormParam;
 import javax.xml.bind.annotation.XmlRootElement;
 import edu.swmed.qbrc.guiberest.shared.domain.BaseEntity;
 import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage.DataPackageClass;
@@ -51,6 +52,7 @@ public class ACL implements BaseEntity {
 		return this.id;
 	}
 
+	@FormParam("acl_id")
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -59,6 +61,7 @@ public class ACL implements BaseEntity {
 		return username;
 	}
 
+	@FormParam("username")
 	public void setUsername(String username) {
 		this.username = username;
 	}
@@ -67,6 +70,7 @@ public class ACL implements BaseEntity {
 		return roleId;
 	}
 
+	@FormParam("role_id")
 	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
 	}
@@ -75,6 +79,7 @@ public class ACL implements BaseEntity {
 		return access;
 	}
 
+	@FormParam("access")
 	public void setAccess(String access) {
 		this.access = access;
 	}
@@ -83,6 +88,7 @@ public class ACL implements BaseEntity {
 		return objectClass;
 	}
 
+	@FormParam("class")
 	public void setObjectClass(String objectClass) {
 		this.objectClass = objectClass;
 	}
@@ -91,6 +97,7 @@ public class ACL implements BaseEntity {
 		return objectPK;
 	}
 
+	@FormParam("pk")
 	public void setObjectPK(String objectPK) {
 		this.objectPK = objectPK;
 	}

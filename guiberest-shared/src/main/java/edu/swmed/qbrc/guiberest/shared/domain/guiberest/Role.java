@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.ws.rs.FormParam;
 import javax.xml.bind.annotation.XmlRootElement;
 import edu.swmed.qbrc.guiberest.shared.domain.BaseEntity;
 import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage.DataPackageClass;
@@ -41,6 +42,7 @@ public class Role implements BaseEntity {
 		return this.id;
 	}
 
+	@FormParam("role_id")
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -49,6 +51,7 @@ public class Role implements BaseEntity {
 		return username;
 	}
 
+	@FormParam("username")
 	public void setUsername(String username) {
 		this.username = username;
 	}
@@ -57,6 +60,7 @@ public class Role implements BaseEntity {
 		return role;
 	}
 
+	@FormParam("role")
 	public void setRole(String role) {
 		this.role = role;
 	}

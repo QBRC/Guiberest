@@ -4,9 +4,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
+
 import org.jboss.resteasy.annotations.StringParameterUnmarshallerBinder;
 
 import edu.swmed.qbrc.auth.cashmac.shared.annotations.CasHmacAccessLevel;
@@ -63,12 +68,36 @@ public interface GuiberestRestService {
 	@Path("/user/{param}")
 	@Produces("application/json")
 	public TableJSONContainer<User> getUsers(@PathParam("param") @StringArrayAnnot StringArray ids);
+	
+	@RolesAllowed({"Guiberest-Writer"})
+	@PUT
+	@Path("/user/{param}")
+	@Produces("application/json")
+	public Response putUser(@PathParam("param") String userName, @QueryParam("password") String password, @QueryParam("secret") String secret);
 
-	@RolesAllowed({"Guiberest-Reader"})
+	@RolesAllowed({"Guiberest-Writer"})
+	@POST
+	@Path("/user/{param}/delete")
+	@Produces("application/json")
+	public Response deleteUser(@PathParam("param") String userName);
+
+	@RolesAllowed({"Guiberest-Reader", "Guiberest-Writer"})
 	@CasHmacAccessLevel({CasHmacAccessLevels.READ, CasHmacAccessLevels.CREATE })
 	@GET
 	@Path("/role/{param}")
 	@Produces("application/json")
 	public TableJSONContainer<Role> getRoles(@PathParam("param") @StringArrayAnnot StringArray userids);
+
+	@RolesAllowed({"Guiberest-Writer"})
+	@POST
+	@Path("/role")
+	@Produces("application/json")
+	public Response putRole(@QueryParam("role_id") Integer roleId, @QueryParam("username") String userName, @QueryParam("role") String role);
 	
+	@RolesAllowed({"Guiberest-Writer"})
+	@POST
+	@Path("/role/{param}/delete")
+	@Produces("application/json")
+	public Response deleteRole(@PathParam("param") Integer roleId);
+
 }

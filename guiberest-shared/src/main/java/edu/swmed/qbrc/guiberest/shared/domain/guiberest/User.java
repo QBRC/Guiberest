@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.ws.rs.FormParam;
 import javax.xml.bind.annotation.XmlRootElement;
 import edu.swmed.qbrc.guiberest.shared.domain.BaseEntity;
 import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage.DataPackageClass;
@@ -64,6 +65,7 @@ public class User implements BaseEntity, Comparable {
 		return this.id;
 	}
 
+	@FormParam("user_id")
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -72,6 +74,7 @@ public class User implements BaseEntity, Comparable {
 		return password;
 	}
 
+	@FormParam("password")
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -80,6 +83,7 @@ public class User implements BaseEntity, Comparable {
 		return secret;
 	}
 
+	@FormParam("secret")
 	public void setSecret(String secret) {
 		this.secret = secret;
 	}

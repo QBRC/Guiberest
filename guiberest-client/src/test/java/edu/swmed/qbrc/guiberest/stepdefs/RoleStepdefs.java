@@ -1,5 +1,8 @@
 package edu.swmed.qbrc.guiberest.stepdefs;
 
+import javax.ws.rs.core.Response;
+
+import org.jboss.resteasy.client.ClientResponse;
 import org.junit.Assert;
 import com.google.inject.Inject;
 import cucumber.annotation.en.Then;
@@ -45,4 +48,54 @@ public class RoleStepdefs {
     		);
     	}
     }
+    
+    @SuppressWarnings("unchecked")
+    @When("^I insert the following roles:$")
+    public void I_insert_the_following_roles(DataTable inserts) throws Throwable {
+    	insertIdCache.getList().clear();
+    	for (DataTableRow row : inserts.getGherkinRows()) {
+    		ClientResponse<String> response = (ClientResponse<String>)guiberestRestService.putRole(
+    				Integer.parseInt(row.getCells().get(0).trim()),
+    				row.getCells().get(1).trim(),
+    				row.getCells().get(2).trim()
+    		);
+    		Integer id = response.getEntity(Integer.class);
+    		System.out.println("Inserted Role with ID: " + id);
+    		insertIdCache.getList().add(id);
+    	}
+    }
+
+    @SuppressWarnings("unchecked")
+    @When("^I update the following roles:$")
+    public void I_update_the_following_roles(DataTable inserts) throws Throwable {
+    	insertIdCache.getList().clear();
+    	for (DataTableRow row : inserts.getGherkinRows()) {
+    		ClientResponse<String> response = (ClientResponse<String>)guiberestRestService.putRole(
+    				Integer.parseInt(row.getCells().get(0).trim()),
+    				row.getCells().get(1).trim(),
+    				row.getCells().get(2).trim()
+    		);
+    		Integer id = response.getEntity(Integer.class);
+    		System.out.println("Updated Role with ID: " + id);
+    		insertIdCache.getList().add(id);
+    	}
+    }
+
+    @SuppressWarnings("unused")
+	@When("^I delete the following roles:$")
+    public void I_delete_the_following_roles(DataTable deletes) throws Throwable {
+    	insertIdCache.getList().clear();
+    	for (DataTableRow row : deletes.getGherkinRows()) {
+    		Response response = guiberestRestService.deleteRole(
+    				Integer.parseInt(row.getCells().get(0).trim())
+    		);
+    	}
+    }
+
+    @Then("^I see no more than (\\d+) role results$")
+    public void I_see_no_more_than_role_results(int results) throws Throwable {
+    	System.out.println("Row Count: " + resultsCache.getData().size());
+        Assert.assertTrue(resultsCache.getData().size() <= results);
+    }
+    
 }
