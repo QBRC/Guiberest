@@ -1,5 +1,11 @@
 package edu.swmed.qbrc.guiberest.guice;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
 import org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
@@ -17,10 +23,32 @@ public class DispatchServletModule extends ServletModule {
 		
 		/* Bind CasHmacRequestFilter so CasHmac's Hibernate interceptor can access the session for user information. */
 		bind(CasHmacRequestFilter.class).in(Singleton.class);
-
+		
 		/* Filter all requests through our custom PersistModule (sets up Hibernate
 		 * environment automatically). */
         filter("/*").through(GuiberestDataSourcePersistModule.GUIBEREST_DATA_SOURCE_FILTER_KEY);
-        filter("/*").through(CasHmacRequestFilter.class);
+        filter("/*").through(CasHmacRequestFilter.class, getFilterProperties());
     }
+	
+    private Map<String, String> getFilterProperties() {
+        InputStream inputStream = getClass().getResourceAsStream("/cashmac.properties");
+
+        if (inputStream == null) {
+            throw new RuntimeException();
+        }
+
+        try {
+    		Map<String, String> filterProps = new HashMap<String, String>();
+            Properties properties = new Properties();
+            properties.load(inputStream);
+
+            for (Object key : properties.keySet()) {
+            	filterProps.put((String)key, (String)properties.get(key));
+            }
+            return filterProps;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }	
+	
 }

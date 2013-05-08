@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
@@ -46,6 +47,8 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 			return new TableJSONContainer<User>(User.class, userDao.findAll(constraints));
 		} catch(NoResultException e) {
 			throw new BadRequestException("Invalid user query provided -- no such user/s.");
+		} catch(PersistenceException e) {
+			throw new BadRequestException(e.getMessage());
 		}
 	}
 	@SuppressWarnings("rawtypes")
@@ -56,6 +59,8 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 			return new TableJSONContainer<User>(User.class, userDao.findAll(constraints));
 		} catch(NoResultException e) {
 			throw new BadRequestException("Invalid user query provided -- no such user/s.");
+		} catch(PersistenceException e) {
+			throw new BadRequestException(e.getMessage());
 		}
 	}
 	public Response putUser(@PathParam("param") String userName, @QueryParam("password") String password, @QueryParam("secret") String secret) {
@@ -109,6 +114,8 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 			return new TableJSONContainer<Role>(Role.class, roleDao.getRolesForUser(ids.getList()));
 		} catch(NoResultException e) {
 			throw new BadRequestException("Invalid role query provided -- no such role/s.");
+		} catch(PersistenceException e) {
+			throw new BadRequestException(e.getMessage());
 		}
 	}
 

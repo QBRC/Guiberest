@@ -204,6 +204,7 @@
 	            	<include>database.properties</include>
                     <include>rest.properties</include>
                     <include>log4j.properties</include>
+                    <include>cashmac.properties</include>
 	            	<include>import.sql</include>
 	            </includes>
 	        </resource>
