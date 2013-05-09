@@ -35,123 +35,12 @@
     </context-param>
     -->
 	
-
-	<!-- The URL where users go to log in to your CAS server -->
-	<context-param>
-		<param-name>edu.swmed.qbrc.auth.cashmac.cas.serverLoginUrl</param-name>
-		<param-value>${edu.swmed.qbrc.auth.cashmac.cas.serverLoginUrl}</param-value>
-	</context-param>
-	<!-- The base URL of your RESTful service.  This URL is used by your CAS server to
-	     identify your application. -->
-	<context-param>
-		<param-name>edu.swmed.qbrc.auth.cashmac.cas.serviceName</param-name>
-		<param-value>${edu.swmed.qbrc.auth.cashmac.cas.serviceName}</param-value>
-	</context-param>
-	
-	<!-- Context parameters for HMAC server -->
-	<!-- The name of the table that stores Role information -->
-	<context-param>
-		<param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.Role</param-name>
-		<param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.Role}</param-value>
-	</context-param>
-	<!-- The name of the column that uniquely identifies the role in the Roles table -->
-	<context-param>
-		<param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.Role</param-name>
-		<param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.Role}</param-value>
-	</context-param>	
-	<!-- The name of the column that identifies the user in the Roles table -->
-	<context-param>
-		<param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.usercol.Role</param-name>
-		<param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.usercol.Role}</param-value>
-	</context-param>
-	<!-- The name of the column that names the role in the Roles table
-	     NOTE: There can be multiple rows in the Roles table for each user-->
-	<context-param>
-		<param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.rolecol.Role</param-name>
-		<param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.rolecol.Role}</param-value>
-	</context-param>
-	<!-- The name of the table that stores user information -->
-	<context-param>
-		<param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.User</param-name>
-		<param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.User}</param-value>
-	</context-param>
-	<!-- The name of the column that uniquely identifies each user in the Users table -->
-	<context-param>
-		<param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.User</param-name>
-		<param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.User}</param-value>
-	</context-param>
-	<!-- The name of the column that contains the secret HMAC key for the user in the Users table -->
-	<context-param>
-		<param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.secretCol.User</param-name>
-		<param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.secretCol.User}</param-value>
-	</context-param>
-
-    <!-- The name of the table that stores ACL information (object-user/role mappings) -->
-    <context-param>
-        <param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.ACL</param-name>
-        <param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.ACL}</param-value>
-    </context-param>
-    <!-- The name of the column that contains the key column in the ACL table -->
-    <context-param>
-        <param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.ACL</param-name>
-        <param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.ACL}</param-value>
-    </context-param>
-    <!-- The name of the column that contains the user name in the ACL table -->
-    <context-param>
-        <param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.usercol.ACL</param-name>
-        <param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.usercol.ACL}</param-value>
-    </context-param>
-    <!-- The name of the column that contains the role ID in the ACL table -->
-    <context-param>
-        <param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.rolecol.ACL</param-name>
-        <param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.rolecol.ACL}</param-value>
-    </context-param>
-    <!-- The name of the column that contains the access level (string) in the ACL table -->
-    <context-param>
-        <param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.accesscol.ACL</param-name>
-        <param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.accesscol.ACL}</param-value>
-    </context-param>
-    <!-- The name of the column that contains the object class (full class) in the ACL table -->
-    <context-param>
-        <param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.classcol.ACL</param-name>
-        <param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.classcol.ACL}</param-value>
-    </context-param>
-    <!-- The name of the column that contains the PK value in the ACL table -->
-    <context-param>
-        <param-name>edu.swmed.qbrc.auth.cashmac.hmac.table.pkcol.ACL</param-name>
-        <param-value>${edu.swmed.qbrc.auth.cashmac.hmac.table.pkcol.ACL}</param-value>
-    </context-param>
-        
-	
-	<!-- The class of the JDBC driver to use -->
-	<context-param>
-		<param-name>edu.swmed.qbrc.auth.cashmac.hmac.jdbcdriver</param-name>
-		<param-value>${edu.swmed.qbrc.auth.cashmac.hmac.jdbcdriver}</param-value>
-	</context-param>
-	<!-- The URL for the JDBC driver to use to connect to your database. -->
-	<context-param>
-		<param-name>edu.swmed.qbrc.auth.cashmac.hmac.jdbcurl</param-name>
-		<param-value>${edu.swmed.qbrc.auth.cashmac.hmac.jdbcurl}</param-value>
-	</context-param>
-	<!-- The user name to use to access your database. -->
-	<context-param>
-		<param-name>edu.swmed.qbrc.auth.cashmac.hmac.username</param-name>
-		<param-value>${edu.swmed.qbrc.auth.cashmac.hmac.username}</param-value>
-	</context-param>
-	<!-- The password to use to access your database. -->
-	<context-param>
-		<param-name>edu.swmed.qbrc.auth.cashmac.hmac.password</param-name>
-		<param-value>${edu.swmed.qbrc.auth.cashmac.hmac.password}</param-value>
-	</context-param>
-      	
 	<!-- CAS Filters -->
 	<filter>
 	   <filter-name>CAS Single Sign Out Filter</filter-name>
 	   <filter-class>org.jasig.cas.client.session.SingleSignOutFilter</filter-class>
 	</filter>
-	
 	<!-- Purposefully skipped the "CAS Authentication Filter" since we handle it in Java code -->
-	
 	<filter>
 		<filter-name>CAS Validation Filter</filter-name>
 		<filter-class>org.jasig.cas.client.validation.Cas20ProxyReceivingTicketValidationFilter</filter-class>
@@ -188,9 +77,7 @@
 	   <filter-name>CAS Single Sign Out Filter</filter-name>
 	   <url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
 	<!-- Purposefully skipped the "CAS Authentication Filter" since we handle it in Java code -->
-
 	<filter-mapping>
 		<filter-name>CAS Validation Filter</filter-name>
 		<url-pattern>/*</url-pattern>
