@@ -12,6 +12,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import org.jboss.resteasy.annotations.StringParameterUnmarshallerBinder;
+
+import edu.swmed.qbrc.auth.cashmac.shared.annotations.NoCasAuth;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Role;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.User;
 import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage;
@@ -64,12 +66,14 @@ public interface GuiberestRestService {
 	public TableJSONContainer<User> getUsers(@PathParam("param") @StringArrayAnnot StringArray ids);
 	
 	@RolesAllowed({"Guiberest-Writer"})
+	@NoCasAuth
 	@PUT
 	@Path("/user/{param}")
 	@Produces("application/json")
 	public Response putUser(@PathParam("param") String userName, @QueryParam("password") String password, @QueryParam("secret") String secret);
 
 	@RolesAllowed({"Guiberest-Writer"})
+	@NoCasAuth
 	@POST
 	@Path("/user/{param}/delete")
 	@Produces("application/json")
@@ -82,12 +86,14 @@ public interface GuiberestRestService {
 	public TableJSONContainer<Role> getRoles(@PathParam("param") @StringArrayAnnot StringArray userids);
 
 	@RolesAllowed({"Guiberest-Writer"})
+	@NoCasAuth
 	@POST
 	@Path("/role")
 	@Produces("application/json")
 	public Response putRole(@QueryParam("role_id") Integer roleId, @QueryParam("username") String userName, @QueryParam("role") String role);
 	
 	@RolesAllowed({"Guiberest-Writer"})
+	@NoCasAuth
 	@POST
 	@Path("/role/{param}/delete")
 	@Produces("application/json")

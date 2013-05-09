@@ -26,8 +26,8 @@ public class DispatchServletModule extends ServletModule {
 		
 		/* Filter all requests through our custom PersistModule (sets up Hibernate
 		 * environment automatically). */
-        filter("/*").through(GuiberestDataSourcePersistModule.GUIBEREST_DATA_SOURCE_FILTER_KEY);
         filter("/*").through(CasHmacRequestFilter.class, getFilterProperties());
+        filter("/*").through(GuiberestDataSourcePersistModule.GUIBEREST_DATA_SOURCE_FILTER_KEY);
     }
 	
     private Map<String, String> getFilterProperties() {

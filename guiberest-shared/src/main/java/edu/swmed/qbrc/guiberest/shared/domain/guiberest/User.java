@@ -8,9 +8,16 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.ws.rs.FormParam;
 import javax.xml.bind.annotation.XmlRootElement;
+import edu.swmed.qbrc.auth.cashmac.shared.constants.CasHmacAccessLevels;
+import edu.swmed.qbrc.auth.cashmac.shared.annotations.*;
 import edu.swmed.qbrc.guiberest.shared.domain.BaseEntity;
 import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage.DataPackageClass;
 
+@CasHmacObjectAcl
+@CasHmacObjectCreate(accessLevel=CasHmacAccessLevels.CREATE, objectClass=User.class) 
+@CasHmacObjectRead(accessLevel=CasHmacAccessLevels.READ, objectClass=User.class)
+@CasHmacObjectUpdate(accessLevel=CasHmacAccessLevels.UPDATE, objectClass=User.class)
+@CasHmacObjectDelete(accessLevel=CasHmacAccessLevels.DELETE, objectClass=User.class)
 @SuppressWarnings("rawtypes")
 @Entity
 @Table(name = "users")
@@ -20,6 +27,13 @@ public class User implements BaseEntity, Comparable {
 	private static final long serialVersionUID = 5489594906310275717L;
 	
 	@Id
+	@CasHmacPKField
+	@CasHmacWriteAcl({
+		@CasHmacWriteAclParameter(access=CasHmacAccessLevels.READ, roles={}),
+		@CasHmacWriteAclParameter(access=CasHmacAccessLevels.UPDATE, roles={}),
+		@CasHmacWriteAclParameter(access=CasHmacAccessLevels.READ, roles={ "audit" }),
+		@CasHmacWriteAclParameter(access=CasHmacAccessLevels.DELETE, roles={ "SELF", "manager" })
+	})
     @Column(name="id")
     private String id;    
     @Column(name="password")

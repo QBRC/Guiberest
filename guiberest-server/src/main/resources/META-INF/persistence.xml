@@ -9,6 +9,7 @@
 
         <class>edu.swmed.qbrc.guiberest.shared.domain.guiberest.User</class>
         <class>edu.swmed.qbrc.guiberest.shared.domain.guiberest.Role</class>
+        <class>edu.swmed.qbrc.guiberest.shared.domain.guiberest.ACL</class>
         		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes> 
         <properties>            
