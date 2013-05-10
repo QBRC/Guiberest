@@ -4,6 +4,6 @@ import cucumber.junit.Cucumber;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
-@Cucumber.Options(features = "src/test/resources/edu/swmed/qbrc/guiberest/Roles.feature")
-public class RunRoleTestInt {
+@Cucumber.Options(features = "src/test/resources/edu/swmed/qbrc/guiberest/Stores.feature")
+public class RunStoreTestInt {
 }

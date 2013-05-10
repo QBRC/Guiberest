@@ -188,6 +188,7 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 	public TableJSONContainer<Sale> getSales(@PathParam("param") @IntegerArrayAnnot IntegerArray ids) {
 		try {
 			List<Constraint> constraints = new ArrayList<Constraint>();
+			constraints.add(new Constraint<IntegerArray>("id", Operator.EQUAL, ids, IntegerArray.class));
 			return new TableJSONContainer<Sale>(Sale.class, saleDao.findAll(constraints));
 		} catch(NoResultException e) {
 			throw new BadRequestException("Invalid sale query provided -- no such sales/s.");

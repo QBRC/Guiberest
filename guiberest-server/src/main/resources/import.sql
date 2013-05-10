@@ -9,7 +9,7 @@ insert into users (id, password, secret) values ('roger', 'password', '987654321
 
 /* The actual data for the Web Service. */
 insert into store (store_id, name) values (1, 'QBRC Market Grill');
-insert into store (store_id, name) values (5, '14th Floor Caferia');
+insert into store (store_id, name) values (5, '14th Floor Cafeteria');
 insert into customer (customer_id, preferred_store_id, name) values (1, 1, 'Maurice Mango');
 insert into customer (customer_id, preferred_store_id, name) values (2, 1, 'Randall Rhodes');
 insert into customer (customer_id, preferred_store_id, name) values (6, 5, 'Chloe Stanley');
@@ -21,5 +21,12 @@ insert into sale (sale_id, store_id, customer_id, total) values (4,  5, 6, 128.3
 /* ACLs (for CasHmac library - these would usually not be included in the Web Service app) */
 insert into acl (id, username, role_id, access, class, pk) values (1, 'thomas', null, 'update', 'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store', '1');
 insert into acl (id, username, role_id, access, class, pk) values (2, 'thomas', null, 'read',  'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store', '5');
-insert into acl (id, username, role_id, access, class, pk) values (3, 'thomas', null, 'read', 'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale', '3');
-insert into acl (id, username, role_id, access, class, pk) values (4, 'thomas', null, 'read', 'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale', '4');
+insert into acl (id, username, role_id, access, class, pk) values (3, 'thomas', null, 'read', 'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale', '2');
+insert into acl (id, username, role_id, access, class, pk) values (4, 'thomas', null, 'read', 'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale', '3');
+insert into acl (id, username, role_id, access, class, pk) values (5, 'thomas', null, 'read', 'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale', '4');
+insert into acl (id, username, role_id, access, class, pk) values (6, 'thomas', null, 'read', 'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale', '50');
+insert into acl (id, username, role_id, access, class, pk) values (7, 'thomas', null, 'read', 'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale', '51');
+insert into acl (id, username, role_id, access, class, pk) values (8, 'thomas', null, 'update', 'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale', '50');
+insert into acl (id, username, role_id, access, class, pk) values (9, 'thomas', null, 'update', 'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale', '51');
+insert into acl (id, username, role_id, access, class, pk) values (10, 'thomas', null, 'delete', 'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale', '50');
+insert into acl (id, username, role_id, access, class, pk) values (11, 'thomas', null, 'delete', 'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale', '51');

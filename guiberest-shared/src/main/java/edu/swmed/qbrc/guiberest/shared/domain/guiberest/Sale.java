@@ -12,7 +12,6 @@ import edu.swmed.qbrc.guiberest.shared.domain.BaseEntity;
 import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage.DataPackageClass;
 
 @CasHmacObjectAcl
-@CasHmacObjectCreate(accessLevel=CasHmacAccessLevels.CREATE, objectClass=Sale.class) 
 @CasHmacObjectRead(accessLevel=CasHmacAccessLevels.READ, objectClass=Sale.class)
 @CasHmacObjectUpdate(accessLevel=CasHmacAccessLevels.UPDATE, objectClass=Sale.class)
 @CasHmacObjectDelete(accessLevel=CasHmacAccessLevels.DELETE, objectClass=Sale.class)
