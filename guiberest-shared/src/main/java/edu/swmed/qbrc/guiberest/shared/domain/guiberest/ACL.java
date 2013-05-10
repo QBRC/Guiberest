@@ -2,6 +2,7 @@ package edu.swmed.qbrc.guiberest.shared.domain.guiberest;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -16,10 +17,11 @@ public class ACL implements BaseEntity {
 	
 	@Id
     @Column(name="id")
+	@GeneratedValue
     private Integer id;    
-    @Column(name="username")
+    @Column(name="username", nullable=true)
     private String username;
-    @Column(name="role_id")
+    @Column(name="role_id", nullable=true)
     private Integer roleId;
     @Column(name="access")
     private String access;
