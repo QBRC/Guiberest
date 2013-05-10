@@ -6,14 +6,14 @@ import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.reflections.Reflections;
 import edu.swmed.qbrc.auth.cashmac.client.ClientAuthInterceptor;
-import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Role;
-import edu.swmed.qbrc.guiberest.shared.domain.guiberest.User;
+import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Customer;
+import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
 import edu.swmed.qbrc.guiberest.shared.rest.jackson.GuiberestSerializationModule;
 import edu.swmed.qbrc.jacksonate.rest.jackson.JacksonConfigProvider;
 import edu.swmed.qbrc.jacksonate.rest.jackson.ReflectionFactory;
 import edu.swmed.qbrc.jacksonate.rest.jackson.TableJSONContainer;
-import edu.swmed.qbrc.jacksonate.rest.util.StringArray;
+import edu.swmed.qbrc.jacksonate.rest.util.IntegerArray;
 
 public class App {
 	
@@ -41,23 +41,23 @@ public class App {
 		ClientRequestFactory client = initializeRequests();
 		guibRestService = client.createProxy(GuiberestRestService.class, "http://127.0.0.1:9090/");
 		
-		StringArray userids = new StringArray();
-		userids.getList().add("thomas");
-		userids.getList().add("roger");
-		TableJSONContainer<User> tblexp = guibRestService.getUsers(userids);
-		List<User> users = tblexp.getData();
-		if (users != null) {
-			for (User user : users) {
-				System.out.println("User: " + user.getId());
+		IntegerArray customerids = new IntegerArray();
+		customerids.getList().add(1);
+		customerids.getList().add(25);
+		TableJSONContainer<Customer> tblexp = guibRestService.getCustomers(customerids);
+		List<Customer> customers = tblexp.getData();
+		if (customers != null) {
+			for (Customer customer : customers) {
+				System.out.println("Customer: " + customer.getId() + " - " + customer.getName() + "<br/>");
 			}
 		}
 
-		StringArray useridsforrole = new StringArray();
-		useridsforrole.getList().add("thomas");
-		TableJSONContainer<Role> roles = guibRestService.getRoles(useridsforrole);
-		for (Role role : roles.getData()) {
-			System.out.println("Role: " + role.getRole());
-		}
+		TableJSONContainer<Sale> tbl = guibRestService.getSalesByCustomer(6);
+		if (tbl.getData() != null) {
+			for (Sale sale : tbl.getData()) {
+				System.out.println("Sale: " + sale.getId() + " - " + sale.getCustomerId() + "/" + sale.getStoreId() + " - " + sale.getTotal() + "<br/>");
+			}
+		}		
 		
 	}
 

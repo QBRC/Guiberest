@@ -31,7 +31,7 @@ public class MyServletModule extends ServletModule {
 		bind(GuiberestRestService.class).toProvider(GuiberestRestServiceProvider.class).in(Scopes.SINGLETON);
 		
 		serve("/*").with(MyServlet.class);
-		super.configureServlets();
+		//super.configureServlets();
 	}
 
 	/**

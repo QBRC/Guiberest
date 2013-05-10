@@ -13,26 +13,30 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import org.jboss.resteasy.spi.BadRequestException;
 import com.google.inject.Inject;
-import edu.swmed.qbrc.guiberest.dao.guiberest.UserDao;
-import edu.swmed.qbrc.guiberest.dao.guiberest.RoleDao;
+import edu.swmed.qbrc.guiberest.dao.guiberest.CustomerDao;
+import edu.swmed.qbrc.guiberest.dao.guiberest.SaleDao;
+import edu.swmed.qbrc.guiberest.dao.guiberest.StoreDao;
 import edu.swmed.qbrc.guiberest.rest.util.EntityIntrospector;
 import edu.swmed.qbrc.guiberest.rest.util.EntityLoader;
 import edu.swmed.qbrc.guiberest.shared.domain.Constraint;
 import edu.swmed.qbrc.guiberest.shared.domain.Constraint.Operator;
-import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Role;
-import edu.swmed.qbrc.guiberest.shared.domain.guiberest.User;
+import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Customer;
+import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale;
+import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
 import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage;
 import edu.swmed.qbrc.jacksonate.rest.jackson.RestBaseUrl;
 import edu.swmed.qbrc.jacksonate.rest.jackson.TableJSONContainer;
-import edu.swmed.qbrc.jacksonate.rest.util.StringArray;
+import edu.swmed.qbrc.jacksonate.rest.util.IntegerArray;
  
 public class GuiberestRestServiceImpl implements GuiberestRestService{
  
 	@Inject
-	UserDao userDao;
+	StoreDao storeDao;
 	@Inject
-	RoleDao roleDao;
+	CustomerDao customerDao;
+	@Inject
+	SaleDao saleDao;
 	@Inject
 	RestBaseUrl restBaseUrl;
 
@@ -41,55 +45,55 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 	}
 
 	@SuppressWarnings("rawtypes")
-	public TableJSONContainer<User> getUsers() {
+	public TableJSONContainer<Store> getStores() {
 		try {
 			List<Constraint> constraints = new ArrayList<Constraint>();
-			return new TableJSONContainer<User>(User.class, userDao.findAll(constraints));
+			return new TableJSONContainer<Store>(Store.class, storeDao.findAll(constraints));
 		} catch(NoResultException e) {
-			throw new BadRequestException("Invalid user query provided -- no such user/s.");
+			throw new BadRequestException("Invalid store query provided -- no such store/s.");
 		} catch(PersistenceException e) {
 			throw new BadRequestException(e.getMessage());
 		}
 	}
 	@SuppressWarnings("rawtypes")
-	public TableJSONContainer<User> getUsers(@PathParam("param") @StringArrayAnnot StringArray ids) {
+	public TableJSONContainer<Store> getStores(@PathParam("param") @IntegerArrayAnnot IntegerArray ids) {
 		try {
 			List<Constraint> constraints = new ArrayList<Constraint>();
-			constraints.add(new Constraint<StringArray>("id", Operator.EQUAL, ids, StringArray.class));
-			return new TableJSONContainer<User>(User.class, userDao.findAll(constraints));
+			constraints.add(new Constraint<IntegerArray>("id", Operator.EQUAL, ids, IntegerArray.class));
+			return new TableJSONContainer<Store>(Store.class, storeDao.findAll(constraints));
 		} catch(NoResultException e) {
-			throw new BadRequestException("Invalid user query provided -- no such user/s.");
+			throw new BadRequestException("Invalid store query provided -- no such store/s.");
 		} catch(PersistenceException e) {
 			throw new BadRequestException(e.getMessage());
 		}
 	}
-	public Response putUser(@PathParam("param") String userName, @QueryParam("password") String password, @QueryParam("secret") String secret) {
-		User user = new User();
-		user.setId(userName);
-		user.setPassword(password);
-		user.setSecret(secret);
-		return putUser(user);
+
+	public Response putStore(@PathParam("param") Integer storeId, @QueryParam("name") String name) {
+		Store store = new Store();
+		store.setId(storeId);
+		store.setName(name);
+		return putStore(store);
 	}
 	
-	private Response putUser(User user) {
+	private Response putStore(Store store) {
 
 		// Set up object
-		User userFound = new EntityLoader<User>(User.class, userDao).findOrNull(user.getId());
+		Store storeFound = new EntityLoader<Store>(Store.class, storeDao).findOrNull(store.getId());
 
 		// Create new object, if not found
-		if (userFound == null)
-			userFound = new User();
+		if (storeFound == null)
+			storeFound = new Store();
 
 		// Introspect and populate fields of entity with values from object created with @Form
-		userFound = new EntityIntrospector<User>(userFound, FormParam.class).populateWith(user);
+		storeFound = new EntityIntrospector<Store>(storeFound, FormParam.class).populateWith(store);
 		
 		// Persist object
-		User userNew = userDao.put(userFound);
+		Store storeNew = storeDao.put(storeFound);
 
 		// Return 201 with location header
-		String newUriString = restBaseUrl.getValue() + "/user";
-		if (userNew.getId() != null) {
-			newUriString += "/" + userNew.getId();
+		String newUriString = restBaseUrl.getValue() + "/store";
+		if (storeNew.getId() != null) {
+			newUriString += "/" + storeNew.getId();
 		}
 		URI newUri = null;
 		try {
@@ -97,55 +101,70 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-		return Response.status(Status.CREATED).location(newUri).entity(userNew.getId()).build();
+		return Response.status(Status.CREATED).location(newUri).entity(storeNew.getId()).build();
 	
 	}
 	
-	
-	public Response deleteUser(@PathParam("param") String userName) {
-		User user = userDao.find(userName);
-		if (user != null)
-			userDao.delete(user);
+
+	public Response deleteStore(@PathParam("param") Integer storeId) {
+		Store store = storeDao.find(storeId);
+		if (store != null)
+			storeDao.delete(store);
 		return Response.status(Status.NO_CONTENT).build();
 	}
 
-	public TableJSONContainer<Role> getRoles(@PathParam("param") @StringArrayAnnot StringArray ids) {
+	@SuppressWarnings("rawtypes")
+	public TableJSONContainer<Customer> getCustomers() {
 		try {
-			return new TableJSONContainer<Role>(Role.class, roleDao.getRolesForUser(ids.getList()));
+			List<Constraint> constraints = new ArrayList<Constraint>();
+			return new TableJSONContainer<Customer>(Customer.class, customerDao.findAll(constraints));
 		} catch(NoResultException e) {
-			throw new BadRequestException("Invalid role query provided -- no such role/s.");
+			throw new BadRequestException("Invalid customer query provided -- no such customer/s.");
 		} catch(PersistenceException e) {
 			throw new BadRequestException(e.getMessage());
 		}
 	}
 
-	public Response putRole(@QueryParam("role_id") Integer roleId, @QueryParam("username") String userName, @QueryParam("role") String role) {
-		Role newRole = new Role();
-		newRole.setId(roleId);
-		newRole.setUsername(userName);
-		newRole.setRole(role);
-		return putRole(newRole);
+	@SuppressWarnings("rawtypes")
+	public TableJSONContainer<Customer> getCustomers(@PathParam("param") @IntegerArrayAnnot IntegerArray ids) {
+		try {
+			List<Constraint> constraints = new ArrayList<Constraint>();
+			constraints.add(new Constraint<IntegerArray>("id", Operator.EQUAL, ids, IntegerArray.class));
+			return new TableJSONContainer<Customer>(Customer.class, customerDao.findAll(constraints));
+		} catch(NoResultException e) {
+			throw new BadRequestException("Invalid customer query provided -- no such customer/s.");
+		} catch(PersistenceException e) {
+			throw new BadRequestException(e.getMessage());
+		}
 	}
 
-	private Response putRole(Role role) {
+	public Response putCustomer(@PathParam("param") Integer customerId,	@QueryParam("preferred_store_id") Integer preferredStoreId, @QueryParam("name") String name) {
+		Customer customer = new Customer();
+		customer.setId(customerId);
+		customer.setPreferredStoreId(preferredStoreId);
+		customer.setName(name);
+		return putCustomer(customer);
+	}
+
+	private Response putCustomer(Customer customer) {
 
 		// Set up object
-		Role roleFound = new EntityLoader<Role>(Role.class, roleDao).findOrNull(role.getId());
+		Customer customerFound = new EntityLoader<Customer>(Customer.class, customerDao).findOrNull(customer.getId());
 
 		// Create new object, if not found
-		if (roleFound == null)
-			roleFound = new Role();
+		if (customerFound == null)
+			customerFound = new Customer();
 
 		// Introspect and populate fields of entity with values from object created with @Form
-		roleFound = new EntityIntrospector<Role>(roleFound, FormParam.class).populateWith(role);
+		customerFound = new EntityIntrospector<Customer>(customerFound, FormParam.class).populateWith(customer);
 		
 		// Persist object
-		Role roleNew = roleDao.put(roleFound);
+		Customer customerNew = customerDao.put(customerFound);
 
 		// Return 201 with location header
-		String newUriString = restBaseUrl.getValue() + "/role";
-		if (roleNew.getId() != null) {
-			newUriString += "/" + roleNew.getId();
+		String newUriString = restBaseUrl.getValue() + "/customer";
+		if (customerNew.getId() != null) {
+			newUriString += "/" + customerNew.getId();
 		}
 		URI newUri = null;
 		try {
@@ -153,16 +172,85 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-		return Response.status(Status.CREATED).location(newUri).entity(roleNew.getId()).build();
+		return Response.status(Status.CREATED).location(newUri).entity(customerNew.getId()).build();
 	
 	}
 	
-	public Response deleteRole(@PathParam("param") Integer roleId) {
-		Role role = roleDao.find(roleId);
-		if (role != null) {
-			roleDao.delete(role);
+	public Response deleteCustomer(@PathParam("param") Integer customerId) {
+		Customer customer = customerDao.find(customerId);
+		if (customer != null) {
+			customerDao.delete(customer);
 		}
 		return Response.status(Status.NO_CONTENT).build();
 	}
 
+	@SuppressWarnings("rawtypes")
+	public TableJSONContainer<Sale> getSales(@PathParam("param") @IntegerArrayAnnot IntegerArray ids) {
+		try {
+			List<Constraint> constraints = new ArrayList<Constraint>();
+			return new TableJSONContainer<Sale>(Sale.class, saleDao.findAll(constraints));
+		} catch(NoResultException e) {
+			throw new BadRequestException("Invalid sale query provided -- no such sales/s.");
+		} catch(PersistenceException e) {
+			throw new BadRequestException(e.getMessage());
+		}
+	}
+
+	public TableJSONContainer<Sale> getSalesByCustomer(@QueryParam("customer_id") Integer customerId) {
+		try {
+			return new TableJSONContainer<Sale>(Sale.class, saleDao.findByCustomer(customerId));
+		} catch(NoResultException e) {
+			throw new BadRequestException("Invalid sale query provided -- no such sales/s.");
+		} catch(PersistenceException e) {
+			throw new BadRequestException(e.getMessage());
+		}
+	}
+
+	public Response putSale(@PathParam("param") Integer saleId,	@QueryParam("storeId") Integer storeId, @QueryParam("customerId") Integer customerId, @QueryParam("total") Float total) {
+		Sale sale = new Sale();
+		sale.setId(saleId);
+		sale.setStoreId(storeId);
+		sale.setCustomerId(customerId);
+		sale.setTotal(total);
+		return putSale(sale);
+	}
+	
+	private Response putSale(Sale sale) {
+
+		// Set up object
+		Sale saleFound = new EntityLoader<Sale>(Sale.class, saleDao).findOrNull(sale.getId());
+
+		// Create new object, if not found
+		if (saleFound == null)
+			saleFound = new Sale();
+
+		// Introspect and populate fields of entity with values from object created with @Form
+		saleFound = new EntityIntrospector<Sale>(saleFound, FormParam.class).populateWith(sale);
+		
+		// Persist object
+		Sale saleNew = saleDao.put(saleFound);
+
+		// Return 201 with location header
+		String newUriString = restBaseUrl.getValue() + "/sale";
+		if (saleNew.getId() != null) {
+			newUriString += "/" + saleNew.getId();
+		}
+		URI newUri = null;
+		try {
+			newUri = new URI(newUriString);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		}
+		return Response.status(Status.CREATED).location(newUri).entity(saleNew.getId()).build();
+	
+	}
+
+	public Response deleteSale(@PathParam("param") Integer saleId) {
+		Sale sale = saleDao.find(saleId);
+		if (sale != null)
+			saleDao.delete(sale);
+		return Response.status(Status.NO_CONTENT).build();
+	}
+
+		
 }

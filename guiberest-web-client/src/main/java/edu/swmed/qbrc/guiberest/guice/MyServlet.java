@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.jboss.resteasy.client.ClientRequestFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Role;
-import edu.swmed.qbrc.guiberest.shared.domain.guiberest.User;
+import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Customer;
+import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
 import edu.swmed.qbrc.jacksonate.rest.jackson.TableJSONContainer;
-import edu.swmed.qbrc.jacksonate.rest.util.StringArray;
+import edu.swmed.qbrc.jacksonate.rest.util.IntegerArray;
 
 @Singleton
 public class MyServlet extends HttpServlet {
@@ -40,22 +40,22 @@ public class MyServlet extends HttpServlet {
 		StringBuilder out = new StringBuilder();
 		out.append("<p>");
 		
-		StringArray userids = new StringArray();
-		userids.getList().add("thomas");
-		userids.getList().add("roger");
-		TableJSONContainer<User> tblexp = guibRestService.getUsers(userids);
-		List<User> users = tblexp.getData();
-		if (users != null) {
-			for (User user : users) {
-				out.append("User: " + user.getId() + "<br/>");
+		IntegerArray customerids = new IntegerArray();
+		customerids.getList().add(1);
+		customerids.getList().add(6);
+		TableJSONContainer<Customer> tblexp = guibRestService.getCustomers(customerids);
+		List<Customer> customers = tblexp.getData();
+		if (customers != null) {
+			for (Customer customer : customers) {
+				out.append("Customer: " + customer.getId() + " - " + customer.getName() + "<br/>");
 			}
 		}
 
-		StringArray useridsforrole = new StringArray();
-		useridsforrole.getList().add("thomas");
-		TableJSONContainer<Role> roles = guibRestService.getRoles(useridsforrole);
-		for (Role role : roles.getData()) {
-			out.append("Role: " + role.getRole() + "<br/>");
+		TableJSONContainer<Sale> tbl = guibRestService.getSalesByCustomer(6);
+		if (tbl.getData() != null) {
+			for (Sale sale : tbl.getData()) {
+				out.append("Sale: " + sale.getId() + " - " + sale.getCustomerId() + "/" + sale.getStoreId() + " - " + sale.getTotal() + "<br/>");
+			}
 		}
 		
 		// Send to browser

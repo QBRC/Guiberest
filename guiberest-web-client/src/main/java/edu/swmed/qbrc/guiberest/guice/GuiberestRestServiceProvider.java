@@ -72,7 +72,7 @@ public class GuiberestRestServiceProvider implements Provider<GuiberestRestServi
 		 *   an HttpPost request, which fails since it's actually a GET request.  I created a
 		 *   custom ClientExecutor that extends the implementation used by RESTEasy, and configured
 		 *   it to simply assume that we're dealing with a GET request.  I added the extended
-		 *   ClientExecutor to the CasHmac client libraryÑit's up to the developer using the library
+		 *   ClientExecutor to the CasHmac client library. It's up to the developer using the library
 		 *   whether to go with the custom ClientExecutor or the default one provided by RESTEasy.
 		 *   
 		 *   Because the default client connection manager used by RESTEasy is not thread safe, and

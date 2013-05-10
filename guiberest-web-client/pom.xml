@@ -132,7 +132,8 @@
 						<artifactId>jetty-maven-plugin</artifactId>
 						<version>${jetty-plugin.version}</version>
 						<configuration>
-							<scanIntervalSeconds>10</scanIntervalSeconds>
+                            <!-- Disable automatic reloading so JRebel can take care of it -->
+                            <scanIntervalSeconds>0</scanIntervalSeconds>
 							<stopPort>9967</stopPort>
 							<stopKey>stop-jetty</stopKey>
 							<connectors>

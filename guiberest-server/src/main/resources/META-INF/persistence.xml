@@ -7,9 +7,20 @@
     <persistence-unit name="${guiberest.persistence.unit}" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
 
+        <!--
+             These entities are included primarily to create a sample database or User, Role, and ACL information
+             for use by the CasHmac library.  In most applications, you'd create these tables yourself and reference
+             them in cashmac.properties.  But since we want this application to run and automatically populate the
+             H2 database out of the box, we created some domain classes to set up a sample user database.
+        -->
         <class>edu.swmed.qbrc.guiberest.shared.domain.guiberest.User</class>
         <class>edu.swmed.qbrc.guiberest.shared.domain.guiberest.Role</class>
         <class>edu.swmed.qbrc.guiberest.shared.domain.guiberest.ACL</class>
+        
+        <!-- These entities are for the sample web service -->
+        <class>edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale</class>
+        <class>edu.swmed.qbrc.guiberest.shared.domain.guiberest.Customer</class>
+        <class>edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store</class>
         		
 		<exclude-unlisted-classes>true</exclude-unlisted-classes> 
         <properties>            

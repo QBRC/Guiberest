@@ -12,14 +12,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import org.jboss.resteasy.annotations.StringParameterUnmarshallerBinder;
-
+import edu.swmed.qbrc.auth.cashmac.shared.constants.CasHmacAccessLevels;
+import edu.swmed.qbrc.auth.cashmac.shared.annotations.CasHmacPreAuth;
 import edu.swmed.qbrc.auth.cashmac.shared.annotations.NoCasAuth;
-import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Role;
-import edu.swmed.qbrc.guiberest.shared.domain.guiberest.User;
+import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Customer;
+import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale;
+import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store;
 import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage;
 import edu.swmed.qbrc.jacksonate.rest.jackson.TableJSONContainer;
 import edu.swmed.qbrc.jacksonate.rest.util.CharArrayUnmarshaller;
-import edu.swmed.qbrc.jacksonate.rest.util.StringArray;
+import edu.swmed.qbrc.jacksonate.rest.util.IntegerArray;
 import edu.swmed.qbrc.guiberest.shared.rest.util.UserIDArrayUnmarshaller;
 import edu.swmed.qbrc.jacksonate.rest.util.IntegerArrayUnmarshaller;
 import edu.swmed.qbrc.jacksonate.rest.util.StringArrayUnmarshaller;
@@ -47,56 +49,91 @@ public interface GuiberestRestService {
 	public @interface UserIDArrayAnnot {
 	}
 	
-	@RolesAllowed({})
+	@RolesAllowed({}) // Allow everyone to see data package.
 	@GET
 	@Path("/datapackage.json")
 	@Produces("application/json")
 	public DataPackage getDataPackage();
 
-	@RolesAllowed({})
+	@RolesAllowed({}) // Allow everyone to see store information.
 	@GET
-	@Path("/user")
+	@Path("/store")
 	@Produces("application/json")
-	public TableJSONContainer<User> getUsers();
+	public TableJSONContainer<Store> getStores();
 
-	@RolesAllowed({})
+	@RolesAllowed({}) // Allow everyone to see store information.
 	@GET
-	@Path("/user/{param}")
+	@Path("/store/{param}")
 	@Produces("application/json")
-	public TableJSONContainer<User> getUsers(@PathParam("param") @StringArrayAnnot StringArray ids);
+	public TableJSONContainer<Store> getStores(@PathParam("param") @IntegerArrayAnnot IntegerArray ids);
 	
 	@RolesAllowed({"Guiberest-Writer"})
 	@NoCasAuth
 	@PUT
-	@Path("/user/{param}")
+	@Path("/store/{param}")
 	@Produces("application/json")
-	public Response putUser(@PathParam("param") String userName, @QueryParam("password") String password, @QueryParam("secret") String secret);
+	public Response putStore(@PathParam("param") Integer storeId, @QueryParam("name") String name);
 
 	@RolesAllowed({"Guiberest-Writer"})
 	@NoCasAuth
 	@POST
-	@Path("/user/{param}/delete")
+	@Path("/store/{param}/delete")
 	@Produces("application/json")
-	public Response deleteUser(@PathParam("param") String userName);
+	public Response deleteStore(@PathParam("param") Integer storeId);
 
-	@RolesAllowed({"Guiberest-Reader", "Guiberest-Writer"})
+	
+	@RolesAllowed({"Guiberest-Writer", "Guiberest-Reader"})
 	@GET
-	@Path("/role/{param}")
+	@Path("/customer")
 	@Produces("application/json")
-	public TableJSONContainer<Role> getRoles(@PathParam("param") @StringArrayAnnot StringArray userids);
+	public TableJSONContainer<Customer> getCustomers();
 
-	@RolesAllowed({"Guiberest-Writer"})
-	@NoCasAuth
-	@POST
-	@Path("/role")
+	@RolesAllowed({"Guiberest-Writer", "Guiberest-Reader"})
+	@GET
+	@Path("/customer/{param}")
 	@Produces("application/json")
-	public Response putRole(@QueryParam("role_id") Integer roleId, @QueryParam("username") String userName, @QueryParam("role") String role);
+	public TableJSONContainer<Customer> getCustomers(@PathParam("param") @IntegerArrayAnnot IntegerArray ids);
 	
 	@RolesAllowed({"Guiberest-Writer"})
 	@NoCasAuth
-	@POST
-	@Path("/role/{param}/delete")
+	@PUT
+	@Path("/customer/{param}")
 	@Produces("application/json")
-	public Response deleteRole(@PathParam("param") Integer roleId);
+	public Response putCustomer(@PathParam("param") Integer customerId, @QueryParam("preferred_store_id") Integer preferredStoreId, @QueryParam("name") String name);
+
+	@RolesAllowed({"Guiberest-Writer"})
+	@NoCasAuth
+	@POST
+	@Path("/customer/{param}/delete")
+	@Produces("application/json")
+	public Response deleteCustomer(@PathParam("param") Integer customerId);
+
+
+	@CasHmacPreAuth(accessLevel=CasHmacAccessLevels.READ, objectClass=Sale.class, parameterName="ids")
+	@RolesAllowed({"Guiberest-Writer", "Guiberest-Reader"})
+	@GET
+	@Path("/sale/{param}")
+	@Produces("application/json")
+	public TableJSONContainer<Sale> getSales(@PathParam("param") @IntegerArrayAnnot IntegerArray ids);
+
+	@RolesAllowed({"Guiberest-Writer", "Guiberest-Reader"})
+	@GET
+	@Path("/sale")
+	@Produces("application/json")
+	public TableJSONContainer<Sale> getSalesByCustomer(@QueryParam("customer_id") Integer customerId);
+	
+	@RolesAllowed({"Guiberest-Writer"})
+	@NoCasAuth
+	@PUT
+	@Path("/sale/{param}")
+	@Produces("application/json")
+	public Response putSale(@PathParam("param") Integer saleId, @QueryParam("storeId") Integer storeId, @QueryParam("customerId") Integer customerId, @QueryParam("total") Float total);
+
+	@RolesAllowed({"Guiberest-Writer"})
+	@NoCasAuth
+	@POST
+	@Path("/sale/{param}/delete")
+	@Produces("application/json")
+	public Response deleteSale(@PathParam("param") Integer saleId);
 
 }

@@ -1,43 +1,40 @@
 package edu.swmed.qbrc.guiberest.shared.domain.guiberest;
 
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.ws.rs.FormParam;
 import javax.xml.bind.annotation.XmlRootElement;
+import edu.swmed.qbrc.auth.cashmac.shared.annotations.*;
 import edu.swmed.qbrc.guiberest.shared.domain.BaseEntity;
+import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage.DataPackageClass;
 
 @SuppressWarnings("rawtypes")
 @Entity
-@Table(name = "users")
-@XmlRootElement(name = "User")
-public class User implements BaseEntity, Comparable {
-	private static final long serialVersionUID = 5489594906310275717L;
-	
-	@Id
-    @Column(name="id")
-    private String id;    
-    @Column(name="password")
-    private String password;
-    @Column(name="secret")
-    private String secret;
-    
-    @Transient
-    private List<String> normalization;
+@Table(name = "store")
+@XmlRootElement(name = "Store")
+@DataPackageClass(url="store")
+@CasHmacObjectAcl
+public class Store implements BaseEntity, Comparable {
 
-    public User() {
-    	this.setId("");
-    	this.setPassword("");
-    	this.setSecret("");
+	private static final long serialVersionUID = -3044099150624572000L;
+
+	@Id
+	@CasHmacPKField
+    @Column(name="store_id")
+    private Integer id;
+	
+	@Column(name="name")
+    private String name;
+    
+    public Store() {
     }
     
-	public User(String id, String password, String secret) {
+	public Store(Integer id, String name) {
 		super();		
 		this.setId(id);
-		this.setPassword(password);
-		this.setSecret(secret);
+		this.setName(name);
 	}
 
 	@Override
@@ -48,7 +45,7 @@ public class User implements BaseEntity, Comparable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
+		Store other = (Store) obj;
 		if (getId() == null) {
 			if (other.getId() != null)
 				return false;
@@ -58,28 +55,13 @@ public class User implements BaseEntity, Comparable {
 	}
 
 	@Override
-	public String getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(String id) {
+	@FormParam("store_id")
+	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getSecret() {
-		return secret;
-	}
-
-	public void setSecret(String secret) {
-		this.secret = secret;
 	}
 
 	@Override
@@ -90,13 +72,22 @@ public class User implements BaseEntity, Comparable {
 			return 0;
 		if (getClass() != obj.getClass())
 			return 0;
-		User other = (User) obj;
+		Store other = (Store) obj;
 		if (getId() == null) {
 			if (other.getId() != null)
 				return 0;
 		} else if (!getId().equals(other.getId()))
 			return 0;
 		return 1;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	@FormParam("name")
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 }
