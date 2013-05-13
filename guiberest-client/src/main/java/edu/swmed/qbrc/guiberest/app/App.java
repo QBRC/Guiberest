@@ -52,6 +52,16 @@ public class App {
 			}
 		}
 
+		IntegerArray saleids = new IntegerArray();
+		saleids.getList().add(2);
+		saleids.getList().add(3);
+		TableJSONContainer<Sale> sltbl = guibRestService.getSales(saleids);
+		if (sltbl.getData() != null) {
+			for (Sale sale : sltbl.getData()) {
+				System.out.println("Sale: " + sale.getId() + " - " + sale.getCustomerId() + "/" + sale.getStoreId() + " - " + sale.getTotal() + "<br/>");
+			}
+		}		
+		
 		TableJSONContainer<Sale> tbl = guibRestService.getSalesByCustomer(6);
 		if (tbl.getData() != null) {
 			for (Sale sale : tbl.getData()) {
