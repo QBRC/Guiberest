@@ -12,8 +12,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import org.jboss.resteasy.annotations.StringParameterUnmarshallerBinder;
-import edu.swmed.qbrc.auth.cashmac.shared.constants.CasHmacAccessLevels;
-import edu.swmed.qbrc.auth.cashmac.shared.annotations.CasHmacPreAuth;
 import edu.swmed.qbrc.auth.cashmac.shared.annotations.NoCasAuth;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Customer;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale;
@@ -109,7 +107,6 @@ public interface GuiberestRestService {
 	public Response deleteCustomer(@PathParam("param") Integer customerId);
 
 
-	@CasHmacPreAuth(accessLevel=CasHmacAccessLevels.READ, objectClass=Sale.class, parameterName="ids")
 	@RolesAllowed({"Guiberest-Writer", "Guiberest-Reader"})
 	@GET
 	@Path("/sale/{param}")
