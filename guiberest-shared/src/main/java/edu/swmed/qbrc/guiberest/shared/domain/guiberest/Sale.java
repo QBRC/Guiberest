@@ -10,6 +10,7 @@ import edu.swmed.qbrc.auth.cashmac.shared.constants.CasHmacAccessLevels;
 import edu.swmed.qbrc.auth.cashmac.shared.annotations.*;
 import edu.swmed.qbrc.guiberest.shared.domain.BaseEntity;
 import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage.DataPackageClass;
+import edu.swmed.qbrc.guiberest.shared.guice.datasources.GuiberestDataSource;
 
 @CasHmacObjectAcl
 @CasHmacObjectRead(accessLevel=CasHmacAccessLevels.READ, objectClass=Sale.class)
@@ -20,7 +21,7 @@ import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage.DataPackageClass;
 @Table(name = "sale")
 @XmlRootElement(name = "Sale")
 @DataPackageClass(url="sale")
-public class Sale implements BaseEntity, Comparable {
+public class Sale implements Comparable, BaseEntity {
 
 	private static final long serialVersionUID = -8186720274713597706L;
 	
@@ -36,14 +37,14 @@ public class Sale implements BaseEntity, Comparable {
     @Column(name="sale_id")
     private Integer id;
 	
-	@CasHmacForeignFieldRead(accessLevel=CasHmacAccessLevels.READ, objectClass=Store.class)
-	@CasHmacForeignFieldUpdate(accessLevel=CasHmacAccessLevels.READ, objectClass=Store.class)
-	@CasHmacForeignFieldCreate(accessLevel=CasHmacAccessLevels.READ, objectClass=Store.class)
+	@CasHmacForeignFieldRead(accessLevel=CasHmacAccessLevels.READ, objectClass=Store.class, foreignEntityManager=GuiberestDataSource.class)
+	@CasHmacForeignFieldUpdate(accessLevel=CasHmacAccessLevels.READ, objectClass=Store.class, foreignEntityManager=GuiberestDataSource.class)
+	@CasHmacForeignFieldCreate(accessLevel=CasHmacAccessLevels.READ, objectClass=Store.class, foreignEntityManager=GuiberestDataSource.class)
 	@Column(name="store_id")
 	private Integer storeId;
 
-	@CasHmacForeignFieldUpdate(accessLevel=CasHmacAccessLevels.UPDATE, objectClass=Customer.class)
-	@CasHmacForeignFieldCreate(accessLevel=CasHmacAccessLevels.READ, objectClass=Customer.class)
+	@CasHmacForeignFieldUpdate(accessLevel=CasHmacAccessLevels.UPDATE, objectClass=Customer.class, foreignEntityManager=GuiberestDataSource.class)
+	@CasHmacForeignFieldCreate(accessLevel=CasHmacAccessLevels.READ, objectClass=Customer.class, foreignEntityManager=GuiberestDataSource.class)
 	@Column(name="customer_id")
     private Integer customerId;
     

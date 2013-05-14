@@ -1,9 +1,12 @@
 package edu.swmed.qbrc.guiberest.guice;
 
 import java.lang.reflect.Type;
+import javax.persistence.EntityManager;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.ws.rs.ext.Provider;
+
+import org.apache.log4j.Logger;
 import org.jboss.resteasy.core.Dispatcher;
 import org.jboss.resteasy.plugins.guice.GuiceResourceFactory;
 import org.jboss.resteasy.plugins.server.servlet.ListenerBootstrap;
@@ -15,11 +18,17 @@ import org.jboss.resteasy.util.GetRestful;
 import com.google.inject.Binding;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.TypeLiteral;
 import com.google.inject.servlet.GuiceServletContextListener;
 import edu.swmed.qbrc.auth.cashmac.server.ValidationInterceptorCasHmac;
+import edu.swmed.qbrc.auth.cashmac.server.guice.MainGuiceModule;
 import edu.swmed.qbrc.guiberest.guice.datasources.GuiberestDataSourcePersistModule;
+import edu.swmed.qbrc.guiberest.shared.guice.datasources.GuiberestDataSource;
 
 public class GuiceServletConfig extends GuiceServletContextListener {
+
+	private static final Logger log = Logger.getLogger(GuiceServletConfig.class);
 
 	private ResteasyDeployment deployment;
 	private Injector injector = null;
@@ -30,6 +39,7 @@ public class GuiceServletConfig extends GuiceServletContextListener {
 	 */
 	@Override
     protected Injector getInjector() {
+
 		if (injector == null) {
 	        this.injector = Guice.createInjector(
 	        		new DispatchServletModule(),
@@ -37,8 +47,12 @@ public class GuiceServletConfig extends GuiceServletContextListener {
 	        		new GuiberestDataSourcePersistModule()
 	        		);
 		}
-        return injector;
-        
+
+		// Set up injection for CasHmac Library
+		com.google.inject.Provider<EntityManager> p = injector.getInstance(Key.get(new TypeLiteral<com.google.inject.Provider<EntityManager>>(){}, GuiberestDataSource.class));
+		MainGuiceModule.addEntityManagerProvider(p, GuiberestDataSource.class);
+		
+		return injector;
     }
 	
 	/**
@@ -94,11 +108,11 @@ public class GuiceServletConfig extends GuiceServletContextListener {
 				final Class<?> beanClass = (Class<?>) type;
 				if (GetRestful.isRootResource(beanClass)) {
 					final ResourceFactory resourceFactory = new GuiceResourceFactory(binding.getProvider(), beanClass);
-					System.out.println("registering factory for " + beanClass.getName());
+					log.info("registering factory for " + beanClass.getName());
 					registry.addResourceFactory(resourceFactory);
 				}
 				if (beanClass.isAnnotationPresent(Provider.class)) {
-					System.out.println("registering provider instance for " + beanClass.getName());
+					log.info("registering provider instance for " + beanClass.getName());
 					providerFactory.registerProviderInstance(binding.getProvider().get());
 				}
 			}

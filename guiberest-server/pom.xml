@@ -216,6 +216,14 @@
 	            </includes>
 				<targetPath>META-INF</targetPath>
 	        </resource>
+            <resource>
+                <directory>${basedir}/src/main/resources/META-INF/services</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>org.hibernate.integrator.spi.Integrator</include>
+                </includes>
+                <targetPath>META-INF/services</targetPath>
+            </resource>
         </resources>
         
         <testResources>

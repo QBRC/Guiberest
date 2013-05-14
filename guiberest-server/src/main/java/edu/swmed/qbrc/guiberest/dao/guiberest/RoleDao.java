@@ -7,9 +7,20 @@ import javax.inject.Provider;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import edu.swmed.qbrc.guiberest.dao.BaseDao;
-import edu.swmed.qbrc.guiberest.guice.datasources.GuiberestDataSource;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Role;
+import edu.swmed.qbrc.guiberest.shared.guice.datasources.GuiberestDataSource;
 
+/**
+ * This DAO class was created, not to provide a sample DAO object for the
+ * Guiberest application, but to enable more comprehensive testing of the
+ * ACL-based permissions in this application.  In short, the Customer, 
+ * Store, and Sale entities exist to for use in the sample RESTful service.
+ * The User, Role, and ACL entities exist (but would probably be deleted
+ * in a production application) simply for use by some of our unit tests.
+ * 
+ * @author JYODE1
+ *
+ */
 public class RoleDao extends BaseDao<Role> {
     @Inject
     public RoleDao(@GuiberestDataSource Provider<EntityManager> entityManagerProvider) {

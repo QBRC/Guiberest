@@ -10,6 +10,8 @@ import com.google.inject.Provider;
 import com.google.inject.persist.PersistFilter;
 import com.google.inject.persist.jpa.JpaPersistModule;
 
+import edu.swmed.qbrc.guiberest.shared.guice.datasources.GuiberestDataSource;
+
 public class GuiberestDataSourcePersistModule extends PrivateModule {
 
 	public static final Key<PersistFilter> GUIBEREST_DATA_SOURCE_FILTER_KEY = Key.get(PersistFilter.class, GuiberestDataSource.class);
@@ -22,7 +24,7 @@ public class GuiberestDataSourcePersistModule extends PrivateModule {
 	    final Provider<EntityManager> entityManagerProvider = binder().getProvider(EntityManager.class);
 	    bind(EntityManager.class).annotatedWith(GuiberestDataSource.class).toProvider(entityManagerProvider);
 	    expose(EntityManager.class).annotatedWith(GuiberestDataSource.class);
-	    
+
 	    bind(GUIBEREST_DATA_SOURCE_FILTER_KEY).to(PersistFilter.class);
 	    expose(GUIBEREST_DATA_SOURCE_FILTER_KEY);	    	    
 	}

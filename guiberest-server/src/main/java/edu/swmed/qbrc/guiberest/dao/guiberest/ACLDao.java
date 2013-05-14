@@ -4,7 +4,7 @@ import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.persistence.EntityManager;
 import edu.swmed.qbrc.guiberest.dao.BaseDao;
-import edu.swmed.qbrc.guiberest.shared.domain.guiberest.User;
+import edu.swmed.qbrc.guiberest.shared.domain.guiberest.ACL;
 import edu.swmed.qbrc.guiberest.shared.guice.datasources.GuiberestDataSource;
 
 /**
@@ -18,9 +18,9 @@ import edu.swmed.qbrc.guiberest.shared.guice.datasources.GuiberestDataSource;
  * @author JYODE1
  *
  */
-public class UserDao extends BaseDao<User> {
+public class ACLDao extends BaseDao<ACL> {
     @Inject
-    public UserDao(@GuiberestDataSource Provider<EntityManager> entityManagerProvider) {
-        super(User.class, entityManagerProvider);
+    public ACLDao(@GuiberestDataSource Provider<EntityManager> entityManagerProvider) {
+        super(ACL.class, entityManagerProvider);
     }
 }

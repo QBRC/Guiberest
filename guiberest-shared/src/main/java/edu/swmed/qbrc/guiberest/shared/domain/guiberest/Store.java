@@ -16,7 +16,7 @@ import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage.DataPackageClass;
 @XmlRootElement(name = "Store")
 @DataPackageClass(url="store")
 @CasHmacObjectAcl
-public class Store implements BaseEntity, Comparable {
+public class Store implements Comparable, BaseEntity {
 
 	private static final long serialVersionUID = -3044099150624572000L;
 

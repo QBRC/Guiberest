@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import edu.swmed.qbrc.auth.cashmac.shared.constants.CasHmacAccessLevels;
 import edu.swmed.qbrc.auth.cashmac.shared.annotations.*;
 import edu.swmed.qbrc.guiberest.shared.domain.BaseEntity;
+import edu.swmed.qbrc.guiberest.shared.guice.datasources.GuiberestDataSource;
 import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage.DataPackageClass;
 
 @SuppressWarnings("rawtypes")
@@ -16,7 +17,7 @@ import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage.DataPackageClass;
 @Table(name = "customer")
 @XmlRootElement(name = "Customer")
 @DataPackageClass(url="customer")
-public class Customer implements BaseEntity, Comparable {
+public class Customer implements Comparable, BaseEntity {
 
 	private static final long serialVersionUID = 7386748923294189168L;
 
@@ -25,8 +26,8 @@ public class Customer implements BaseEntity, Comparable {
     @Column(name="customer_id")
     private Integer id;
 	
-	@CasHmacForeignFieldRead(accessLevel=CasHmacAccessLevels.READ, objectClass=Store.class)
-	@CasHmacForeignFieldUpdate(accessLevel=CasHmacAccessLevels.UPDATE, objectClass=Store.class)
+	@CasHmacForeignFieldRead(accessLevel=CasHmacAccessLevels.READ, objectClass=Store.class, foreignEntityManager=GuiberestDataSource.class)
+	@CasHmacForeignFieldUpdate(accessLevel=CasHmacAccessLevels.UPDATE, objectClass=Store.class, foreignEntityManager=GuiberestDataSource.class)
 	@Column(name="preferred_store_id")
 	private Integer preferredStoreId;
 

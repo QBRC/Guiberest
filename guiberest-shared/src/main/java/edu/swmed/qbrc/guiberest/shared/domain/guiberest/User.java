@@ -13,7 +13,7 @@ import edu.swmed.qbrc.guiberest.shared.domain.BaseEntity;
 @Entity
 @Table(name = "users")
 @XmlRootElement(name = "User")
-public class User implements BaseEntity, Comparable {
+public class User implements Comparable, BaseEntity {
 	private static final long serialVersionUID = 5489594906310275717L;
 	
 	@Id
@@ -98,5 +98,4 @@ public class User implements BaseEntity, Comparable {
 			return 0;
 		return 1;
 	}
-	
 }

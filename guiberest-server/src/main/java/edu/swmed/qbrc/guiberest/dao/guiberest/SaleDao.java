@@ -7,8 +7,8 @@ import javax.inject.Provider;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import edu.swmed.qbrc.guiberest.dao.BaseDao;
-import edu.swmed.qbrc.guiberest.guice.datasources.GuiberestDataSource;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale;
+import edu.swmed.qbrc.guiberest.shared.guice.datasources.GuiberestDataSource;
 
 public class SaleDao extends BaseDao<Sale> {
     @Inject
