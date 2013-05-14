@@ -11,6 +11,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.hibernate.JDBCException;
+
+import edu.swmed.qbrc.auth.cashmac.shared.exceptions.NoAclException;
 import edu.swmed.qbrc.guiberest.shared.domain.BaseEntity;
 import edu.swmed.qbrc.guiberest.shared.domain.Constraint;
 
@@ -155,7 +157,11 @@ public class BaseDao<T extends BaseEntity> {
             transaction.rollback();
         }
     	
-    	if (exception.getCause() instanceof PersistenceException) {
+    	if (exception.getCause() instanceof NoAclException) {
+    		throw (NoAclException) exception.getCause();
+    	}
+    	
+    	else if (exception.getCause() instanceof PersistenceException) {
             throw (PersistenceException) exception.getCause();
         }
 

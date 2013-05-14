@@ -9,9 +9,6 @@ Feature: Stores
         Then I see the following full store results:
 	        | 12 | 14th Floor Cafeteria |
 
-        When I request all stores
-        Then I see at least 2 store results
-
 	Scenario: Insert Stores
         When I insert the following stores:
 	        | 6 | Test Store 6 | 

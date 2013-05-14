@@ -11,11 +11,10 @@ Feature: Sales
             | 22 | 32 | 11 |  59.65 |
             | 23 | 33 | 12 |   8.95 |
 
-        When I request sales for the 23 customer
+        When I request sales for the 25 customer
         Then I see the following full sale results:
-            | 23 | 33 | 12 |    8.95 |
-            | 23 | 34 | 12 |  128.35 |
-
+            | 25 | 37 | 11 |   69.65 |
+            | 25 | 38 | 12 |    9.95 |
 
     Scenario: Insert Sales
         When I insert the following sales:
@@ -32,13 +31,13 @@ Feature: Sales
     
         When I update the following sales:
             | 23 | 50 | 11 |   78.92 |
-            | 21 | 51 | 12 |  121.57 |
+            | 21 | 51 | 12 |  125.57 |
         When I request sales for the following sale ids:
             | 50 |
             | 51 |
         Then I see the following full sale results:
             | 23 | 50 | 11 |   78.92 |
-            | 21 | 51 | 12 |  121.57 |
+            | 21 | 51 | 12 |  125.57 |
 
     Scenario: Delete Sales
 

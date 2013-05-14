@@ -11,9 +11,6 @@ Feature: Customer
 	        | 21 | 11 | Maurice Mango |
             | 23 | 12 | Chloe Stanley |
 
-        When I request all customers
-        Then I see at least 3 customer results
-
 	Scenario: Insert Customers
         When I insert the following customers:
             | 8 | 12 | Test Customer 8 |

@@ -5,7 +5,6 @@ import javax.persistence.EntityManager;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.ws.rs.ext.Provider;
-
 import org.apache.log4j.Logger;
 import org.jboss.resteasy.core.Dispatcher;
 import org.jboss.resteasy.plugins.guice.GuiceResourceFactory;
@@ -45,7 +44,7 @@ public class GuiceServletConfig extends GuiceServletContextListener {
 	        		new DispatchServletModule(),
 	        		new RestModule(),
 	        		new GuiberestDataSourcePersistModule()
-	        		);
+       		);
 		}
 
 		// Set up injection for CasHmac Library

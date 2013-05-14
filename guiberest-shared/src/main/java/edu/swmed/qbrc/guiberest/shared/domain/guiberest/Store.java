@@ -7,6 +7,7 @@ import javax.persistence.Table;
 import javax.ws.rs.FormParam;
 import javax.xml.bind.annotation.XmlRootElement;
 import edu.swmed.qbrc.auth.cashmac.shared.annotations.*;
+import edu.swmed.qbrc.auth.cashmac.shared.constants.CasHmacAccessLevels;
 import edu.swmed.qbrc.guiberest.shared.domain.BaseEntity;
 import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage.DataPackageClass;
 
@@ -16,12 +17,20 @@ import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage.DataPackageClass;
 @XmlRootElement(name = "Store")
 @DataPackageClass(url="store")
 @CasHmacObjectAcl
+@CasHmacObjectRead(accessLevel=CasHmacAccessLevels.READ, objectClass=Store.class)
+@CasHmacObjectUpdate(accessLevel=CasHmacAccessLevels.UPDATE, objectClass=Store.class)
+@CasHmacObjectDelete(accessLevel=CasHmacAccessLevels.DELETE, objectClass=Store.class)
 public class Store implements Comparable, BaseEntity {
 
 	private static final long serialVersionUID = -3044099150624572000L;
 
 	@Id
 	@CasHmacPKField
+	@CasHmacWriteAcl({
+		@CasHmacWriteAclParameter(access=CasHmacAccessLevels.READ, roles={}),
+		@CasHmacWriteAclParameter(access=CasHmacAccessLevels.UPDATE, roles={}),
+		@CasHmacWriteAclParameter(access=CasHmacAccessLevels.DELETE, roles={ "SELF", "manager" })
+	})
     @Column(name="store_id")
     private Integer id;
 	

@@ -109,6 +109,12 @@ public interface GuiberestRestService {
 
 	@RolesAllowed({"Guiberest-Writer", "Guiberest-Reader"})
 	@GET
+	@Path("/sale/{param}/preauth")
+	@Produces("application/json")
+	public TableJSONContainer<Sale> getSalesWithPreAuth(@PathParam("param") @IntegerArrayAnnot IntegerArray ids);
+
+	@RolesAllowed({"Guiberest-Writer", "Guiberest-Reader"})
+	@GET
 	@Path("/sale/{param}")
 	@Produces("application/json")
 	public TableJSONContainer<Sale> getSales(@PathParam("param") @IntegerArrayAnnot IntegerArray ids);

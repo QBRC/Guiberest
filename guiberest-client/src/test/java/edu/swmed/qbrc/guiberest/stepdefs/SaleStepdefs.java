@@ -2,6 +2,7 @@ package edu.swmed.qbrc.guiberest.stepdefs;
 
 import javax.ws.rs.core.Response;
 import org.jboss.resteasy.client.ClientResponse;
+import org.jboss.resteasy.client.ClientResponseFailure;
 import org.junit.Assert;
 import com.google.inject.Inject;
 import cucumber.annotation.en.Then;
@@ -115,5 +116,46 @@ public class SaleStepdefs {
     	System.out.println("Row Count: " + resultsCache.getData().size());
         Assert.assertTrue(resultsCache.getData().size() <= results);
     }
+    
+    @When("^I request sales for the following sale ids I receive a NoAclException:$")
+    public void I_request_sales_for_the_following_sale_ids_I_receive_a_NoAclException(DataTable ids) throws Throwable {
+    	Boolean error = false;
+    	final IntegerArray idArray = new IntegerArray();
+    	for (DataTableRow row : ids.getGherkinRows()) {
+    		idArray.getList().add(Integer.parseInt(row.getCells().get(0)));
+    	}
+    	try {
+    		resultsCache = guiberestRestService.getSales(idArray);
+    	} catch (ClientResponseFailure e) {
+    		error = true;
+    	}
+    	if (! error && resultsCache != null) {
+    		System.out.println("Found sales in error:");
+    	}
+    	Assert.assertTrue(error);
+    }
+
+	@When("^I update the following sales I receive a NoAclException:$")
+    public void I_update_the_following_sales_I_receive_a_NoAclException(DataTable inserts) throws Throwable {
+    	insertIdCache.getList().clear();
+    	for (DataTableRow row : inserts.getGherkinRows()) {
+    		Response response = (Response)guiberestRestService.putSale(
+    				Integer.parseInt(row.getCells().get(1).trim()),
+    				Integer.parseInt(row.getCells().get(2).trim()),
+    				Integer.parseInt(row.getCells().get(0).trim()),
+    				Float.parseFloat(row.getCells().get(3).trim())
+    		);
+    		Assert.assertTrue(response.getStatus() == 405);
+    	}
+    }
+
+	@When("^I request sales with preauthorization for the following sale ids:$")
+	public void I_request_sales_with_preauthorization_for_the_following_sale_ids(DataTable ids) throws Throwable {
+    	final IntegerArray idArray = new IntegerArray();
+    	for (DataTableRow row : ids.getGherkinRows()) {
+    		idArray.getList().add(Integer.parseInt(row.getCells().get(0)));
+    	}
+   		resultsCache = guiberestRestService.getSalesWithPreAuth(idArray);
+	}
     
 }

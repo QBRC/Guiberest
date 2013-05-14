@@ -9,7 +9,10 @@ import java.util.Properties;
 import org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
+
+import edu.swmed.qbrc.auth.cashmac.server.acl.utils.CasHmacValidation;
 import edu.swmed.qbrc.auth.cashmac.server.filters.CasHmacRequestFilter;
+import edu.swmed.qbrc.auth.cashmac.server.guice.CasHmacValidationProvider;
 import edu.swmed.qbrc.guiberest.guice.datasources.GuiberestDataSourcePersistModule;
 
 public class DispatchServletModule extends ServletModule {
@@ -23,6 +26,9 @@ public class DispatchServletModule extends ServletModule {
 		
 		/* Bind CasHmacRequestFilter so CasHmac's Hibernate interceptor can access the session for user information. */
 		bind(CasHmacRequestFilter.class).in(Singleton.class);
+		
+		/* Bind CasHmacValidation so we can access CasHmac utility methods. */
+		bind(CasHmacValidation.class).toProvider(CasHmacValidationProvider.class);
 		
 		/* Filter all requests through our custom PersistModule (sets up Hibernate
 		 * environment automatically). */
