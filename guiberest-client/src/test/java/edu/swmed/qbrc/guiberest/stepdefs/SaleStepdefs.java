@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 import cucumber.annotation.en.Then;
 import cucumber.annotation.en.When;
 import cucumber.table.DataTable;
+import edu.swmed.qbrc.guiberest.guice.ThomasUser;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
 import edu.swmed.qbrc.jacksonate.rest.jackson.TableJSONContainer;
@@ -21,7 +22,7 @@ public class SaleStepdefs {
 	TableJSONContainer<Sale> resultsCache;
 	
     @Inject
-    public SaleStepdefs(final GuiberestRestService guiberestRestService) {
+    public SaleStepdefs(@ThomasUser final GuiberestRestService guiberestRestService) {
     	this.guiberestRestService = guiberestRestService;
     }
 	
@@ -41,16 +42,27 @@ public class SaleStepdefs {
 
     @Then("^I see the following full sale results:$")
     public void I_see_the_following_full_sale_results(DataTable results) throws Throwable {
-    	Integer index = 0;
     	for (DataTableRow row : results.getGherkinRows()) {
-    		Sale sale = resultsCache.getData().get(index++);
-    		Assert.assertTrue(
-    				sale.getCustomerId().toString().trim().equals(row.getCells().get(0)) &&
-    				sale.getId().toString().trim().equals(row.getCells().get(1)) &&
-    				sale.getStoreId().toString().trim().equals(row.getCells().get(2)) &&
-    				sale.getTotal().toString().trim().equals(row.getCells().get(3))
-    		);
+    		Boolean bFound = false;
+    		for (Sale sale : resultsCache.getData()) {
+    			//System.out.println("Looking at: " + sale.getCustomerId() + " | " + sale.getId() + " | " +  sale.getStoreId() + " | " + sale.getTotal());
+    			if (checkSale(row, sale)) {
+    				bFound = true;
+    				continue;
+    			}
+    		}
+    		if (!bFound) {
+    			System.out.println("Not Found: " + row.getCells().get(0) + " | " + row.getCells().get(1) + " | " + row.getCells().get(2) + " | " + row.getCells().get(3));
+    		}
+    		Assert.assertTrue(bFound);
     	}
+    }
+    
+    private Boolean checkSale(DataTableRow row, Sale sale) {
+    	return	sale.getCustomerId().toString().trim().equals(row.getCells().get(0)) &&
+				sale.getId().toString().trim().equals(row.getCells().get(1)) &&
+				sale.getStoreId().toString().trim().equals(row.getCells().get(2)) &&
+				sale.getTotal().toString().trim().equals(row.getCells().get(3));
     }
     
     @SuppressWarnings("unchecked")

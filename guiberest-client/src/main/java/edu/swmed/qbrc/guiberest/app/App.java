@@ -42,8 +42,8 @@ public class App {
 		guibRestService = client.createProxy(GuiberestRestService.class, "http://127.0.0.1:9090/");
 		
 		IntegerArray customerids = new IntegerArray();
-		customerids.getList().add(1);
-		customerids.getList().add(25);
+		customerids.getList().add(21);
+		customerids.getList().add(23);
 		TableJSONContainer<Customer> tblexp = guibRestService.getCustomers(customerids);
 		List<Customer> customers = tblexp.getData();
 		if (customers != null) {
@@ -53,8 +53,8 @@ public class App {
 		}
 
 		IntegerArray saleids = new IntegerArray();
-		saleids.getList().add(2);
-		saleids.getList().add(3);
+		saleids.getList().add(32);
+		saleids.getList().add(33);
 		TableJSONContainer<Sale> sltbl = guibRestService.getSales(saleids);
 		if (sltbl.getData() != null) {
 			for (Sale sale : sltbl.getData()) {
@@ -62,7 +62,7 @@ public class App {
 			}
 		}		
 		
-		TableJSONContainer<Sale> tbl = guibRestService.getSalesByCustomer(6);
+		TableJSONContainer<Sale> tbl = guibRestService.getSalesByCustomer(23);
 		if (tbl.getData() != null) {
 			for (Sale sale : tbl.getData()) {
 				System.out.println("Sale: " + sale.getId() + " - " + sale.getCustomerId() + "/" + sale.getStoreId() + " - " + sale.getTotal() + "<br/>");

@@ -5,9 +5,9 @@ Feature: Stores
     
     Scenario: View Stores
         When I request stores with the following store ids:
-    	    | 5 |
+    	    | 12 |
         Then I see the following full store results:
-	        | 5 | 14th Floor Cafeteria |
+	        | 12 | 14th Floor Cafeteria |
 
         When I request all stores
         Then I see at least 2 store results

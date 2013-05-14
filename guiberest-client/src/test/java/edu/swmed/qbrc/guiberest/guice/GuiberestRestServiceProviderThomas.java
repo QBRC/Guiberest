@@ -15,7 +15,7 @@ import edu.swmed.qbrc.auth.cashmac.client.ClientAuthInterceptor;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
 import edu.swmed.qbrc.jacksonate.rest.jackson.JacksonConfigProvider;
 
-public class GuiberestRestServiceProvider implements Provider<GuiberestRestService> {
+public class GuiberestRestServiceProviderThomas implements Provider<GuiberestRestService> {
 
 	private final String clientId;
 	private final String secret;
@@ -24,9 +24,9 @@ public class GuiberestRestServiceProvider implements Provider<GuiberestRestServi
 	private final JacksonConfigProvider jacksonConfigProvider;
 	
 	@Inject
-	public GuiberestRestServiceProvider(
-							@Named("ClientId") final String clientId,
-							@Named("Secret") final String secret,
+	public GuiberestRestServiceProviderThomas(
+							@Named("ClientId-thomas") final String clientId,
+							@Named("Secret-thomas") final String secret,
 							@Named("HostName") final String hostName,
 							@Named("RestURL") final String restURL,
 							final JacksonConfigProvider jacksonConfigProvider) {

@@ -5,39 +5,40 @@ Feature: Sales
     
     Scenario: View Sales
         When I request sales for the following sale ids:
-            | 2 |
-            | 3 |
+            | 32 |
+            | 33 |
         Then I see the following full sale results:
-            | 2 | 2 | 1 |  59.65 |
-            | 6 | 3 | 5 |   8.95 |
+            | 22 | 32 | 11 |  59.65 |
+            | 23 | 33 | 12 |   8.95 |
 
-        When I request sales for the 6 customer
+        When I request sales for the 23 customer
         Then I see the following full sale results:
-            | 6 | 3 | 5 |    8.95 |
-            | 6 | 4 | 5 |  128.35 |
+            | 23 | 33 | 12 |    8.95 |
+            | 23 | 34 | 12 |  128.35 |
+
 
     Scenario: Insert Sales
         When I insert the following sales:
-            | 6 | 50 | 5 |   38.92 |
-            | 2 | 51 | 1 |  123.57 |
+            | 21 | 50 | 12 |   38.92 |
+            | 23 | 51 | 11 |  123.57 |
         When I request sales for the following sale ids:
             | 50 |
             | 51 |
         Then I see the following full sale results:
-            | 6 | 50 | 5 |   38.92 |
-            | 2 | 51 | 1 |  123.57 |
+            | 21 | 50 | 12 |   38.92 |
+            | 23 | 51 | 11 |  123.57 |
 
     Scenario: Update Sales
     
         When I update the following sales:
-            | 2 | 50 | 1 |   78.92 |
-            | 6 | 51 | 5 |  121.57 |
+            | 23 | 50 | 11 |   78.92 |
+            | 21 | 51 | 12 |  121.57 |
         When I request sales for the following sale ids:
             | 50 |
             | 51 |
         Then I see the following full sale results:
-            | 2 | 50 | 1 |   78.92 |
-            | 6 | 51 | 5 |  121.57 |
+            | 23 | 50 | 11 |   78.92 |
+            | 21 | 51 | 12 |  121.57 |
 
     Scenario: Delete Sales
 

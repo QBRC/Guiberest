@@ -29,7 +29,8 @@ public class CucumberModule extends AbstractModule {
 		bind(JacksonSerializationModule.class).to(GuiberestSerializationModule.class).in(Scopes.SINGLETON);
 		bind(JacksonConfigProvider.class);
 
-		bind(GuiberestRestService.class).toProvider(GuiberestRestServiceProvider.class).in(Scopes.SINGLETON);
+		bind(GuiberestRestService.class).annotatedWith(ThomasUser.class).toProvider(GuiberestRestServiceProviderThomas.class).in(Scopes.SINGLETON);
+		bind(GuiberestRestService.class).annotatedWith(RogerUser.class).toProvider(GuiberestRestServiceProviderRoger.class).in(Scopes.SINGLETON);
 	}
 
 	/**
@@ -38,8 +39,10 @@ public class CucumberModule extends AbstractModule {
 	 */
 	private Properties loadProperties() {
     	Properties props = new Properties();
-    	props.setProperty("ClientId", getProperty("clientid")); // Your Client Id (public)
-    	props.setProperty("Secret", getProperty("secret"));// Your Client Secret (private)
+    	props.setProperty("ClientId-thomas", getProperty("clientid-thomas")); // Your Client Id (public)
+    	props.setProperty("Secret-thomas", getProperty("secret-thomas"));// Your Client Secret (private)
+    	props.setProperty("ClientId-roger", getProperty("clientid-roger")); // Your Client Id (public)
+    	props.setProperty("Secret-roger", getProperty("secret-roger"));// Your Client Secret (private)
     	props.setProperty("HostName", getProperty("hostname")); // The Host name of the RESTful service (not the client; don't include http://)
     	props.setProperty("RestURL", getProperty("baseurl"));
     	return props;
