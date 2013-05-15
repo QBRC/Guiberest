@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 import cucumber.annotation.en.Then;
 import cucumber.annotation.en.When;
 import cucumber.table.DataTable;
+import edu.swmed.qbrc.guiberest.guice.ClientIdentification;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Customer;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
 import edu.swmed.qbrc.jacksonate.rest.jackson.TableJSONContainer;
@@ -16,13 +17,15 @@ import gherkin.formatter.model.DataTableRow;
 public class CustomerStepdefs {
     
 	final GuiberestRestService guiberestRestService;
+	final ClientIdentification clientIdentification;
 	
 	final IntegerArray insertIdCache = new IntegerArray();
 	TableJSONContainer<Customer> resultsCache;
 	
     @Inject
-    public CustomerStepdefs(final GuiberestRestService guiberestRestService) {
+    public CustomerStepdefs(final GuiberestRestService guiberestRestService, final ClientIdentification clientIdentification) {
     	this.guiberestRestService = guiberestRestService;
+    	this.clientIdentification = clientIdentification;
     }
 	
     @When("^I request customers with the following customer ids:$")

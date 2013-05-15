@@ -18,12 +18,27 @@ public class CucumberModule extends AbstractModule {
     
 	@Override
     protected void configure() {
-		// Support multiple users
-		bind(ClientIdentification.class).in(Singleton.class);
 		
-		Names.bindProperties(binder(), loadProperties());
+		Properties props = loadProperties();
+		Names.bindProperties(binder(), props);
+		
 		bind(ReflectionFactory.class).in(Singleton.class);
 		bind(Reflections.class).toInstance(new Reflections("edu.swmed.qbrc.lcdb.shared.domain.lcdb"));
+
+		// Support multiple users
+		ClientIdentificationProvider.setInstance(
+				new ClientIdentification(
+						props.getProperty("ClientId-thomas"),
+						props.getProperty("Secret-thomas"),
+						props.getProperty("ClientId-roger"),
+						props.getProperty("Secret-roger"),
+						props.getProperty("ClientId-sean"),
+						props.getProperty("Secret-sean"),
+						props.getProperty("ClientId-irsauditer"),
+						props.getProperty("Secret-irsauditer")
+				)
+		);
+		bind(ClientIdentification.class).toProvider(ClientIdentificationProvider.class).in(Singleton.class);
 		
 		// Bind the RestBaseUrl class to an instance with the property for the base URL
 		bind(RestBaseUrl.class).toInstance(new RestBaseUrl("", ""));

@@ -8,6 +8,7 @@ import cucumber.annotation.en.Given;
 import cucumber.annotation.en.Then;
 import cucumber.annotation.en.When;
 import cucumber.table.DataTable;
+import edu.swmed.qbrc.guiberest.guice.ClientIdentification;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
 import edu.swmed.qbrc.jacksonate.rest.jackson.TableJSONContainer;
@@ -17,13 +18,15 @@ import gherkin.formatter.model.DataTableRow;
 public class StoreStepdefs {
     
 	final GuiberestRestService guiberestRestService;
+	final ClientIdentification clientIdentification;
 	
 	final IntegerArray insertIdCache = new IntegerArray();
 	TableJSONContainer<Store> resultsCache;
 	
     @Inject
-    public StoreStepdefs(final GuiberestRestService guiberestRestService) {
+    public StoreStepdefs(final GuiberestRestService guiberestRestService, final ClientIdentification clientIdentification) {
     	this.guiberestRestService = guiberestRestService;
+    	this.clientIdentification = clientIdentification;
     }
 	
     @Given("^I'm ready to go$")
