@@ -8,7 +8,6 @@ import cucumber.annotation.en.Given;
 import cucumber.annotation.en.Then;
 import cucumber.annotation.en.When;
 import cucumber.table.DataTable;
-import edu.swmed.qbrc.guiberest.guice.ThomasUser;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
 import edu.swmed.qbrc.jacksonate.rest.jackson.TableJSONContainer;
@@ -23,7 +22,7 @@ public class StoreStepdefs {
 	TableJSONContainer<Store> resultsCache;
 	
     @Inject
-    public StoreStepdefs(@ThomasUser final GuiberestRestService guiberestRestService) {
+    public StoreStepdefs(final GuiberestRestService guiberestRestService) {
     	this.guiberestRestService = guiberestRestService;
     }
 	

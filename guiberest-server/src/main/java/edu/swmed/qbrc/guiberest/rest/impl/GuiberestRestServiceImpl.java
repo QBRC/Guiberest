@@ -102,7 +102,7 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 		try {
 			storeNew = storeDao.put(storeFound);
 		} catch(NoAclException e) {
-			return Response.status(Status.FORBIDDEN).header("Error", "NoAclException").build();
+			throw new MethodNotAllowedException(e);
 		}
 		
 		// Return 201 with location header
@@ -127,7 +127,7 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 			try {
 				storeDao.delete(store);
 			} catch(NoAclException e) {
-				return Response.status(Status.FORBIDDEN).header("Error", "NoAclException").build();
+				throw new MethodNotAllowedException(e);
 			}
 		}
 		return Response.status(Status.NO_CONTENT).build();
@@ -187,7 +187,7 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 		try {
 			customerNew = customerDao.put(customerFound);
 		} catch(NoAclException e) {
-			return Response.status(Status.FORBIDDEN).header("Error", "NoAclException").build();
+			throw new MethodNotAllowedException(e);
 		}
 		
 		// Return 201 with location header
@@ -211,7 +211,7 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 			try {
 				customerDao.delete(customer);
 			} catch(NoAclException e) {
-				return Response.status(Status.FORBIDDEN).header("Error", "NoAclException").build();
+				throw new MethodNotAllowedException(e);
 			}
 		}
 		return Response.status(Status.NO_CONTENT).build();
@@ -274,7 +274,7 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 		// If we're updating an existing sale, check for special ACL
 		if (saleFound != null && sale.getTotal() < saleFound.getTotal()) {
 			if (!casHmacValidation.verifyAcl("DECREASE", Sale.class, sale.getId(), null)) {
-				return Response.status(Status.FORBIDDEN).header("Error", "NoAclException on DECREASE").build();
+				throw new MethodNotAllowedException(new NoAclException("No ACL for DECREASE"));
 			}
 		}
 		
@@ -290,7 +290,7 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 		try {
 			saleNew = saleDao.put(saleFound);
 		} catch(NoAclException e) {
-			return Response.status(Status.FORBIDDEN).header("Error", "NoAclException").build();
+			throw new MethodNotAllowedException(e);
 		}
 		
 		// Return 201 with location header
@@ -314,7 +314,7 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 			try {
 				saleDao.delete(sale);
 			} catch(NoAclException e) {
-				return Response.status(Status.FORBIDDEN).header("Error", "NoAclException").build();
+				throw new MethodNotAllowedException(e);
 			}
 		}
 		return Response.status(Status.NO_CONTENT).build();

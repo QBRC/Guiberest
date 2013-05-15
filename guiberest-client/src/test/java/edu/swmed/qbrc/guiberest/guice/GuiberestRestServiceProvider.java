@@ -9,43 +9,49 @@ import org.jboss.resteasy.client.ProxyFactory;
 import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.name.Named;
+import edu.swmed.qbrc.auth.cashmac.client.CasHmacRestProvider;
 import edu.swmed.qbrc.auth.cashmac.client.ClientAuthInterceptor;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
 import edu.swmed.qbrc.jacksonate.rest.jackson.JacksonConfigProvider;
 
-public class GuiberestRestServiceProviderRoger implements Provider<GuiberestRestService> {
+public class GuiberestRestServiceProvider implements CasHmacRestProvider<GuiberestRestService> {
 
-	private final String clientId;
-	private final String secret;
 	private final String hostName;
 	private final String restURL;
 	private final JacksonConfigProvider jacksonConfigProvider;
+	final ClientIdentification clientIdentification;
 	
 	@Inject
-	public GuiberestRestServiceProviderRoger(
-							@Named("ClientId-roger") final String clientId,
-							@Named("Secret-roger") final String secret,
+	public GuiberestRestServiceProvider(
 							@Named("HostName") final String hostName,
 							@Named("RestURL") final String restURL,
-							final JacksonConfigProvider jacksonConfigProvider) {
-		this.clientId = clientId;
-		this.secret = secret;
+							final JacksonConfigProvider jacksonConfigProvider,
+							final ClientIdentification clientIdentification) {
 		this.hostName = hostName;
 		this.restURL = restURL;
 		this.jacksonConfigProvider = jacksonConfigProvider;
+		this.clientIdentification = clientIdentification;
 	}
 	
+	@Override
+	public String getClientId() {
+		return clientIdentification.getClientId();
+	}
+	
+	@Override
+	public String getSecret() {
+		return clientIdentification.getSecret();
+	}
+
 	public GuiberestRestService get() {
 		
 		/* Here, we create and configure the Client Interceptor, which will intercept REST requests
 		 * to our RESTEasy service and add the headers for HMAC authentication.
 		 */
 		ClientAuthInterceptor interceptor = new ClientAuthInterceptor();
-		interceptor.setClientId(clientId);
-		interceptor.setSecret(secret);
-		interceptor.setHostName(hostName);			
+		interceptor.setHostName(hostName);
+		interceptor.setProvider(this);
 
 		/* Here, we register the interceptor */
 		ResteasyProviderFactory.getInstance().getClientExecutionInterceptorRegistry().register(interceptor);

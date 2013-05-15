@@ -1,11 +1,9 @@
 package edu.swmed.qbrc.guiberest.app;
 
 import java.util.List;
-import org.jboss.resteasy.client.ClientRequestFactory;
-import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
-import org.jboss.resteasy.spi.ResteasyProviderFactory;
 import org.reflections.Reflections;
-import edu.swmed.qbrc.auth.cashmac.client.ClientAuthInterceptor;
+
+import edu.swmed.qbrc.guiberest.app.guice.GuiberestRestServiceProvider;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Customer;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
@@ -19,27 +17,28 @@ public class App {
 	
 	private static GuiberestRestService guibRestService;
 
-	private static ClientRequestFactory initializeRequests() {
-		ResteasyProviderFactory instance = ResteasyProviderFactory.getInstance();
-		RegisterBuiltin.register(instance);
-		instance.registerProvider(GuiberestRestService.class);
+	private static GuiberestRestService getWebService() {
+		
+		// Get a Jackson provider
 		ReflectionFactory reflectionFactory = new ReflectionFactory();
 		Reflections reflections = new Reflections("edu.swmed.qbrc.guiberest.shared.domain.guiberest");
-		instance.registerProviderInstance(new JacksonConfigProvider(new GuiberestSerializationModule(reflectionFactory, reflections, null))); // For custom serialization/deserialization
-	 
-		ClientRequestFactory clientRequestFactory = new ClientRequestFactory();
-		ClientAuthInterceptor interceptor = new ClientAuthInterceptor();
-		interceptor.setClientId("thomas");
-		interceptor.setSecret("123456789");
-		interceptor.setHostName("127.0.0.1:9090");
-		clientRequestFactory.getPrefixInterceptors().registerInterceptor(interceptor);
-		return clientRequestFactory;
+		JacksonConfigProvider jackson = new JacksonConfigProvider(new GuiberestSerializationModule(reflectionFactory, reflections, null));
+		
+		// Manually instantiate our GuiberestRestServiceProvider (since we're not really using Guice in this test app).
+		GuiberestRestServiceProvider provider = new GuiberestRestServiceProvider(
+				"thomas",
+				"123456789",
+				"127.0.0.1:9090",
+				"http://127.0.0.1:9090",
+				jackson);
+		
+		// Get an instance of the web service from the provider.
+		return provider.get();
 	}	
 
 	public static void main(String[] args) {
-		
-		ClientRequestFactory client = initializeRequests();
-		guibRestService = client.createProxy(GuiberestRestService.class, "http://127.0.0.1:9090/");
+
+		guibRestService = getWebService();
 		
 		IntegerArray customerids = new IntegerArray();
 		customerids.getList().add(21);
@@ -62,7 +61,7 @@ public class App {
 			}
 		}		
 		
-		TableJSONContainer<Sale> tbl = guibRestService.getSalesByCustomer(23);
+		TableJSONContainer<Sale> tbl = guibRestService.getSalesByCustomer(25);
 		if (tbl.getData() != null) {
 			for (Sale sale : tbl.getData()) {
 				System.out.println("Sale: " + sale.getId() + " - " + sale.getCustomerId() + "/" + sale.getStoreId() + " - " + sale.getTotal() + "<br/>");
@@ -70,5 +69,4 @@ public class App {
 		}		
 		
 	}
-
 }

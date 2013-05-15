@@ -5,11 +5,9 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
 import org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
-
 import edu.swmed.qbrc.auth.cashmac.server.acl.utils.CasHmacValidation;
 import edu.swmed.qbrc.auth.cashmac.server.filters.CasHmacRequestFilter;
 import edu.swmed.qbrc.auth.cashmac.server.guice.CasHmacValidationProvider;

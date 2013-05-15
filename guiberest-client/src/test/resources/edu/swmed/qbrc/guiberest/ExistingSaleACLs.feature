@@ -26,9 +26,9 @@ Feature: Existing Sale ACLS
         Then I see the following full sale results:
             | 23 | 35 | 13 |   146.36 |
 
-#    Scenario: Move an existing Sale to a different Store without a READ ACL for the New Store
-#        When I update the following sales I receive a NoAclException:
-#            | 23 | 36 | 13 |   14.66 |
+    Scenario: Move an existing Sale to a different Store without a READ ACL for the New Store
+        When I update the following sales I receive a NoAclException:
+            | 23 | 36 | 13 |   14.66 |
 
     Scenario: Move an existing Sale to a different Store with a valid READ ACL for the New Store
         When I update the following sales:
@@ -38,9 +38,9 @@ Feature: Existing Sale ACLS
         Then I see the following full sale results:
             | 23 | 36 | 11 |   14.66 |
 
-#    Scenario: Move a Sale to a different Customer without a WRITE ACL for the New Customer's Store
-#        When I update the following sales I receive a NoAclException:
-#            | 24 | 36 | 11 |   14.66 |
+    Scenario: Move a Sale to a different Customer without a WRITE ACL for the New Customer's Store
+        When I update the following sales I receive a NoAclException:
+            | 24 | 36 | 11 |   14.66 |
 
     Scenario: Move a Sale to a different Customer with a valid WRITE ACL for the New Customer's Store
         When I update the following sales:

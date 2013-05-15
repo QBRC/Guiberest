@@ -12,6 +12,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.hibernate.JDBCException;
 
+import edu.swmed.qbrc.auth.cashmac.shared.exceptions.AclDeleteException;
+import edu.swmed.qbrc.auth.cashmac.shared.exceptions.BadAclRoleException;
 import edu.swmed.qbrc.auth.cashmac.shared.exceptions.NoAclException;
 import edu.swmed.qbrc.guiberest.shared.domain.BaseEntity;
 import edu.swmed.qbrc.guiberest.shared.domain.Constraint;
@@ -159,6 +161,12 @@ public class BaseDao<T extends BaseEntity> {
     	
     	if (exception.getCause() instanceof NoAclException) {
     		throw (NoAclException) exception.getCause();
+    	}
+    	else if (exception.getCause() instanceof BadAclRoleException) {
+    		throw (BadAclRoleException) exception.getCause();
+    	}
+    	else if (exception.getCause() instanceof AclDeleteException) {
+    		throw (AclDeleteException) exception.getCause();
     	}
     	
     	else if (exception.getCause() instanceof PersistenceException) {
