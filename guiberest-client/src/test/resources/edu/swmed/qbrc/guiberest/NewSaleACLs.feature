@@ -18,14 +18,14 @@ Feature: Create New Sale ACLS
         Then I see the following full sale results:
             | 21 | 50 | 12 |   38.92 |
         And if I check ACLs for sale 50 I see the following ACLs:
-            | read     | thomas | NULL    |
-            | read     | NULL   | audit   |
-            | read     | NULL   | manager |
-            | update   | thomas | NULL    |
-            | update   | NULL   | manager |
-            | delete   | thomas | NULL    |
-            | delete   | NULL   | manager |
-            | DECREASE | NULL   | manager |
+            | read     | thomas | NULL |
+            | read     | NULL   |    8 |
+            | read     | NULL   |   10 |
+            | update   | thomas | NULL |
+            | update   | NULL   |   10 |
+            | delete   | thomas | NULL |
+            | delete   | NULL   |   10 |
+            | DECREASE | NULL   |   10 |
             
     Scenario: Insert Sales without READ ACL to Sales's Store
         When I insert the following sales I receive a NoAclException:

@@ -1,8 +1,11 @@
 package edu.swmed.qbrc.guiberest.dao.guiberest;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Provider;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import edu.swmed.qbrc.guiberest.dao.BaseDao;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.ACL;
 import edu.swmed.qbrc.guiberest.shared.guice.datasources.GuiberestDataSource;
@@ -23,4 +26,21 @@ public class ACLDao extends BaseDao<ACL> {
     public ACLDao(@GuiberestDataSource Provider<EntityManager> entityManagerProvider) {
         super(ACL.class, entityManagerProvider);
     }
+    
+    public List<ACL> getAclsForObject(String className, String pkValue) {
+    	EntityManager entityManager = entityManager();
+	    
+    	//get all relevant patients
+    	Query query = entityManager.createQuery("SELECT a FROM ACL a " +
+    			"WHERE a.objectClass = :class AND a.objectPK = :pk");
+        query.setParameter("class", className);
+        query.setParameter("pk", pkValue);
+		                
+        @SuppressWarnings("unchecked")
+		List<ACL> toReturn = (List<ACL>)query.getResultList();
+        entityManager.clear();
+        
+        return toReturn;
+    	
+    }    
 }

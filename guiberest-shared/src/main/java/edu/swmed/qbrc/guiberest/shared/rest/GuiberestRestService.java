@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 import org.jboss.resteasy.annotations.StringParameterUnmarshallerBinder;
 import org.jboss.resteasy.spi.UnauthorizedException;
 import edu.swmed.qbrc.auth.cashmac.shared.annotations.NoCasAuth;
+import edu.swmed.qbrc.guiberest.shared.domain.guiberest.ACL;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Customer;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store;
@@ -53,6 +54,12 @@ public interface GuiberestRestService {
 	@Path("/datapackage.json")
 	@Produces("application/json")
 	public DataPackage getDataPackage();
+	
+	@RolesAllowed({ "Guiberest-Writer" })
+	@GET
+	@Path("/acl")
+	@Produces("application/json")
+	public TableJSONContainer<ACL> getAcls(@QueryParam("class") String className, @QueryParam("pk") String pkValue);
 
 	@RolesAllowed({}) // Allow everyone to see store information.
 	@GET

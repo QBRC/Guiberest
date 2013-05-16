@@ -17,6 +17,7 @@ import com.google.inject.Inject;
 import edu.swmed.qbrc.auth.cashmac.server.acl.utils.CasHmacValidation;
 import edu.swmed.qbrc.auth.cashmac.shared.constants.CasHmacAccessLevels;
 import edu.swmed.qbrc.auth.cashmac.shared.exceptions.NoAclException;
+import edu.swmed.qbrc.guiberest.dao.guiberest.ACLDao;
 import edu.swmed.qbrc.guiberest.dao.guiberest.CustomerDao;
 import edu.swmed.qbrc.guiberest.dao.guiberest.SaleDao;
 import edu.swmed.qbrc.guiberest.dao.guiberest.StoreDao;
@@ -24,6 +25,7 @@ import edu.swmed.qbrc.guiberest.rest.util.EntityIntrospector;
 import edu.swmed.qbrc.guiberest.rest.util.EntityLoader;
 import edu.swmed.qbrc.guiberest.shared.domain.Constraint;
 import edu.swmed.qbrc.guiberest.shared.domain.Constraint.Operator;
+import edu.swmed.qbrc.guiberest.shared.domain.guiberest.ACL;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Customer;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store;
@@ -35,6 +37,8 @@ import edu.swmed.qbrc.jacksonate.rest.util.IntegerArray;
  
 public class GuiberestRestServiceImpl implements GuiberestRestService{
  
+	@Inject
+	ACLDao aclDao;
 	@Inject
 	StoreDao storeDao;
 	@Inject
@@ -48,6 +52,18 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 
 	public DataPackage getDataPackage() {
 		return new DataPackage("Guiberest Test", "Guiberest Test Title", "Guiberest Test Description");
+	}
+	
+	public TableJSONContainer<ACL> getAcls(@QueryParam("class") String className, @QueryParam("pk") String pkValue) {
+		try {
+			return new TableJSONContainer<ACL>(ACL.class, aclDao.getAclsForObject(className, pkValue));
+		} catch(NoResultException e) {
+			throw new BadRequestException("Invalid ACL query provided -- no such ACLs.");
+		} catch(PersistenceException e) {
+			throw new BadRequestException(e.getMessage());
+		} catch(NoAclException e) {
+			throw new UnauthorizedException(e);
+		}
 	}
 
 	@SuppressWarnings("rawtypes")
