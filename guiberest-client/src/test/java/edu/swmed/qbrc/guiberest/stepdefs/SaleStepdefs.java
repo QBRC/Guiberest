@@ -39,6 +39,26 @@ public class SaleStepdefs {
     	resultsCache = guiberestRestService.getSales(idArray);
     }
 
+    @When("^I request sales for the following sale ids as a guest I'm denied:$")
+    public void I_request_sales_for_the_following_sale_ids_as_a_guest_I_m_denied(DataTable ids) throws Throwable {
+    	clientIdentification.setGuest();
+    	final IntegerArray idArray = new IntegerArray();
+    	Boolean got403 = false;
+    	for (DataTableRow row : ids.getGherkinRows()) {
+    		idArray.getList().add(Integer.parseInt(row.getCells().get(0)));
+    	}
+    	try {
+    		resultsCache = guiberestRestService.getSales(idArray);
+    	} catch (ClientResponseFailure e) {
+    		if (e.getResponse().getStatus() == 403) {
+    			got403 = true;
+    		}
+    	} finally {
+        	clientIdentification.setThomas();
+    	}
+    	Assert.assertTrue(got403);
+    }
+
     @When("^I request sales for the (\\d+) customer$")
     public void I_request_sales_with_the_following_customer(Integer customerId) throws Throwable {
     	clientIdentification.setThomas();

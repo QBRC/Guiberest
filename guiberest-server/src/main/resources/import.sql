@@ -2,6 +2,7 @@ insert into users (id, password, secret) values ('thomas', 'password', '12345678
 insert into users (id, password, secret) values ('roger', 'password', '987654321');
 insert into users (id, password, secret) values ('irsauditer', 'password', '2145551212');
 insert into users (id, password, secret) values ('sean', 'password', '3015551212');
+insert into users (id, password, secret) values ('guest', 'password', '9125551212');
 
 insert into roles (id, username, role) values (1, 'thomas', 'admin');
 insert into roles (id, username, role) values (3, 'thomas', 'Guiberest-Reader');
@@ -13,6 +14,7 @@ insert into roles (id, username, role) values (8, 'irsauditer', 'audit');
 insert into roles (id, username, role) values (9, 'irsauditer', 'Guiberest-Reader');
 insert into roles (id, username, role) values (10, 'sean', 'manager');
 insert into roles (id, username, role) values (11, 'sean', 'Guiberest-Writer');
+insert into roles (id, username, role) values (12, 'guest', 'limited');
 
 insert into acl (id, username, role_id, access, class, pk) values (1,  'thomas', null, 'update', 'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store', '11');
 insert into acl (id, username, role_id, access, class, pk) values (2,  'thomas', null, 'read',  'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store', '11');

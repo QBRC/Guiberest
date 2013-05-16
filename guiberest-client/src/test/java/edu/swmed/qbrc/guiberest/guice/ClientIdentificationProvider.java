@@ -17,10 +17,12 @@ public class ClientIdentificationProvider implements Provider<ClientIdentificati
 			@Named("ClientId-sean") final String sean,
 			@Named("Secret-sean") final String ssean,
 			@Named("ClientId-irsauditer") final String irsauditer,
-			@Named("Secret-irsauditer") final String sirsauditer
+			@Named("Secret-irsauditer") final String sirsauditer,
+			@Named("ClientId-guest") final String guest,
+			@Named("Secret-guest") final String sguest
 	) {
 		if (cid == null) {
-			cid = new ClientIdentification(thomas, sthomas, roger, sroger, sean, ssean, irsauditer, sirsauditer);
+			cid = new ClientIdentification(thomas, sthomas, roger, sroger, sean, ssean, irsauditer, sirsauditer, guest, sguest);
 		}
 	}
 	

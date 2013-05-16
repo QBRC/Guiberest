@@ -13,6 +13,8 @@ public class ClientIdentification {
 	private String ssean;
 	private String irsauditer;
 	private String sirsauditer;
+	private String guest;
+	private String sguest;
 	
 	public ClientIdentification(
 			final String thomas,
@@ -22,7 +24,9 @@ public class ClientIdentification {
 			final String sean,
 			final String ssean,
 			final String irsauditer,
-			final String sirsauditer
+			final String sirsauditer,
+			final String guest,
+			final String sguest
 	) {
 		this.thomas = thomas;
 		this.sthomas = sthomas;
@@ -32,6 +36,8 @@ public class ClientIdentification {
 		this.ssean = ssean;
 		this.irsauditer = irsauditer;
 		this.sirsauditer = sirsauditer;
+		this.guest = guest;
+		this.sguest = sguest;
 		this.setThomas(); // Default to Thomas user
 	}
 	
@@ -50,6 +56,10 @@ public class ClientIdentification {
 	public void setIrsAuditer() {
 		setClientId(irsauditer);
 		setSecret(sirsauditer);
+	}
+	public void setGuest() {
+		setClientId(guest);
+		setSecret(sguest);
 	}
 	
 	public String getClientId() {

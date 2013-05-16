@@ -30,6 +30,7 @@ public class CustomerStepdefs {
 	
     @When("^I request customers with the following customer ids:$")
     public void I_request_customers_with_the_following_customer_ids(DataTable ids) throws Throwable {
+    	clientIdentification.setThomas();
     	final IntegerArray idArray = new IntegerArray();
     	for (DataTableRow row : ids.getGherkinRows()) {
     		idArray.getList().add(Integer.parseInt(row.getCells().get(0)));
