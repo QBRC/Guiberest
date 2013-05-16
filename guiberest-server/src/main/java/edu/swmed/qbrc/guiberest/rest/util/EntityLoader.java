@@ -1,6 +1,8 @@
 package edu.swmed.qbrc.guiberest.rest.util;
 
 import org.jboss.resteasy.spi.BadRequestException;
+
+import edu.swmed.qbrc.auth.cashmac.shared.exceptions.NoAclException;
 import edu.swmed.qbrc.guiberest.dao.BaseDao;
 import edu.swmed.qbrc.guiberest.shared.domain.BaseEntity;
 
@@ -19,6 +21,8 @@ public class EntityLoader<T extends BaseEntity> {
 		if (object != null) {
 			try {
 				out = (T)baseDao.find(object);
+			} catch (NoAclException e) {
+				throw e;
 			} catch (Exception any) {
 				throw new BadRequestException("Exception while loading object of type " + clazz.getName());
 			}
@@ -32,6 +36,8 @@ public class EntityLoader<T extends BaseEntity> {
 		if (object != null) {
 			try {
 				out = (T)baseDao.find(object);
+			} catch (NoAclException e) {
+				throw e;
 			} catch (Exception any) {
 				throw new BadRequestException("Exception while loading object of type " + clazz.getName());
 			}

@@ -22,6 +22,9 @@ public class GuiberestRestServiceProvider implements CasHmacRestProvider<Guibere
 	private final JacksonConfigProvider jacksonConfigProvider;
 	final ClientIdentification clientIdentification;
 	
+	private static GuiberestRestService guiberestRestService;
+
+	
 	@Inject
 	public GuiberestRestServiceProvider(
 							@Named("HostName") final String hostName,
@@ -46,26 +49,31 @@ public class GuiberestRestServiceProvider implements CasHmacRestProvider<Guibere
 
 	public GuiberestRestService get() {
 		
-		/* Here, we create and configure the Client Interceptor, which will intercept REST requests
-		 * to our RESTEasy service and add the headers for HMAC authentication.
-		 */
-		ClientAuthInterceptor interceptor = new ClientAuthInterceptor();
-		interceptor.setHostName(hostName);
-		interceptor.setProvider(this);
-
-		/* Here, we register the interceptor */
-		ResteasyProviderFactory.getInstance().getClientExecutionInterceptorRegistry().register(interceptor);
+		if (guiberestRestService == null) { 
 		
-		// And the Jackson (de)serialization provider
-		ResteasyProviderFactory.getInstance().registerProviderInstance(jacksonConfigProvider);
+			/* Here, we create and configure the Client Interceptor, which will intercept REST requests
+			 * to our RESTEasy service and add the headers for HMAC authentication.
+			 */
+			ClientAuthInterceptor interceptor = new ClientAuthInterceptor();
+			interceptor.setHostName(hostName);
+			interceptor.setProvider(this);
+	
+			/* Here, we register the interceptor */
+			ResteasyProviderFactory.getInstance().getClientExecutionInterceptorRegistry().register(interceptor);
+			
+			// And the Jackson (de)serialization provider
+			ResteasyProviderFactory.getInstance().registerProviderInstance(jacksonConfigProvider);
+			
+			/* Here, we return the MessageRestService.  If we didn't need the custom executor, we could
+			 * simply skip the "executor" parameter. 
+			 */
+			ClientConnectionManager cm = new ThreadSafeClientConnManager();
+			HttpClient httpClient = new DefaultHttpClient(cm);
+			ClientExecutor executor = new ApacheHttpClient4Executor(httpClient);
+			guiberestRestService = ProxyFactory.create(GuiberestRestService.class, restURL, executor);
+		}
 		
-		/* Here, we return the MessageRestService.  If we didn't need the custom executor, we could
-		 * simply skip the "executor" parameter. 
-		 */
-		ClientConnectionManager cm = new ThreadSafeClientConnManager();
-		HttpClient httpClient = new DefaultHttpClient(cm);
-		ClientExecutor executor = new ApacheHttpClient4Executor(httpClient);
-		return ProxyFactory.create(GuiberestRestService.class, restURL, executor);
+		return guiberestRestService;
 	}
 	
 }

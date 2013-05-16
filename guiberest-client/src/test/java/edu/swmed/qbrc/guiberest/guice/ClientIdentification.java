@@ -1,8 +1,5 @@
 package edu.swmed.qbrc.guiberest.guice;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
-
 public class ClientIdentification {
 
 	private String clientId;
@@ -17,16 +14,15 @@ public class ClientIdentification {
 	private String irsauditer;
 	private String sirsauditer;
 	
-	@Inject
 	public ClientIdentification(
-			@Named("ClientId-thomas") final String thomas,
-			@Named("Secret-thomas") final String sthomas,
-			@Named("ClientId-roger") final String roger,
-			@Named("Secret-roger") final String sroger,
-			@Named("ClientId-sean") final String sean,
-			@Named("Secret-sean") final String ssean,
-			@Named("ClientId-irsauditer") final String irsauditer,
-			@Named("Secret-irsauditer") final String sirsauditer
+			final String thomas,
+			final String sthomas,
+			final String roger,
+			final String sroger,
+			final String sean,
+			final String ssean,
+			final String irsauditer,
+			final String sirsauditer
 	) {
 		this.thomas = thomas;
 		this.sthomas = sthomas;
@@ -36,6 +32,7 @@ public class ClientIdentification {
 		this.ssean = ssean;
 		this.irsauditer = irsauditer;
 		this.sirsauditer = sirsauditer;
+		this.setThomas(); // Default to Thomas user
 	}
 	
 	public void setThomas() {

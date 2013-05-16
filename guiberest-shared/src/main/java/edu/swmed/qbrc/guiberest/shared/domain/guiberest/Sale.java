@@ -28,9 +28,9 @@ public class Sale implements Comparable, BaseEntity {
 	@Id
 	@CasHmacPKField
 	@CasHmacWriteAcl({
-		@CasHmacWriteAclParameter(access=CasHmacAccessLevels.READ, roles={}),
+		@CasHmacWriteAclParameter(access=CasHmacAccessLevels.READ, roles={ "SELF", "audit", "manager" }),
 		@CasHmacWriteAclParameter(access=CasHmacAccessLevels.UPDATE, roles={}),
-		@CasHmacWriteAclParameter(access=CasHmacAccessLevels.READ, roles={ "audit" }),
+		@CasHmacWriteAclParameter(access=CasHmacAccessLevels.UPDATE, roles={ "manager" }),
 		@CasHmacWriteAclParameter(access=CasHmacAccessLevels.DELETE, roles={ "SELF", "manager" }),
 		@CasHmacWriteAclParameter(access="DECREASE", roles={ "manager" })
 	})

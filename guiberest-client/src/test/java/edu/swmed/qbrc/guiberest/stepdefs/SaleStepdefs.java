@@ -31,6 +31,7 @@ public class SaleStepdefs {
 	
     @When("^I request sales for the following sale ids:$")
     public void I_request_sales_with_the_following_sale_ids(DataTable ids) throws Throwable {
+    	clientIdentification.setThomas();
     	final IntegerArray idArray = new IntegerArray();
     	for (DataTableRow row : ids.getGherkinRows()) {
     		idArray.getList().add(Integer.parseInt(row.getCells().get(0)));
@@ -40,11 +41,13 @@ public class SaleStepdefs {
 
     @When("^I request sales for the (\\d+) customer$")
     public void I_request_sales_with_the_following_customer(Integer customerId) throws Throwable {
+    	clientIdentification.setThomas();
     	resultsCache = guiberestRestService.getSalesByCustomer(customerId);
     }
 
     @Then("^I see the following full sale results:$")
     public void I_see_the_following_full_sale_results(DataTable results) throws Throwable {
+    	clientIdentification.setThomas();
     	for (DataTableRow row : results.getGherkinRows()) {
     		Boolean bFound = false;
     		for (Sale sale : resultsCache.getData()) {
@@ -71,6 +74,8 @@ public class SaleStepdefs {
     @SuppressWarnings("unchecked")
     @When("^I insert the following sales:$")
     public void I_insert_the_following_sales(DataTable inserts) throws Throwable {
+		System.out.println("Will now insert sales...");
+    	clientIdentification.setThomas();
     	insertIdCache.getList().clear();
     	for (DataTableRow row : inserts.getGherkinRows()) {
     		ClientResponse<String> response = (ClientResponse<String>)guiberestRestService.putSale(
@@ -83,11 +88,13 @@ public class SaleStepdefs {
     		System.out.println("Inserted Sale with ID: " + id);
     		insertIdCache.getList().add(id);
     	}
+		System.out.println("Done inserting sales...");
     }
 
     @SuppressWarnings("unchecked")
     @When("^I update the following sales:$")
     public void I_update_the_following_sales(DataTable inserts) throws Throwable {
+    	clientIdentification.setThomas();
     	insertIdCache.getList().clear();
     	for (DataTableRow row : inserts.getGherkinRows()) {
     		ClientResponse<String> response = (ClientResponse<String>)guiberestRestService.putSale(
@@ -105,6 +112,7 @@ public class SaleStepdefs {
     @SuppressWarnings("unused")
 	@When("^I delete the following sales:$")
     public void I_delete_the_following_sales(DataTable deletes) throws Throwable {
+    	clientIdentification.setThomas();
     	insertIdCache.getList().clear();
     	for (DataTableRow row : deletes.getGherkinRows()) {
     		Response response = guiberestRestService.deleteSale(
@@ -121,6 +129,7 @@ public class SaleStepdefs {
     
     @When("^I request sales for the following sale ids I receive a NoAclException:$")
     public void I_request_sales_for_the_following_sale_ids_I_receive_a_NoAclException(DataTable ids) throws Throwable {
+    	clientIdentification.setThomas();
     	Boolean error = false;
     	final IntegerArray idArray = new IntegerArray();
     	for (DataTableRow row : ids.getGherkinRows()) {
@@ -139,20 +148,23 @@ public class SaleStepdefs {
 
 	@When("^I update the following sales I receive a NoAclException:$")
     public void I_update_the_following_sales_I_receive_a_NoAclException(DataTable inserts) throws Throwable {
+    	clientIdentification.setThomas();
 		insertIdCache.getList().clear();
     	for (DataTableRow row : inserts.getGherkinRows()) {
-    		Response response = guiberestRestService.putSale(
+    		ClientResponse<?> response = (ClientResponse<?>)guiberestRestService.putSale(
     				Integer.parseInt(row.getCells().get(1).trim()),
     				Integer.parseInt(row.getCells().get(2).trim()),
     				Integer.parseInt(row.getCells().get(0).trim()),
     				Float.parseFloat(row.getCells().get(3).trim())
     		);
-	    	Assert.assertTrue(response.getStatus() == 405); // Forbidden
+	    	Assert.assertTrue(response.getStatus() == 401); // Forbidden
+	    	response.releaseConnection();
     	}
     }
 
 	@When("^I request sales with preauthorization for the following sale ids:$")
 	public void I_request_sales_with_preauthorization_for_the_following_sale_ids(DataTable ids) throws Throwable {
+    	clientIdentification.setThomas();
     	final IntegerArray idArray = new IntegerArray();
     	for (DataTableRow row : ids.getGherkinRows()) {
     		idArray.getList().add(Integer.parseInt(row.getCells().get(0)));
@@ -162,17 +174,35 @@ public class SaleStepdefs {
 
 	@Then("^if I check ACLs for sale (\\d+) I see the following ACLs:$")
 	public void if_I_check_ACLs_for_sale_I_see_the_following_ACLs(int sale, DataTable acls) throws Throwable {
+    	clientIdentification.setThomas();
 		//TODO Add code
 	}
 
 	@When("^I request sales as user irsauditer for the following sale ids:$")
 	public void I_request_sales_as_user_irsauditer_for_the_following_sale_ids(DataTable ids) throws Throwable {
+    	clientIdentification.setIrsAuditer();
     	final IntegerArray idArray = new IntegerArray();
     	for (DataTableRow row : ids.getGherkinRows()) {
     		idArray.getList().add(Integer.parseInt(row.getCells().get(0)));
     	}
-    	clientIdentification.setIrsAuditer();
     	resultsCache = guiberestRestService.getSales(idArray);
+	}
+
+	@When("^I update the following sales as the roger user I receive a NoAclException:$")
+	public void I_update_the_following_sales_as_the_roger_user(DataTable inserts) throws Throwable {
+    	insertIdCache.getList().clear();
+    	clientIdentification.setRoger();
+    	for (DataTableRow row : inserts.getGherkinRows()) {
+    		ClientResponse<?> response = (ClientResponse<?>)guiberestRestService.putSale(
+    				Integer.parseInt(row.getCells().get(1).trim()),
+    				Integer.parseInt(row.getCells().get(2).trim()),
+    				Integer.parseInt(row.getCells().get(0).trim()),
+    				Float.parseFloat(row.getCells().get(3).trim())
+    		);
+    		System.out.println("Response from updating sale as Roger: " + response.getStatus());
+    		Assert.assertTrue(response.getStatus() == 401);
+    		response.releaseConnection();
+    	}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -207,32 +237,37 @@ public class SaleStepdefs {
 
 	@Then("^if I check ACLs for sale (\\d+) I see no more than (\\d+) ACL results.$")
 	public void if_I_check_ACLs_for_sale_I_see_no_more_than_ACL_results(int sale, int results) throws Throwable {
+    	clientIdentification.setThomas();
 		//TODO Add code
 	}	
 	
 	@When("^I insert the following sales I receive a NoAclException:$")
 	public void I_insert_the_following_sales_I_receive_a_NoAclException(DataTable inserts) throws Throwable {
+    	clientIdentification.setThomas();
     	insertIdCache.getList().clear();
     	for (DataTableRow row : inserts.getGherkinRows()) {
-    		Response response = guiberestRestService.putSale(
+    		ClientResponse<?> response = (ClientResponse<?>)guiberestRestService.putSale(
     				Integer.parseInt(row.getCells().get(1).trim()),
     				Integer.parseInt(row.getCells().get(2).trim()),
     				Integer.parseInt(row.getCells().get(0).trim()),
     				Float.parseFloat(row.getCells().get(3).trim())
     		);
-    		Assert.assertTrue(response.getStatus() == 405);
+    		System.out.println("Response from inserting sale: " + response.getStatus());
+    		Assert.assertTrue(response.getStatus() == 401);
+    		response.releaseConnection();
     	}
 	}
 
 	@When("^I request sales as user roger for the following sale ids I receive a NoAclException:$")
 	public void I_request_sales_as_user_roger_for_the_following_sale_ids_I_receive_a_NoAclException(DataTable ids) throws Throwable {
+		System.out.println("Will now be running as roger...");
+		clientIdentification.setRoger();
     	Boolean error = false;
     	final IntegerArray idArray = new IntegerArray();
     	for (DataTableRow row : ids.getGherkinRows()) {
     		idArray.getList().add(Integer.parseInt(row.getCells().get(0)));
     	}
     	try {
-    		clientIdentification.setRoger();
     		resultsCache = guiberestRestService.getSales(idArray);
     	} catch (ClientResponseFailure e) {
     		error = true;
@@ -241,17 +276,19 @@ public class SaleStepdefs {
     		System.out.println("Found sales in error:");
     	}
     	Assert.assertTrue(error);
+    	System.out.println("Done running as roger...");
 	}
 
 	@When("^I delete the following sales as the roger user I receive a NoAclException:$")
 	public void I_delete_the_following_sales_as_the_roger_user_I_receive_a_NoAclException(DataTable deletes) throws Throwable {
-    	insertIdCache.getList().clear();
 		clientIdentification.setRoger();
+    	insertIdCache.getList().clear();
     	for (DataTableRow row : deletes.getGherkinRows()) {
-    		Response response = guiberestRestService.deleteSale(
+    		ClientResponse<?> response = (ClientResponse<?>)guiberestRestService.deleteSale(
     				Integer.parseInt(row.getCells().get(0).trim())
     		);
-    		Assert.assertTrue(response.getStatus() == 405);
+    		Assert.assertTrue(response.getStatus() == 401);
+    		response.releaseConnection();
     	}
 	}	
 	

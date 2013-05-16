@@ -50,7 +50,10 @@ public class BaseDao<T extends BaseEntity> {
 	    	
 	    	toReturn = entityManager.createQuery(cq).getResultList();
         } catch (PersistenceException e) {
-            throw e;
+        	if (e.getCause() instanceof NoAclException)
+        		throw (NoAclException) e.getCause();
+        	else
+        		throw e;
         } catch (JDBCException e) {
             throw e;
         } catch(RuntimeException e){
@@ -65,7 +68,16 @@ public class BaseDao<T extends BaseEntity> {
     public T find(Object id) {
         EntityManager entityManager = entityManager();
         
-    	T toReturn = entityManager.find(clazz, id);
+        T toReturn;
+        try {
+        	toReturn = entityManager.find(clazz, id);
+        } catch (PersistenceException e) {
+        	if (e.getCause() instanceof NoAclException)
+        		throw (NoAclException) e.getCause();
+        	else
+        		throw e;
+    	}
+    	
     	entityManager.clear();
     	return(toReturn);
     }

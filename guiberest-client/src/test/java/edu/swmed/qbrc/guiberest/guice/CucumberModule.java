@@ -15,7 +15,7 @@ import edu.swmed.qbrc.jacksonate.rest.jackson.ReflectionFactory;
 import edu.swmed.qbrc.jacksonate.rest.jackson.RestBaseUrl;
 
 public class CucumberModule extends AbstractModule {
-    
+
 	@Override
     protected void configure() {
 		
@@ -26,18 +26,6 @@ public class CucumberModule extends AbstractModule {
 		bind(Reflections.class).toInstance(new Reflections("edu.swmed.qbrc.lcdb.shared.domain.lcdb"));
 
 		// Support multiple users
-		ClientIdentificationProvider.setInstance(
-				new ClientIdentification(
-						props.getProperty("ClientId-thomas"),
-						props.getProperty("Secret-thomas"),
-						props.getProperty("ClientId-roger"),
-						props.getProperty("Secret-roger"),
-						props.getProperty("ClientId-sean"),
-						props.getProperty("Secret-sean"),
-						props.getProperty("ClientId-irsauditer"),
-						props.getProperty("Secret-irsauditer")
-				)
-		);
 		bind(ClientIdentification.class).toProvider(ClientIdentificationProvider.class).in(Singleton.class);
 		
 		// Bind the RestBaseUrl class to an instance with the property for the base URL

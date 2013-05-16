@@ -12,7 +12,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import org.jboss.resteasy.spi.BadRequestException;
-import org.jboss.resteasy.spi.MethodNotAllowedException;
+import org.jboss.resteasy.spi.UnauthorizedException;
 import com.google.inject.Inject;
 import edu.swmed.qbrc.auth.cashmac.server.acl.utils.CasHmacValidation;
 import edu.swmed.qbrc.auth.cashmac.shared.constants.CasHmacAccessLevels;
@@ -60,7 +60,7 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 		} catch(PersistenceException e) {
 			throw new BadRequestException(e.getMessage());
 		} catch(NoAclException e) {
-			throw new MethodNotAllowedException(e);
+			throw new UnauthorizedException(e);
 		}
 	}
 	@SuppressWarnings("rawtypes")
@@ -74,7 +74,7 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 		} catch(PersistenceException e) {
 			throw new BadRequestException(e.getMessage());
 		} catch(NoAclException e) {
-			throw new MethodNotAllowedException(e);
+			throw new UnauthorizedException(e);
 		}
 	}
 
@@ -88,7 +88,12 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 	private Response putStore(Store store) {
 
 		// Set up object
-		Store storeFound = new EntityLoader<Store>(Store.class, storeDao).findOrNull(store.getId());
+		Store storeFound;
+		try {
+			storeFound = new EntityLoader<Store>(Store.class, storeDao).findOrNull(store.getId());
+		} catch (NoAclException e) {
+			throw new UnauthorizedException(e);
+		}
 
 		// Create new object, if not found
 		if (storeFound == null)
@@ -102,7 +107,7 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 		try {
 			storeNew = storeDao.put(storeFound);
 		} catch(NoAclException e) {
-			throw new MethodNotAllowedException(e);
+			throw new UnauthorizedException(e);
 		}
 		
 		// Return 201 with location header
@@ -122,12 +127,18 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 	
 
 	public Response deleteStore(@PathParam("param") Integer storeId) {
-		Store store = storeDao.find(storeId);
+		Store store;
+		try {
+			store = storeDao.find(storeId);
+		} catch (NoAclException e) {
+			throw new UnauthorizedException(e);
+		}
+		
 		if (store != null) {
 			try {
 				storeDao.delete(store);
 			} catch(NoAclException e) {
-				throw new MethodNotAllowedException(e);
+				throw new UnauthorizedException(e);
 			}
 		}
 		return Response.status(Status.NO_CONTENT).build();
@@ -143,7 +154,7 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 		} catch(PersistenceException e) {
 			throw new BadRequestException(e.getMessage());
 		} catch(NoAclException e) {
-			throw new MethodNotAllowedException(e);
+			throw new UnauthorizedException(e);
 		}
 	}
 
@@ -158,7 +169,7 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 		} catch(PersistenceException e) {
 			throw new BadRequestException(e.getMessage());
 		} catch(NoAclException e) {
-			throw new MethodNotAllowedException(e);
+			throw new UnauthorizedException(e);
 		}
 	}
 
@@ -173,7 +184,12 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 	private Response putCustomer(Customer customer) {
 
 		// Set up object
-		Customer customerFound = new EntityLoader<Customer>(Customer.class, customerDao).findOrNull(customer.getId());
+		Customer customerFound;
+		try {
+			customerFound = new EntityLoader<Customer>(Customer.class, customerDao).findOrNull(customer.getId());
+		} catch (NoAclException e) {
+			throw new UnauthorizedException(e);
+		}
 
 		// Create new object, if not found
 		if (customerFound == null)
@@ -187,7 +203,7 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 		try {
 			customerNew = customerDao.put(customerFound);
 		} catch(NoAclException e) {
-			throw new MethodNotAllowedException(e);
+			throw new UnauthorizedException(e);
 		}
 		
 		// Return 201 with location header
@@ -206,12 +222,18 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 	}
 	
 	public Response deleteCustomer(@PathParam("param") Integer customerId) {
-		Customer customer = customerDao.find(customerId);
+		Customer customer;
+		try {
+			customer = customerDao.find(customerId);
+		} catch (NoAclException e) {
+			throw new UnauthorizedException(e);
+		}
+		
 		if (customer != null) {
 			try {
 				customerDao.delete(customer);
 			} catch(NoAclException e) {
-				throw new MethodNotAllowedException(e);
+				throw new UnauthorizedException(e);
 			}
 		}
 		return Response.status(Status.NO_CONTENT).build();
@@ -225,7 +247,7 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 	public TableJSONContainer<Sale> getSalesWithPreAuth(@PathParam("param") @IntegerArrayAnnot IntegerArray ids) {
 		for (Integer id : ids.getList()) {
 			if (! casHmacValidation.preAuthAcl(CasHmacAccessLevels.READ, Sale.class, id, null))
-				throw new MethodNotAllowedException(new NoAclException("No ACL for Sale/s."));
+				throw new UnauthorizedException(new NoAclException("No ACL for Sale/s."));
 		}
 		return getSales(ids);
 	}
@@ -241,7 +263,7 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 		} catch(PersistenceException e) {
 			throw new BadRequestException(e.getMessage());
 		} catch(NoAclException e) {
-			throw new MethodNotAllowedException(e);
+			throw new UnauthorizedException(e);
 		}
 	}
 
@@ -253,11 +275,11 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 		} catch(PersistenceException e) {
 			throw new BadRequestException(e.getMessage());
 		} catch(NoAclException e) {
-			throw new MethodNotAllowedException(e);
+			throw new UnauthorizedException(e);
 		}
 	}
 
-	public Response putSale(@PathParam("param") Integer saleId,	@QueryParam("storeId") Integer storeId, @QueryParam("customerId") Integer customerId, @QueryParam("total") Float total) {
+	public Response putSale(@PathParam("param") Integer saleId,	@QueryParam("storeId") Integer storeId, @QueryParam("customerId") Integer customerId, @QueryParam("total") Float total) throws UnauthorizedException {
 		Sale sale = new Sale();
 		sale.setId(saleId);
 		sale.setStoreId(storeId);
@@ -269,12 +291,17 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 	private Response putSale(Sale sale) {
 
 		// Set up object
-		Sale saleFound = new EntityLoader<Sale>(Sale.class, saleDao).findOrNull(sale.getId());
+		Sale saleFound;
+		try {
+			saleFound = new EntityLoader<Sale>(Sale.class, saleDao).findOrNull(sale.getId());
+		} catch (NoAclException e) {
+			throw new UnauthorizedException(e);
+		}
 
 		// If we're updating an existing sale, check for special ACL
 		if (saleFound != null && sale.getTotal() < saleFound.getTotal()) {
 			if (!casHmacValidation.verifyAcl("DECREASE", Sale.class, sale.getId(), null)) {
-				throw new MethodNotAllowedException(new NoAclException("No ACL for DECREASE"));
+				throw new UnauthorizedException(new NoAclException("No ACL for DECREASE"));
 			}
 		}
 		
@@ -290,7 +317,7 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 		try {
 			saleNew = saleDao.put(saleFound);
 		} catch(NoAclException e) {
-			throw new MethodNotAllowedException(e);
+			throw new UnauthorizedException(e);
 		}
 		
 		// Return 201 with location header
@@ -309,12 +336,18 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 	}
 
 	public Response deleteSale(@PathParam("param") Integer saleId) {
-		Sale sale = saleDao.find(saleId);
+		Sale sale;
+		try {
+			sale = saleDao.find(saleId);
+		} catch (NoAclException e) {
+			throw new UnauthorizedException(e);
+		}
+		
 		if (sale != null) {
 			try {
 				saleDao.delete(sale);
 			} catch(NoAclException e) {
-				throw new MethodNotAllowedException(e);
+				throw new UnauthorizedException(e);
 			}
 		}
 		return Response.status(Status.NO_CONTENT).build();
