@@ -49,7 +49,7 @@ git clone https://github.com/QBRC/Guiberest.git
 Compile the Guiberest library
 ```bash
 cd Guiberest/
-mvn clean install  
+mvn clean package  
 ```
 
 Start the sample RESTful Web service (leave this one up and running)
@@ -67,11 +67,12 @@ mvn exec:java
 
 You should see this output from the sample application (you may also see some CasHmac messages regarding HMAC).
 ```bash
-User: thomas
-User: roger
-
-Role: admin
-Role: manager
+Customer: 21 - Maurice Mango<br/>
+Customer: 23 - Chloe Stanley<br/>
+Sale: 32 - 22/11 - 59.65<br/>
+Sale: 33 - 23/12 - 8.95<br/>
+Sale: 37 - 25/11 - 69.65<br/>
+Sale: 38 - 25/12 - 9.95<br/>
 ```
 
 Run Sample Web application
@@ -83,13 +84,13 @@ mvn jetty:run
 
 Browse to http://127.0.0.1:9091, and you should see the following output
 ```bash
-User: thomas
-User: roger
-Role: admin
-Role: manager
+Customer: 21 - Maurice Mango
+Customer: 23 - Chloe Stanley
+Sale: 37 - 25/11 - 69.65
+Sale: 38 - 25/12 - 9.95
 ```
 
-You can also run the integration tests from the client:
+You can also run the comprehensive integration tests from the client:
 ```bash
 cd guiberest-client
 mvn integration-test
@@ -97,7 +98,7 @@ mvn integration-test
 
 Above the "BUILD SUCCESS" message, you should see some output like:
 ```bash
-Tests run: 10, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 150, Failures: 0, Errors: 0, Skipped: 0
 ```
 
 Modules
