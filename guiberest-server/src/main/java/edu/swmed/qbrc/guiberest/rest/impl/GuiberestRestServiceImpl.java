@@ -34,6 +34,7 @@ import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage;
 import edu.swmed.qbrc.jacksonate.rest.jackson.RestBaseUrl;
 import edu.swmed.qbrc.jacksonate.rest.jackson.TableJSONContainer;
 import edu.swmed.qbrc.jacksonate.rest.util.IntegerArray;
+import edu.swmed.qbrc.jacksonate.rest.util.StringArray;
  
 public class GuiberestRestServiceImpl implements GuiberestRestService{
  
@@ -52,6 +53,28 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 
 	public DataPackage getDataPackage() {
 		return new DataPackage("Guiberest Test", "Guiberest Test Title", "Guiberest Test Description");
+	}
+	
+	public Response addAcl(@QueryParam("access") String access,	@QueryParam("class") String objectClass, @QueryParam("pk") String pk, @QueryParam("roles") StringArray roles) {
+		try {
+			casHmacValidation.addAcl(access, Class.forName(objectClass), pk, roles.getList().toArray(new String[0]));
+		} catch (ClassNotFoundException e) {
+			throw new BadRequestException("Bad Class Name");
+		} catch (Exception e) {
+			throw new BadRequestException(e);
+		}
+		return Response.status(Status.CREATED).build();
+	}
+	
+	public Response deleteAcl(@QueryParam("access") String access, @QueryParam("class") String objectClass, @QueryParam("pk") String pk, @QueryParam("roles") StringArray roles) {
+		try {
+			casHmacValidation.deleteAcl(access, Class.forName(objectClass), pk, roles.getList().toArray(new String[0]));
+		} catch (ClassNotFoundException e) {
+			throw new BadRequestException("Bad Class Name");
+		} catch (Exception e) {
+			throw new BadRequestException(e);
+		}
+		return Response.status(Status.NO_CONTENT).build();
 	}
 	
 	public TableJSONContainer<ACL> getAcls(@QueryParam("class") String className, @QueryParam("pk") String pkValue) {
@@ -305,7 +328,7 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 	}
 	
 	private Response putSale(Sale sale) {
-
+		
 		// Set up object
 		Sale saleFound;
 		try {
@@ -368,5 +391,4 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 		}
 		return Response.status(Status.NO_CONTENT).build();
 	}
-		
 }

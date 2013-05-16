@@ -22,6 +22,7 @@ import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage;
 import edu.swmed.qbrc.jacksonate.rest.jackson.TableJSONContainer;
 import edu.swmed.qbrc.jacksonate.rest.util.CharArrayUnmarshaller;
 import edu.swmed.qbrc.jacksonate.rest.util.IntegerArray;
+import edu.swmed.qbrc.jacksonate.rest.util.StringArray;
 import edu.swmed.qbrc.guiberest.shared.rest.util.UserIDArrayUnmarshaller;
 import edu.swmed.qbrc.jacksonate.rest.util.IntegerArrayUnmarshaller;
 import edu.swmed.qbrc.jacksonate.rest.util.StringArrayUnmarshaller;
@@ -61,8 +62,20 @@ public interface GuiberestRestService {
 	@Produces("application/json")
 	public TableJSONContainer<ACL> getAcls(@QueryParam("class") String className, @QueryParam("pk") String pkValue);
 
+	@RolesAllowed({ "Guiberest-Writer" })
+	@PUT
+	@Path("/acl")
+	@Produces("application/json")
+	public Response addAcl(@QueryParam("access") String access, @QueryParam("class") String objectClass, @QueryParam("pk") String pk, @QueryParam("roles") StringArray roles);
+
+	@RolesAllowed({ "Guiberest-Writer" })
+	@POST
+	@Path("/acl/delete")
+	@Produces("application/json")
+	public Response deleteAcl(@QueryParam("access") String access, @QueryParam("class") String objectClass, @QueryParam("pk") String pk, @QueryParam("roles") StringArray roles);
+	
 	@RolesAllowed({}) // Allow everyone to see store information.
-	@GET
+	@POST
 	@Path("/store")
 	@Produces("application/json")
 	public TableJSONContainer<Store> getStores();
