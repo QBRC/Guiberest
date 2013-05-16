@@ -41,8 +41,8 @@ public class MyServlet extends HttpServlet {
 		out.append("<p>");
 		
 		IntegerArray customerids = new IntegerArray();
-		customerids.getList().add(1);
-		customerids.getList().add(6);
+		customerids.getList().add(21);
+		customerids.getList().add(23);
 		TableJSONContainer<Customer> tblexp = guibRestService.getCustomers(customerids);
 		List<Customer> customers = tblexp.getData();
 		if (customers != null) {
@@ -51,7 +51,7 @@ public class MyServlet extends HttpServlet {
 			}
 		}
 
-		TableJSONContainer<Sale> tbl = guibRestService.getSalesByCustomer(6);
+		TableJSONContainer<Sale> tbl = guibRestService.getSalesByCustomer(25);
 		if (tbl.getData() != null) {
 			for (Sale sale : tbl.getData()) {
 				out.append("Sale: " + sale.getId() + " - " + sale.getCustomerId() + "/" + sale.getStoreId() + " - " + sale.getTotal() + "<br/>");
