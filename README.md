@@ -49,7 +49,7 @@ git clone https://github.com/QBRC/Guiberest.git
 Compile the Guiberest library
 ```bash
 cd Guiberest/
-mvn clean package  
+mvn clean install  # May Fail
 ```
 
 Start the sample RESTful Web service (leave this one up and running)
