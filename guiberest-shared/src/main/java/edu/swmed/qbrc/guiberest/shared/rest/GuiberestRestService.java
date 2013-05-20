@@ -12,7 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import org.jboss.resteasy.annotations.StringParameterUnmarshallerBinder;
-import org.jboss.resteasy.spi.UnauthorizedException;
+import org.jboss.resteasy.spi.MethodNotAllowedException;
 import edu.swmed.qbrc.auth.cashmac.shared.annotations.NoCasAuth;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.ACL;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Customer;
@@ -151,7 +151,7 @@ public interface GuiberestRestService {
 	@PUT
 	@Path("/sale/{param}")
 	@Produces("application/json")
-	public Response putSale(@PathParam("param") Integer saleId, @QueryParam("storeId") Integer storeId, @QueryParam("customerId") Integer customerId, @QueryParam("total") Float total) throws UnauthorizedException;
+	public Response putSale(@PathParam("param") Integer saleId, @QueryParam("storeId") Integer storeId, @QueryParam("customerId") Integer customerId, @QueryParam("total") Float total) throws MethodNotAllowedException;
 
 	@RolesAllowed({"Guiberest-Writer"})
 	@NoCasAuth

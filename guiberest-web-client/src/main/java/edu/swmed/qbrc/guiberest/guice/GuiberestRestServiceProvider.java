@@ -57,7 +57,7 @@ public class GuiberestRestServiceProvider implements CasHmacRestProvider<Guibere
 		interceptor.setHostName(hostName);			
 
 		/* Here, we register the interceptor */
-		ResteasyProviderFactory.getInstance().getClientExecutionInterceptorRegistry().register(interceptor);
+		ResteasyProviderFactory.getInstance().getClientRequestFilters().registerSingleton(interceptor);
 
 		// And the Jackson (de)serialization provider
 		ResteasyProviderFactory.getInstance().registerProviderInstance(jacksonConfigProvider);

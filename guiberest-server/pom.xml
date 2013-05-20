@@ -166,7 +166,7 @@
 	    	<!-- Exclude Guice 2.0 Dependency, since we're on 3.0 -->
 			<exclusions>
 				<exclusion>
-					<groupId>com.google.code.guice</groupId>
+					<groupId>com.google.inject</groupId>
 					<artifactId>guice</artifactId>
 				</exclusion>
 			</exclusions>

@@ -3,7 +3,6 @@ package edu.swmed.qbrc.guiberest.guice;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-
 import org.reflections.Reflections;
 import com.google.inject.Binder;
 import com.google.inject.Module;

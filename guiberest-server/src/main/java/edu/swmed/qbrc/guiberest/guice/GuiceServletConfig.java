@@ -20,7 +20,7 @@ import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import com.google.inject.servlet.GuiceServletContextListener;
-import edu.swmed.qbrc.auth.cashmac.server.ValidationInterceptorCasHmac;
+import edu.swmed.qbrc.auth.cashmac.server.CasHmacValidationFilter;
 import edu.swmed.qbrc.auth.cashmac.server.guice.MainGuiceModule;
 import edu.swmed.qbrc.guiberest.guice.datasources.GuiberestDataSourcePersistModule;
 import edu.swmed.qbrc.guiberest.shared.guice.datasources.GuiberestDataSource;
@@ -80,8 +80,8 @@ public class GuiceServletConfig extends GuiceServletContextListener {
 		processInjector(getInjector(), registry, providerFactory);
 
 		// Add server interceptor for authentication (CasHmac)
-		ValidationInterceptorCasHmac interceptor = new ValidationInterceptorCasHmac();
-		providerFactory.getServerPreProcessInterceptorRegistry().register(interceptor);
+		CasHmacValidationFilter interceptor = new CasHmacValidationFilter();
+		providerFactory.getContainerRequestFilterRegistry().registerSingleton(interceptor);
 		
 	}
 	
