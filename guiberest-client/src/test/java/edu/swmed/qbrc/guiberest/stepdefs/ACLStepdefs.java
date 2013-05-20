@@ -1,6 +1,6 @@
 package edu.swmed.qbrc.guiberest.stepdefs;
 
-import org.jboss.resteasy.client.ClientResponse;
+import javax.ws.rs.core.Response;
 import org.junit.Assert;
 import com.google.inject.Inject;
 import cucumber.annotation.en.Then;
@@ -30,13 +30,13 @@ public class ACLStepdefs {
     	clientIdentification.setThomas();
     	for (DataTableRow row : inserts.getGherkinRows()) {
     		StringArray roles = new StringArray(row.getCells().get(1).trim());
-    		ClientResponse<?> response = (ClientResponse<?>)guiberestRestService.addAcl(
+    		Response response = guiberestRestService.addAcl(
     				row.getCells().get(0).trim(),
     				Sale.class.getName(),
     				row.getCells().get(2).trim(),
     				roles
     		);
-    		response.releaseConnection();
+    		response.close();
     	}
     }
 
@@ -45,20 +45,20 @@ public class ACLStepdefs {
     	clientIdentification.setThomas();
     	for (DataTableRow row : deletes.getGherkinRows()) {
     		StringArray roles = new StringArray(row.getCells().get(1).trim());
-    		ClientResponse<?> response = (ClientResponse<?>)guiberestRestService.deleteAcl(
+    		Response response = guiberestRestService.deleteAcl(
     				row.getCells().get(0).trim(),
     				Sale.class.getName(),
     				row.getCells().get(2).trim(),
     				roles
     		);
-    		response.releaseConnection();
+    		response.close();
     	}
     }
 
 	@Then("^if I check ACLs for sale (\\d+) I see the following ACLs:$")
 	public void if_I_check_ACLs_for_sale_I_see_the_following_ACLs(Integer sale, DataTable acls) throws Throwable {
     	clientIdentification.setThomas();
-		TableJSONContainer<ACL> aclstable = guiberestRestService.getAcls(Sale.class.getName(), sale.toString());
+    	TableJSONContainer<ACL> aclstable = guiberestRestService.getAcls(Sale.class.getName(), sale.toString());
     	for (DataTableRow row : acls.getGherkinRows()) {
     		Boolean bFound = false;
     		for (ACL acl : aclstable.getData()) {
@@ -82,7 +82,7 @@ public class ACLStepdefs {
 	@Then("^if I check ACLs for sale (\\d+) I see no more than (\\d+) ACL results.$")
 	public void if_I_check_ACLs_for_sale_I_see_no_more_than_ACL_results(Integer sale, Integer results) throws Throwable {
     	clientIdentification.setThomas();
-		TableJSONContainer<ACL> aclstable = guiberestRestService.getAcls(Sale.class.getName(), sale.toString());
+    	TableJSONContainer<ACL> aclstable = guiberestRestService.getAcls(Sale.class.getName(), sale.toString());
 		for (ACL acl : aclstable.getData()) {
 			System.out.println("Found ACL: " + acl.getAccess() + "; " + acl.getObjectClass() + "; " + acl.getObjectPK() + "; " + acl.getUsername() + "; " + acl.getRoleId());
 		}

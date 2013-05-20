@@ -4,10 +4,10 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.jboss.resteasy.client.ClientExecutor;
-import org.jboss.resteasy.client.ProxyFactory;
-import org.jboss.resteasy.client.core.executors.ApacheHttpClient4Executor;
-import org.jboss.resteasy.spi.ResteasyProviderFactory;
+import org.jboss.resteasy.client.jaxrs.ResteasyClient;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+import org.jboss.resteasy.client.jaxrs.engines.ApacheHttpClient4Engine;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import edu.swmed.qbrc.auth.cashmac.client.CasHmacRestProvider;
@@ -56,19 +56,15 @@ public class GuiberestRestServiceProvider implements CasHmacRestProvider<Guibere
 		interceptor.setHostName(hostName);
 		interceptor.setProvider(this);
 
-		/* Here, we register the interceptor */
-		ResteasyProviderFactory.getInstance().getClientRequestFilters().registerSingleton(interceptor);
-		
-		// And the Jackson (de)serialization provider
-		ResteasyProviderFactory.getInstance().registerProviderInstance(jacksonConfigProvider);
-		
-		/* Here, we return the MessageRestService.  If we didn't need the custom executor, we could
-		 * simply skip the "executor" parameter. 
-		 */
+		/* Make service thread safe */
 		ClientConnectionManager cm = new ThreadSafeClientConnManager();
 		HttpClient httpClient = new DefaultHttpClient(cm);
-		ClientExecutor executor = new ApacheHttpClient4Executor(httpClient);
-		return ProxyFactory.create(GuiberestRestService.class, restURL, executor);
+		ApacheHttpClient4Engine engine = new ApacheHttpClient4Engine(httpClient);
+		
+		/* Here, we register the interceptor and the Jackson (de)serialization provider */
+		ResteasyClient client = new ResteasyClientBuilder().httpEngine(engine).register(interceptor).register(jacksonConfigProvider).build();
+		ResteasyWebTarget target = (ResteasyWebTarget)client.target(restURL);
+		return target.proxy(GuiberestRestService.class);
 	}
 	
 }

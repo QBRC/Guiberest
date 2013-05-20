@@ -1,7 +1,6 @@
 package edu.swmed.qbrc.guiberest.stepdefs;
 
 import javax.ws.rs.core.Response;
-import org.jboss.resteasy.client.ClientResponse;
 import org.junit.Assert;
 import com.google.inject.Inject;
 import cucumber.annotation.en.Given;
@@ -45,13 +44,20 @@ public class StoreStepdefs {
 
     @Then("^I see the following full store results:$")
     public void I_see_the_following_full_store_results(DataTable results) throws Throwable {
-    	Integer index = 0;
     	for (DataTableRow row : results.getGherkinRows()) {
-    		Store store = resultsCache.getData().get(index++);
-    		Assert.assertTrue(
-    				store.getId().toString().trim().equals(row.getCells().get(0)) &&
-    				store.getName().trim().equals(row.getCells().get(1))
-    		);
+    		Boolean bFound = false;
+    		for (Store store : resultsCache.getData()) {
+    			if (store.getId().toString().trim().equals(row.getCells().get(0)) &&
+    				store.getName().trim().equals(row.getCells().get(1)))
+    			{
+    				bFound = true;
+    				break;
+    			}
+    		}
+    		if (!bFound) {
+    			System.out.println("Couldn't find store: " + row.getCells().get(0) + " " + row.getCells().get(1));
+    		}
+    		Assert.assertTrue(bFound);
     	}
     }
 
@@ -66,37 +72,36 @@ public class StoreStepdefs {
         Assert.assertTrue(resultsCache.getData().size() >= results);
     }
     
-    @SuppressWarnings("unchecked")
 	@When("^I insert the following stores:$")
     public void I_insert_the_following_stores(DataTable inserts) throws Throwable {
     	insertIdCache.getList().clear();
     	for (DataTableRow row : inserts.getGherkinRows()) {
-    		ClientResponse<Integer> response = (ClientResponse<Integer>)guiberestRestService.putStore(
+    		Response response = guiberestRestService.putStore(
     				Integer.parseInt(row.getCells().get(0).trim()),
     				row.getCells().get(1).trim()
     		);
-    		Integer id = response.getEntity(Integer.class);
+    		Integer id = response.readEntity(Integer.class);
+    		response.close();
     		System.out.println("Inserted Store with ID: " + id);
     		insertIdCache.getList().add(id);
     	}
     }
 
-    @SuppressWarnings("unchecked")
     @When("^I update the following stores:$")
     public void I_update_the_following_stores(DataTable inserts) throws Throwable {
     	insertIdCache.getList().clear();
     	for (DataTableRow row : inserts.getGherkinRows()) {
-    		ClientResponse<String> response = (ClientResponse<String>)guiberestRestService.putStore(
+    		Response response = guiberestRestService.putStore(
     				Integer.parseInt(row.getCells().get(0).trim()),
     				row.getCells().get(1).trim()
     		);
-    		Integer id = response.getEntity(Integer.class);
+    		Integer id = response.readEntity(Integer.class);
+    		response.close();
     		System.out.println("Updated Store with ID: " + id);
     		insertIdCache.getList().add(id);
     	}
     }
 
-    @SuppressWarnings("unused")
 	@When("^I delete the following stores:$")
     public void I_delete_the_following_stores(DataTable deletes) throws Throwable {
     	insertIdCache.getList().clear();
@@ -104,6 +109,7 @@ public class StoreStepdefs {
     		Response response = guiberestRestService.deleteStore(
     				Integer.parseInt(row.getCells().get(0).trim())
     		);
+    		response.close();
     	}
     }
 

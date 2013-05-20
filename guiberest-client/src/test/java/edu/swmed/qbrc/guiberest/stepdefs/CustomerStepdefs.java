@@ -1,7 +1,6 @@
 package edu.swmed.qbrc.guiberest.stepdefs;
 
 import javax.ws.rs.core.Response;
-import org.jboss.resteasy.client.ClientResponse;
 import org.junit.Assert;
 import com.google.inject.Inject;
 import cucumber.annotation.en.Then;
@@ -62,39 +61,38 @@ public class CustomerStepdefs {
         Assert.assertTrue(resultsCache.getData().size() >= results);
     }
     
-    @SuppressWarnings("unchecked")
 	@When("^I insert the following customers:$")
     public void I_insert_the_following_customers(DataTable inserts) throws Throwable {
     	insertIdCache.getList().clear();
     	for (DataTableRow row : inserts.getGherkinRows()) {
-    		ClientResponse<String> response = (ClientResponse<String>)guiberestRestService.putCustomer(
+    		Response response = guiberestRestService.putCustomer(
     				Integer.parseInt(row.getCells().get(0).trim()),
     				Integer.parseInt(row.getCells().get(1).trim()),
     				row.getCells().get(2).trim()
     		);
-    		Integer id = response.getEntity(Integer.class);
+    		Integer id = response.readEntity(Integer.class);
+    		response.close();
     		System.out.println("Inserted Customer with ID: " + id);
     		insertIdCache.getList().add(id);
     	}
     }
 
-    @SuppressWarnings("unchecked")
     @When("^I update the following customers:$")
     public void I_update_the_following_customers(DataTable inserts) throws Throwable {
     	insertIdCache.getList().clear();
     	for (DataTableRow row : inserts.getGherkinRows()) {
-    		ClientResponse<String> response = (ClientResponse<String>)guiberestRestService.putCustomer(
+    		Response response = guiberestRestService.putCustomer(
     				Integer.parseInt(row.getCells().get(0).trim()),
     				Integer.parseInt(row.getCells().get(1).trim()),
     				row.getCells().get(2).trim()
     		);
-    		Integer id = response.getEntity(Integer.class);
+    		Integer id = response.readEntity(Integer.class);
+    		response.close();
     		System.out.println("Updated Customer with ID: " + id);
     		insertIdCache.getList().add(id);
     	}
     }
 
-    @SuppressWarnings("unused")
 	@When("^I delete the following customers:$")
     public void I_delete_the_following_customers(DataTable deletes) throws Throwable {
     	insertIdCache.getList().clear();
@@ -102,6 +100,7 @@ public class CustomerStepdefs {
     		Response response = guiberestRestService.deleteCustomer(
     				Integer.parseInt(row.getCells().get(0).trim())
     		);
+    		response.close();
     	}
     }
 

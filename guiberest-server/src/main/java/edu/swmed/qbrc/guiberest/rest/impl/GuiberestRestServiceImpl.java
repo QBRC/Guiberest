@@ -160,8 +160,7 @@ public class GuiberestRestServiceImpl implements GuiberestRestService{
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-		return Response.status(Status.CREATED).location(newUri).entity(storeNew.getId()).build();
-	
+		return Response.created(newUri).entity(storeNew.getId()).build();
 	}
 	
 

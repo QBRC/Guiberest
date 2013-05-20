@@ -51,18 +51,16 @@
 		      <artifactId>resteasy-jaxrs</artifactId>
 		      <version>${resteasy.version}</version>
 		</dependency>
-
+        <dependency>
+              <groupId>org.jboss.resteasy</groupId>
+              <artifactId>resteasy-client</artifactId>
+              <version>${resteasy.version}</version>
+        </dependency>
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jackson-provider</artifactId>
-              <version>${resteasy.version}</version>
+            <version>${resteasy.version}</version>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-spring</artifactId>
-              <version>${resteasy.version}</version>
-		</dependency>		
 		
         <dependency>
             <groupId>org.reflections</groupId>
@@ -88,17 +86,6 @@
             <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
-        
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.6.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-log4j12</artifactId>
-            <version>1.6.1</version>
-        </dependency>                
 
 	</dependencies>
 

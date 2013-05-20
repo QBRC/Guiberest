@@ -1,8 +1,6 @@
 package edu.swmed.qbrc.guiberest.stepdefs;
 
 import javax.ws.rs.core.Response;
-import org.jboss.resteasy.client.ClientResponse;
-import org.jboss.resteasy.client.ClientResponseFailure;
 import org.junit.Assert;
 import com.google.inject.Inject;
 import cucumber.annotation.en.Then;
@@ -49,10 +47,11 @@ public class SaleStepdefs {
     	}
     	try {
     		resultsCache = guiberestRestService.getSales(idArray);
-    	} catch (ClientResponseFailure e) {
-    		if (e.getResponse().getStatus() == 403) {
-    			got403 = true;
-    		}
+    	} catch (Exception e) {
+    		System.out.println(e.getCause().getClass().getName());
+    		//TODO if (e.getResponse().getStatus() == 403) {
+    		//	got403 = true;
+    		//}
     	} finally {
         	clientIdentification.setThomas();
     	}
@@ -91,39 +90,39 @@ public class SaleStepdefs {
 				sale.getTotal().toString().trim().equals(row.getCells().get(3));
     }
     
-    @SuppressWarnings("unchecked")
     @When("^I insert the following sales:$")
     public void I_insert_the_following_sales(DataTable inserts) throws Throwable {
 		System.out.println("Will now insert sales...");
     	clientIdentification.setThomas();
     	insertIdCache.getList().clear();
     	for (DataTableRow row : inserts.getGherkinRows()) {
-    		ClientResponse<String> response = (ClientResponse<String>)guiberestRestService.putSale(
+    		Response response = guiberestRestService.putSale(
     				Integer.parseInt(row.getCells().get(1).trim()),
     				Integer.parseInt(row.getCells().get(2).trim()),
     				Integer.parseInt(row.getCells().get(0).trim()),
     				Float.parseFloat(row.getCells().get(3).trim())
     		);
-    		Integer id = response.getEntity(Integer.class);
+    		Integer id = response.readEntity(Integer.class);
+    		response.close();
     		System.out.println("Inserted Sale with ID: " + id);
     		insertIdCache.getList().add(id);
     	}
 		System.out.println("Done inserting sales...");
     }
 
-    @SuppressWarnings("unchecked")
     @When("^I update the following sales:$")
     public void I_update_the_following_sales(DataTable inserts) throws Throwable {
     	clientIdentification.setThomas();
     	insertIdCache.getList().clear();
     	for (DataTableRow row : inserts.getGherkinRows()) {
-    		ClientResponse<String> response = (ClientResponse<String>)guiberestRestService.putSale(
+    		Response response = guiberestRestService.putSale(
     				Integer.parseInt(row.getCells().get(1).trim()),
     				Integer.parseInt(row.getCells().get(2).trim()),
     				Integer.parseInt(row.getCells().get(0).trim()),
     				Float.parseFloat(row.getCells().get(3).trim())
     		);
-    		Integer id = response.getEntity(Integer.class);
+    		Integer id = response.readEntity(Integer.class);
+    		response.close();
     		System.out.println("Updated Sale with ID: " + id);
     		insertIdCache.getList().add(id);
     	}
@@ -157,7 +156,7 @@ public class SaleStepdefs {
     	}
     	try {
     		resultsCache = guiberestRestService.getSales(idArray);
-    	} catch (ClientResponseFailure e) {
+    	} catch (Exception e) {
     		error = true;
     	}
     	if (! error && resultsCache != null) {
@@ -171,14 +170,14 @@ public class SaleStepdefs {
     	clientIdentification.setThomas();
 		insertIdCache.getList().clear();
     	for (DataTableRow row : inserts.getGherkinRows()) {
-    		ClientResponse<?> response = (ClientResponse<?>)guiberestRestService.putSale(
+    		Response response = guiberestRestService.putSale(
     				Integer.parseInt(row.getCells().get(1).trim()),
     				Integer.parseInt(row.getCells().get(2).trim()),
     				Integer.parseInt(row.getCells().get(0).trim()),
     				Float.parseFloat(row.getCells().get(3).trim())
     		);
 	    	Assert.assertTrue(response.getStatus() == 401); // Forbidden
-	    	response.releaseConnection();
+    		response.close();
     	}
     }
 
@@ -189,7 +188,7 @@ public class SaleStepdefs {
     	for (DataTableRow row : ids.getGherkinRows()) {
     		idArray.getList().add(Integer.parseInt(row.getCells().get(0)));
     	}
-   		resultsCache = guiberestRestService.getSalesWithPreAuth(idArray);
+    	resultsCache = guiberestRestService.getSalesWithPreAuth(idArray);
 	}
 
 	@When("^I request sales as user irsauditer for the following sale ids:$")
@@ -207,7 +206,7 @@ public class SaleStepdefs {
     	insertIdCache.getList().clear();
     	clientIdentification.setRoger();
     	for (DataTableRow row : inserts.getGherkinRows()) {
-    		ClientResponse<?> response = (ClientResponse<?>)guiberestRestService.putSale(
+    		Response response = guiberestRestService.putSale(
     				Integer.parseInt(row.getCells().get(1).trim()),
     				Integer.parseInt(row.getCells().get(2).trim()),
     				Integer.parseInt(row.getCells().get(0).trim()),
@@ -215,23 +214,23 @@ public class SaleStepdefs {
     		);
     		System.out.println("Response from updating sale as Roger: " + response.getStatus());
     		Assert.assertTrue(response.getStatus() == 401);
-    		response.releaseConnection();
+    		response.close();
     	}
 	}
 
-	@SuppressWarnings("unchecked")
 	@When("^I update the following sales as the sean user:$")
 	public void I_update_the_following_sales_as_the_sean_user(DataTable inserts) throws Throwable {
     	insertIdCache.getList().clear();
     	clientIdentification.setSean();
     	for (DataTableRow row : inserts.getGherkinRows()) {
-    		ClientResponse<String> response = (ClientResponse<String>)guiberestRestService.putSale(
+    		Response response = guiberestRestService.putSale(
     				Integer.parseInt(row.getCells().get(1).trim()),
     				Integer.parseInt(row.getCells().get(2).trim()),
     				Integer.parseInt(row.getCells().get(0).trim()),
     				Float.parseFloat(row.getCells().get(3).trim())
     		);
-    		Integer id = response.getEntity(Integer.class);
+    		Integer id = response.readEntity(Integer.class);
+    		response.close();
     		System.out.println("Updated Sale with ID: " + id);
     		insertIdCache.getList().add(id);
     	}
@@ -254,7 +253,7 @@ public class SaleStepdefs {
     	clientIdentification.setThomas();
     	insertIdCache.getList().clear();
     	for (DataTableRow row : inserts.getGherkinRows()) {
-    		ClientResponse<?> response = (ClientResponse<?>)guiberestRestService.putSale(
+    		Response response = guiberestRestService.putSale(
     				Integer.parseInt(row.getCells().get(1).trim()),
     				Integer.parseInt(row.getCells().get(2).trim()),
     				Integer.parseInt(row.getCells().get(0).trim()),
@@ -262,7 +261,7 @@ public class SaleStepdefs {
     		);
     		System.out.println("Response from inserting sale: " + response.getStatus());
     		Assert.assertTrue(response.getStatus() == 401);
-    		response.releaseConnection();
+    		response.close();
     	}
 	}
 
@@ -277,7 +276,7 @@ public class SaleStepdefs {
     	}
     	try {
     		resultsCache = guiberestRestService.getSales(idArray);
-    	} catch (ClientResponseFailure e) {
+    	} catch (Exception e) {
     		error = true;
     	}
     	if (! error && resultsCache != null) {
@@ -292,11 +291,11 @@ public class SaleStepdefs {
 		clientIdentification.setRoger();
     	insertIdCache.getList().clear();
     	for (DataTableRow row : deletes.getGherkinRows()) {
-    		ClientResponse<?> response = (ClientResponse<?>)guiberestRestService.deleteSale(
+    		Response response = guiberestRestService.deleteSale(
     				Integer.parseInt(row.getCells().get(0).trim())
     		);
     		Assert.assertTrue(response.getStatus() == 401);
-    		response.releaseConnection();
+    		response.close();
     	}
 	}	
 	

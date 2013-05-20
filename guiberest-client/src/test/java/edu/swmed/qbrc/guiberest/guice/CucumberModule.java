@@ -23,7 +23,7 @@ public class CucumberModule extends AbstractModule {
 		Names.bindProperties(binder(), props);
 		
 		bind(ReflectionFactory.class).in(Singleton.class);
-		bind(Reflections.class).toInstance(new Reflections("edu.swmed.qbrc.lcdb.shared.domain.lcdb"));
+		bind(Reflections.class).toInstance(new Reflections("edu.swmed.qbrc.guiberest.shared.domain.guiberest"));
 
 		// Support multiple users
 		bind(ClientIdentification.class).toProvider(ClientIdentificationProvider.class).in(Singleton.class);
