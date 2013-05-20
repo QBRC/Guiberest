@@ -19,7 +19,18 @@
 	<properties>
 		<maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
 		<maven-deploy-plugin.version>2.7</maven-deploy-plugin.version>
+        <maven-failsafe-plugin.version>2.12</maven-failsafe-plugin.version>
+        <maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
+        <maven-war-plugin.version>2.2</maven-war-plugin.version>
+
+        <cashmac.version>1.0.0-SNAPSHOT</cashmac.version>
 		<jacksonate.version>1.0.0-SNAPSHOT</jacksonate.version>
+        <hibernate.jpa.version>2.0-cr-1</hibernate.jpa.version>
+        <cas.version>3.2.1</cas.version>
+        <resteasy.version>2.3.5.Final</resteasy.version>
+        <hibernate.version>4.1.4.Final</hibernate.version>
+        <junit.version>4.10</junit.version>
+        <guice.version>3.1.3</guice.version>
 	</properties>
 
 	<repositories>

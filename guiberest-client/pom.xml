@@ -20,12 +20,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<project.deployment.encoding>UTF-8</project.deployment.encoding>
 
-        <maven-failsafe-plugin.version>2.12</maven-failsafe-plugin.version>
-		<maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
-		<maven-war-plugin.version>2.2</maven-war-plugin.version>
 		<webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
-
-		<hibernate.jpa.version>2.0-cr-1</hibernate.jpa.version>
         <cucumber.version>1.0.11</cucumber.version>
 	</properties>
 
@@ -34,7 +29,7 @@
 		<dependency>
 			<groupId>edu.swmed.qbrc.auth.cashmac</groupId>
 			<artifactId>cashmac-client</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>${cashmac.version}</version>
 		</dependency>
 
 		<dependency>
@@ -47,26 +42,26 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.8.1</version>
+              <version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 		      <groupId>org.jboss.resteasy</groupId>
 		      <artifactId>resteasy-jaxrs</artifactId>
-		      <version>2.3.5.Final</version>
+		      <version>${resteasy.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-jackson-provider</artifactId>
-			<version>2.3.5.Final</version>
+              <version>${resteasy.version}</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>
 			<artifactId>resteasy-spring</artifactId>
-			<version>2.3.5.Final</version>
+              <version>${resteasy.version}</version>
 		</dependency>		
 		
         <dependency>
