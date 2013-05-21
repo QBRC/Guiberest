@@ -4,14 +4,14 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.jboss.resteasy.client.ClientExecutor;
-import org.jboss.resteasy.client.ProxyFactory;
-import org.jboss.resteasy.spi.ResteasyProviderFactory;
+import org.jboss.resteasy.client.jaxrs.ResteasyClient;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+import org.jboss.resteasy.client.jaxrs.engines.ApacheHttpClient4Engine;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import edu.swmed.qbrc.auth.cashmac.client.CasHmacRestProvider;
 import edu.swmed.qbrc.auth.cashmac.client.ClientAuthInterceptor;
-import edu.swmed.qbrc.auth.cashmac.client.GWTClientExecutor;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
 import edu.swmed.qbrc.jacksonate.rest.jackson.JacksonConfigProvider;
 
@@ -56,12 +56,6 @@ public class GuiberestRestServiceProvider implements CasHmacRestProvider<Guibere
 		interceptor.setProvider(this);
 		interceptor.setHostName(hostName);			
 
-		/* Here, we register the interceptor */
-		ResteasyProviderFactory.getInstance().getClientRequestFilters().registerSingleton(interceptor);
-
-		// And the Jackson (de)serialization provider
-		ResteasyProviderFactory.getInstance().registerProviderInstance(jacksonConfigProvider);
-		
 		/* Optional:
 		 * 
 		 *   Here, we create a thread-safe ClientConnectionManager, provide it to a default
@@ -92,12 +86,13 @@ public class GuiberestRestServiceProvider implements CasHmacRestProvider<Guibere
 		 */
 		ClientConnectionManager cm = new ThreadSafeClientConnManager();
 		HttpClient httpClient = new DefaultHttpClient(cm);
-		ClientExecutor executor = new GWTClientExecutor(httpClient);
+		//ClientExecutor executor = new GWTClientExecutor(httpClient);
+		ApacheHttpClient4Engine engine = new ApacheHttpClient4Engine(httpClient);
 		
-		/* Here, we return the MessageRestService.  If we didn't need the custom executor, we could
-		 * simply skip the "executor" parameter. 
-		 */
-		return ProxyFactory.create(GuiberestRestService.class, restURL, executor);
+		/* Here, we register the interceptor and the Jackson (de)serialization provider */
+		ResteasyClient client = new ResteasyClientBuilder().httpEngine(engine).register(interceptor).register(jacksonConfigProvider).build();
+		ResteasyWebTarget target = (ResteasyWebTarget)client.target(restURL);
+		return target.proxy(GuiberestRestService.class);
 	}
 	
 }

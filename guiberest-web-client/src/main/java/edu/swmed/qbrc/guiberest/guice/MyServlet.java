@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.jboss.resteasy.client.ClientRequestFactory;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Customer;
@@ -18,9 +17,6 @@ import edu.swmed.qbrc.jacksonate.rest.util.IntegerArray;
 
 @Singleton
 public class MyServlet extends HttpServlet {
-
-	@Inject
-	private ClientRequestFactory clientRequestFactory;
 	
 	@Inject
 	GuiberestRestService guibRestService;
