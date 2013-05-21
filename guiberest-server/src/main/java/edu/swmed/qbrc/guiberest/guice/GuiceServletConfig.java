@@ -78,11 +78,9 @@ public class GuiceServletConfig extends GuiceServletContextListener {
 	    
 	    // Process any REST service @Provider annotated classes (set up services)
 		processInjector(getInjector(), registry, providerFactory);
-
-		// Add server interceptor for authentication (CasHmac)
-		CasHmacValidationFilter interceptor = new CasHmacValidationFilter();
-		providerFactory.getContainerRequestFilterRegistry().registerSingleton(interceptor);
 		
+		// Add filter for CasHmac Authentication.
+		providerFactory.getContainerRequestFilterRegistry().registerClass(CasHmacValidationFilter.class);
 	}
 	
 	@Override
