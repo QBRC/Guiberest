@@ -62,6 +62,7 @@ public class ACLStepdefs {
     	for (DataTableRow row : acls.getGherkinRows()) {
     		Boolean bFound = false;
     		for (ACL acl : aclstable.getData()) {
+    			System.out.println("Searching..." + acl.getAccess() + " | " + acl.getUsername() + " | " + acl.getRoleId());
     			if (checkAcl(row, acl)) {
     				bFound = true;
     				continue;

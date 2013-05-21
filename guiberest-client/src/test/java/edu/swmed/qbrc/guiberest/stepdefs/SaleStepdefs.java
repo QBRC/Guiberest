@@ -1,5 +1,6 @@
 package edu.swmed.qbrc.guiberest.stepdefs;
 
+import javax.ws.rs.NotAllowedException;
 import javax.ws.rs.core.Response;
 import org.junit.Assert;
 import com.google.inject.Inject;
@@ -47,11 +48,11 @@ public class SaleStepdefs {
     	}
     	try {
     		resultsCache = guiberestRestService.getSales(idArray);
-    	} catch (Exception e) {
-    		System.out.println(e.getCause().getClass().getName());
-    		//TODO if (e.getResponse().getStatus() == 403) {
-    		//	got403 = true;
-    		//}
+    	} catch (NotAllowedException e) {
+    		if (e.getResponse().getStatus() == 405) {
+    			got403 = true;
+    		}
+    		e.getResponse().close();
     	} finally {
         	clientIdentification.setThomas();
     	}
@@ -156,8 +157,9 @@ public class SaleStepdefs {
     	}
     	try {
     		resultsCache = guiberestRestService.getSales(idArray);
-    	} catch (Exception e) {
+    	} catch (NotAllowedException e) {
     		error = true;
+    		e.getResponse().close();
     	}
     	if (! error && resultsCache != null) {
     		System.out.println("Found sales in error:");
@@ -176,7 +178,10 @@ public class SaleStepdefs {
     				Integer.parseInt(row.getCells().get(0).trim()),
     				Float.parseFloat(row.getCells().get(3).trim())
     		);
-	    	Assert.assertTrue(response.getStatus() == 401); // Forbidden
+    		if (response.getStatus() != 405) {
+    			System.out.println("--------- Incorrect Response: " + response.getStatus());
+    		}
+	    	Assert.assertTrue(response.getStatus() == 405); // Forbidden
     		response.close();
     	}
     }
@@ -213,7 +218,10 @@ public class SaleStepdefs {
     				Float.parseFloat(row.getCells().get(3).trim())
     		);
     		System.out.println("Response from updating sale as Roger: " + response.getStatus());
-    		Assert.assertTrue(response.getStatus() == 401);
+    		if (response.getStatus() != 405) {
+    			System.out.println("--------- Incorrect Response: " + response.getStatus());
+    		}
+	    	Assert.assertTrue(response.getStatus() == 405); // Forbidden
     		response.close();
     	}
 	}
@@ -260,8 +268,11 @@ public class SaleStepdefs {
     				Float.parseFloat(row.getCells().get(3).trim())
     		);
     		System.out.println("Response from inserting sale: " + response.getStatus());
-    		Assert.assertTrue(response.getStatus() == 401);
-    		response.close();
+    		if (response.getStatus() != 405) {
+    			System.out.println("--------- Incorrect Response: " + response.getStatus());
+    		}
+	    	Assert.assertTrue(response.getStatus() == 405); // Forbidden
+	    	response.close();
     	}
 	}
 
@@ -276,8 +287,9 @@ public class SaleStepdefs {
     	}
     	try {
     		resultsCache = guiberestRestService.getSales(idArray);
-    	} catch (Exception e) {
+    	} catch (NotAllowedException e) {
     		error = true;
+    		e.getResponse().close();
     	}
     	if (! error && resultsCache != null) {
     		System.out.println("Found sales in error:");
@@ -294,7 +306,10 @@ public class SaleStepdefs {
     		Response response = guiberestRestService.deleteSale(
     				Integer.parseInt(row.getCells().get(0).trim())
     		);
-    		Assert.assertTrue(response.getStatus() == 401);
+    		if (response.getStatus() != 405) {
+    			System.out.println("--------- Incorrect Response: " + response.getStatus());
+    		}
+	    	Assert.assertTrue(response.getStatus() == 405); // Forbidden
     		response.close();
     	}
 	}	
