@@ -105,7 +105,21 @@
      </dependencies>
 	
 	<build>
-	  <finalName>web-client</finalName>
+        <finalName>web-client</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                   <configuration>
+                    <source>${target.jdk}</source>
+                    <target>${target.jdk}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <!-- Disable annotation processors during normal compilation -->
+                    <proc>none</proc>
+                   </configuration>
+             </plugin>
+         </plugins>  
 	</build>
   
   	<profiles>
