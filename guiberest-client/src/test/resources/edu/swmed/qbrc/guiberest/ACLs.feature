@@ -18,9 +18,10 @@ Feature: Test ACL Helper Methods
         And if I check ACLs for sale 500 I see the following ACLs:
             | read     | thomas | NULL |
             | update   | thomas | NULL |
-            | update   | NULL   |   10 |
-            | delete   | NULL   |   10 |
-            | DECREASE | NULL   |    8 |
+            | update   | NULL   |    6 |
+            | update   | NULL   |    5 |
+            | delete   | NULL   |    6 |
+            | DECREASE | NULL   |    5 |
 
     Scenario: Delete ACLs
         When I delete the following sale acls:            

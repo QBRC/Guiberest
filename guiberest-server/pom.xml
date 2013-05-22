@@ -333,6 +333,9 @@
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.User>users</edu.swmed.qbrc.auth.cashmac.hmac.table.User>
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.User>id</edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.User>
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.secretCol.User>secret</edu.swmed.qbrc.auth.cashmac.hmac.table.secretCol.User>
+				<edu.swmed.qbrc.auth.cashmac.hmac.table.RoleUsers>roleusers</edu.swmed.qbrc.auth.cashmac.hmac.table.RoleUsers>
+				<edu.swmed.qbrc.auth.cashmac.hmac.table.username.RoleUsers>username</edu.swmed.qbrc.auth.cashmac.hmac.table.username.RoleUsers>
+				<edu.swmed.qbrc.auth.cashmac.hmac.table.roleid.RoleUsers>roleid</edu.swmed.qbrc.auth.cashmac.hmac.table.roleid.RoleUsers>
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.ACL>acl</edu.swmed.qbrc.auth.cashmac.hmac.table.ACL>
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.ACL>id</edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.ACL>
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.usercol.ACL>username</edu.swmed.qbrc.auth.cashmac.hmac.table.usercol.ACL>

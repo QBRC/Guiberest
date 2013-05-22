@@ -4,25 +4,32 @@ insert into users (id, password, secret) values ('irsauditer', 'password', '2145
 insert into users (id, password, secret) values ('sean', 'password', '3015551212');
 insert into users (id, password, secret) values ('guest', 'password', '9125551212');
 
-insert into roles (id, username, role) values (1, 'thomas', 'admin');
-insert into roles (id, username, role) values (3, 'thomas', 'Guiberest-Reader');
-insert into roles (id, username, role) values (4, 'thomas', 'Guiberest-Writer');
-insert into roles (id, username, role) values (5, 'roger', 'limited');
-insert into roles (id, username, role) values (6, 'roger', 'Guiberest-Reader');
-insert into roles (id, username, role) values (7, 'roger', 'Guiberest-Writer');
-insert into roles (id, username, role) values (8, 'irsauditer', 'audit');
-insert into roles (id, username, role) values (9, 'irsauditer', 'Guiberest-Reader');
-insert into roles (id, username, role) values (10, 'sean', 'manager');
-insert into roles (id, username, role) values (11, 'sean', 'Guiberest-Writer');
-insert into roles (id, username, role) values (12, 'guest', 'limited');
+insert into roles (id, role) values (1, 'admin');
+insert into roles (id, role) values (2, 'Guiberest-Reader');
+insert into roles (id, role) values (3, 'Guiberest-Writer');
+insert into roles (id, role) values (4, 'limited');
+insert into roles (id, role) values (5, 'audit');
+insert into roles (id, role) values (6, 'manager');
+
+insert into roleusers (roleid, username) values (1, 'thomas');
+insert into roleusers (roleid, username) values (2, 'thomas');
+insert into roleusers (roleid, username) values (3, 'thomas');
+insert into roleusers (roleid, username) values (4, 'roger');
+insert into roleusers (roleid, username) values (2, 'roger');
+insert into roleusers (roleid, username) values (3, 'roger');
+insert into roleusers (roleid, username) values (5, 'irsauditer');
+insert into roleusers (roleid, username) values (2, 'irsauditer');
+insert into roleusers (roleid, username) values (6, 'sean');
+insert into roleusers (roleid, username) values (3, 'sean');
+insert into roleusers (roleid, username) values (4, 'guest');
 
 insert into acl (id, username, role_id, access, class, pk) values (1,  'thomas', null, 'update', 'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store', '11');
 insert into acl (id, username, role_id, access, class, pk) values (2,  'thomas', null, 'read',  'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store', '11');
 insert into acl (id, username, role_id, access, class, pk) values (3,  'thomas', null, 'update',  'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store', '12');
 insert into acl (id, username, role_id, access, class, pk) values (4,  'thomas', null, 'read',  'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store', '12');
-insert into acl (id, username, role_id, access, class, pk) values (5,  null,     8,    'read',  'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store', '12');
-insert into acl (id, username, role_id, access, class, pk) values (6,  null,     10,   'read',  'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store', '12');
-insert into acl (id, username, role_id, access, class, pk) values (7,  null,     10,   'read',  'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store', '11');
+insert into acl (id, username, role_id, access, class, pk) values (5,  null,     5,    'read',  'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store', '12');
+insert into acl (id, username, role_id, access, class, pk) values (6,  null,     6,    'read',  'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store', '12');
+insert into acl (id, username, role_id, access, class, pk) values (7,  null,     6,    'read',  'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store', '11');
 insert into acl (id, username, role_id, access, class, pk) values (8,  'thomas', null, 'read', 'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale', '32');
 insert into acl (id, username, role_id, access, class, pk) values (9,  'thomas', null, 'read', 'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale', '33');
 insert into acl (id, username, role_id, access, class, pk) values (10, 'thomas', null, 'read', 'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale', '34');
