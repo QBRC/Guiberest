@@ -15,6 +15,7 @@
         -->
         <class>edu.swmed.qbrc.guiberest.shared.domain.guiberest.User</class>
         <class>edu.swmed.qbrc.guiberest.shared.domain.guiberest.Role</class>
+        <class>edu.swmed.qbrc.guiberest.shared.domain.guiberest.RoleUser</class>
         <class>edu.swmed.qbrc.guiberest.shared.domain.guiberest.ACL</class>
         
         <!-- These entities are for the sample web service -->

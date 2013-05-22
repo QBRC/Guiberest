@@ -17,21 +17,17 @@ public class Role implements BaseEntity {
 	@Id
     @Column(name="id")
     private Integer id;    
-    @Column(name="username")
-    private String username;
     @Column(name="role")
     private String role;
     
     public Role() {    	
 		this.setId(null);
-		this.setUsername("");
 		this.setRole("");
     }
     
-	public Role(Integer id, String username, String role) {
+	public Role(Integer id, String role) {
 		super();
 		this.setId(id);
-		this.setUsername(username);
 		this.setRole(role);
 	}
 
@@ -42,14 +38,6 @@ public class Role implements BaseEntity {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
 	}
 
 	public String getRole() {

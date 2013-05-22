@@ -31,8 +31,11 @@ public class RoleDao extends BaseDao<Role> {
     	EntityManager entityManager = entityManager();
 	    
     	//get all relevant patients
-    	Query query = entityManager.createQuery("SELECT r FROM Role r " +
-    			"WHERE r.username in ( :userids )");
+    	Query query = entityManager.createQuery(
+    			"SELECT r FROM Role r, RoleUser ru " +
+    			"WHERE r.id = ru.roleId " +
+    			"AND ru.username in ( :userids )"
+    	);
         query.setParameter("userids", userids);
 		                
         @SuppressWarnings("unchecked")
