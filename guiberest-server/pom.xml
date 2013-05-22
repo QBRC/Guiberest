@@ -321,7 +321,6 @@
 				<edu.swmed.qbrc.auth.cashmac.cas.serviceName>http://127.0.0.1:9090</edu.swmed.qbrc.auth.cashmac.cas.serviceName>
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.Role>roles</edu.swmed.qbrc.auth.cashmac.hmac.table.Role>
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.Role>id</edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.Role>
-				<edu.swmed.qbrc.auth.cashmac.hmac.table.usercol.Role>username</edu.swmed.qbrc.auth.cashmac.hmac.table.usercol.Role>
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.rolecol.Role>role</edu.swmed.qbrc.auth.cashmac.hmac.table.rolecol.Role>
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.User>users</edu.swmed.qbrc.auth.cashmac.hmac.table.User>
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.User>id</edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.User>
