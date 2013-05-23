@@ -32,6 +32,12 @@
 			<version>${cashmac.version}</version>
 		</dependency>
 
+        <dependency>
+            <groupId>edu.swmed.qbrc.auth.cashmac</groupId>
+            <artifactId>cashmac-shared</artifactId>
+            <version>${cashmac.version}</version>
+        </dependency>
+
 		<dependency>
 			<groupId>${pom.groupId}</groupId>
 			<artifactId>guiberest-shared</artifactId>

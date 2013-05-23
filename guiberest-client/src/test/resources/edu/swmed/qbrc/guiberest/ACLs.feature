@@ -10,23 +10,26 @@ Feature: Test ACL Helper Methods
         Given I'm ready to go
     
     Scenario: Insert ACLs
-        When I insert the following sale acls:
-            | read     | SELF               | 500 |
-            | update   | SELF,manager,audit | 500 |
-            | delete   | manager            | 500 |
-            | DECREASE | audit              | 500 |
-        And if I check ACLs for sale 500 I see the following ACLs:
-            | read     | thomas | NULL |
-            | update   | thomas | NULL |
-            | update   | NULL   |    6 |
-            | update   | NULL   |    5 |
-            | delete   | NULL   |    6 |
-            | DECREASE | NULL   |    5 |
+        When I insert the following ACL data as user thomas:
+            | SELF               | read     | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
+            | SELF,manager,audit | update   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
+            | manager            | delete   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
+            | audit              | DECREASE | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
+        And I request ACL data for the 500 id and the sale class as user thomas
+        Then I see the following ACL results:
+            | <any> | thomas | NULL | read     | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
+            | <any> | thomas | NULL | update   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
+            | <any> | NULL   |    6 | update   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
+            | <any> | NULL   |    5 | update   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
+            | <any> | NULL   |    6 | delete   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
+            | <any> | NULL   |    5 | DECREASE | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
 
     Scenario: Delete ACLs
-        When I delete the following sale acls:            
-            | read     | SELF               | 500 |
-            | update   | SELF,manager,audit | 500 |
-            | delete   | manager            | 500 |
-            | DECREASE | audit              | 500 |
-        Then if I check ACLs for sale 500 I see no more than 0 ACL results.
+        When I delete the following ACL data as user thomas:            
+            | SELF               | read     | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
+            | SELF,manager,audit | update   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
+            | manager            | delete   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
+            | audit              | DECREASE | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
+        And I request ACL data for the 500 id and the sale class as user thomas
+        Then I see no more than 0 ACL results
+        

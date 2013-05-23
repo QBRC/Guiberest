@@ -9,6 +9,7 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
 import edu.swmed.qbrc.guiberest.shared.rest.jackson.GuiberestSerializationModule;
+import edu.swmed.qbrc.guiberest.tester.TestableEntityTester;
 import edu.swmed.qbrc.jacksonate.rest.jackson.JacksonConfigProvider;
 import edu.swmed.qbrc.jacksonate.rest.jackson.JacksonSerializationModule;
 import edu.swmed.qbrc.jacksonate.rest.jackson.ReflectionFactory;
@@ -35,6 +36,7 @@ public class CucumberModule extends AbstractModule {
 		bind(JacksonSerializationModule.class).to(GuiberestSerializationModule.class).in(Singleton.class);
 		bind(JacksonConfigProvider.class);
 
+		bind(TestableEntityTester.class).toProvider(TestableEntityTesterProvider.class).in(Singleton.class);
 		bind(GuiberestRestService.class).toProvider(GuiberestRestServiceProvider.class).in(Singleton.class);
 	}
 

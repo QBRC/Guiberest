@@ -1,5 +1,8 @@
 package edu.swmed.qbrc.guiberest.shared.domain.guiberest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -7,6 +10,8 @@ import javax.persistence.Table;
 import javax.ws.rs.FormParam;
 import javax.xml.bind.annotation.XmlRootElement;
 import edu.swmed.qbrc.auth.cashmac.shared.constants.CasHmacAccessLevels;
+import edu.swmed.qbrc.auth.cashmac.shared.util.TestableEntity;
+import edu.swmed.qbrc.auth.cashmac.shared.util.TestableEntityString;
 import edu.swmed.qbrc.auth.cashmac.shared.annotations.*;
 import edu.swmed.qbrc.guiberest.shared.domain.BaseEntity;
 import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage.DataPackageClass;
@@ -21,7 +26,7 @@ import edu.swmed.qbrc.guiberest.shared.guice.datasources.GuiberestDataSource;
 @Table(name = "sale")
 @XmlRootElement(name = "Sale")
 @DataPackageClass(url="sale")
-public class Sale implements Comparable, BaseEntity {
+public class Sale implements Comparable, BaseEntity, TestableEntity<Sale> {
 
 	private static final long serialVersionUID = -8186720274713597706L;
 	
@@ -133,4 +138,23 @@ public class Sale implements Comparable, BaseEntity {
 		this.storeId = storeId;
 	}
 	
+	@Override
+	public void testInput(List<TestableEntityString> input) {
+		if (input.size() == 4) {
+			this.setId(input.get(0).getInt());
+			this.setStoreId(input.get(1).getInt());
+			this.setCustomerId(input.get(2).getInt());
+			this.setTotal(input.get(3).getFloat());
+		}
+	}
+
+	@Override
+	public List<TestableEntityString> testOutput() {
+		List<TestableEntityString> output = new ArrayList<TestableEntityString>();
+		output.add(new TestableEntityString(this.getId()));
+		output.add(new TestableEntityString(this.getStoreId()));
+		output.add(new TestableEntityString(this.getCustomerId()));
+		output.add(new TestableEntityString(this.getTotal()));
+		return output;
+	}
 }

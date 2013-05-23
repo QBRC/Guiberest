@@ -1,5 +1,6 @@
 package edu.swmed.qbrc.guiberest.shared.domain.guiberest;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,13 +8,16 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import edu.swmed.qbrc.auth.cashmac.shared.util.TestableEntity;
+import edu.swmed.qbrc.auth.cashmac.shared.util.TestableEntityString;
 import edu.swmed.qbrc.guiberest.shared.domain.BaseEntity;
 
 @SuppressWarnings("rawtypes")
 @Entity
 @Table(name = "users")
 @XmlRootElement(name = "User")
-public class User implements Comparable, BaseEntity {
+public class User implements Comparable, BaseEntity, TestableEntity<User> {
 	private static final long serialVersionUID = 5489594906310275717L;
 	
 	@Id
@@ -97,5 +101,23 @@ public class User implements Comparable, BaseEntity {
 		} else if (!getId().equals(other.getId()))
 			return 0;
 		return 1;
+	}
+
+	@Override
+	public void testInput(List<TestableEntityString> input) {
+		if (input.size() == 3) {
+			this.setId(input.get(0).getStringOrNull());
+			this.setPassword(input.get(1).getStringOrNull());
+			this.setSecret(input.get(2).getStringOrNull());
+		}
+	}
+
+	@Override
+	public List<TestableEntityString> testOutput() {
+		List<TestableEntityString> output = new ArrayList<TestableEntityString>();
+		output.add(new TestableEntityString(this.getId()));
+		output.add(new TestableEntityString(this.getPassword()));
+		output.add(new TestableEntityString(this.getSecret()));
+		return output;
 	}
 }
