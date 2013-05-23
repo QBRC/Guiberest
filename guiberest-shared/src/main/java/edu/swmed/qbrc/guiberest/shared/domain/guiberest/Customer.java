@@ -1,5 +1,8 @@
 package edu.swmed.qbrc.guiberest.shared.domain.guiberest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -7,6 +10,8 @@ import javax.persistence.Table;
 import javax.ws.rs.FormParam;
 import javax.xml.bind.annotation.XmlRootElement;
 import edu.swmed.qbrc.auth.cashmac.shared.constants.CasHmacAccessLevels;
+import edu.swmed.qbrc.auth.cashmac.shared.util.TestableEntity;
+import edu.swmed.qbrc.auth.cashmac.shared.util.TestableEntityString;
 import edu.swmed.qbrc.auth.cashmac.shared.annotations.*;
 import edu.swmed.qbrc.guiberest.shared.domain.BaseEntity;
 import edu.swmed.qbrc.guiberest.shared.guice.datasources.GuiberestDataSource;
@@ -17,7 +22,7 @@ import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage.DataPackageClass;
 @Table(name = "customer")
 @XmlRootElement(name = "Customer")
 @DataPackageClass(url="customer")
-public class Customer implements Comparable, BaseEntity {
+public class Customer implements Comparable, BaseEntity, TestableEntity<Customer> {
 
 	private static final long serialVersionUID = 7386748923294189168L;
 
@@ -104,6 +109,24 @@ public class Customer implements Comparable, BaseEntity {
 	@FormParam("name")
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public void testInput(List<TestableEntityString> input) {
+		if (input.size() == 3) {
+			this.setId(input.get(0).getInt());
+			this.setPreferredStoreId(input.get(1).getInt());
+			this.setName(input.get(2).getStringOrNull());
+		}
+	}
+
+	@Override
+	public List<TestableEntityString> testOutput() {
+		List<TestableEntityString> output = new ArrayList<TestableEntityString>();
+		output.add(new TestableEntityString(this.getId()));
+		output.add(new TestableEntityString(this.getPreferredStoreId()));
+		output.add(new TestableEntityString(this.getName()));
+		return output;
 	}
 	
 }

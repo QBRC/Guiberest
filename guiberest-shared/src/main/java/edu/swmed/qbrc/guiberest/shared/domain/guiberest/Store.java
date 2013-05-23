@@ -1,5 +1,8 @@
 package edu.swmed.qbrc.guiberest.shared.domain.guiberest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -8,6 +11,8 @@ import javax.ws.rs.FormParam;
 import javax.xml.bind.annotation.XmlRootElement;
 import edu.swmed.qbrc.auth.cashmac.shared.annotations.*;
 import edu.swmed.qbrc.auth.cashmac.shared.constants.CasHmacAccessLevels;
+import edu.swmed.qbrc.auth.cashmac.shared.util.TestableEntity;
+import edu.swmed.qbrc.auth.cashmac.shared.util.TestableEntityString;
 import edu.swmed.qbrc.guiberest.shared.domain.BaseEntity;
 import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage.DataPackageClass;
 
@@ -20,7 +25,7 @@ import edu.swmed.qbrc.jacksonate.rest.datapackage.DataPackage.DataPackageClass;
 @CasHmacObjectRead(accessLevel=CasHmacAccessLevels.READ, objectClass=Store.class)
 @CasHmacObjectUpdate(accessLevel=CasHmacAccessLevels.UPDATE, objectClass=Store.class)
 @CasHmacObjectDelete(accessLevel=CasHmacAccessLevels.DELETE, objectClass=Store.class)
-public class Store implements Comparable, BaseEntity {
+public class Store implements Comparable, BaseEntity, TestableEntity<Store> {
 
 	private static final long serialVersionUID = -3044099150624572000L;
 
@@ -99,4 +104,19 @@ public class Store implements Comparable, BaseEntity {
 		this.name = name;
 	}
 	
+	@Override
+	public void testInput(List<TestableEntityString> input) {
+		if (input.size() == 2) {
+			this.setId(input.get(0).getInt());
+			this.setName(input.get(1).getStringOrNull());
+		}
+	}
+
+	@Override
+	public List<TestableEntityString> testOutput() {
+		List<TestableEntityString> output = new ArrayList<TestableEntityString>();
+		output.add(new TestableEntityString(this.getId()));
+		output.add(new TestableEntityString(this.getName()));
+		return output;
+	}
 }
