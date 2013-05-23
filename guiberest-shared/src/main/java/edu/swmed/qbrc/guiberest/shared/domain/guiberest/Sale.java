@@ -49,7 +49,7 @@ public class Sale implements Comparable, BaseEntity, TestableEntity<Sale> {
 	private Integer storeId;
 
 	@CasHmacForeignFieldUpdate(accessLevel=CasHmacAccessLevels.UPDATE, objectClass=Customer.class, foreignEntityManager=GuiberestDataSource.class)
-	@CasHmacForeignFieldCreate(accessLevel=CasHmacAccessLevels.READ, objectClass=Customer.class, foreignEntityManager=GuiberestDataSource.class)
+	@CasHmacForeignFieldCreate(accessLevel=CasHmacAccessLevels.UPDATE, objectClass=Customer.class, foreignEntityManager=GuiberestDataSource.class)
 	@Column(name="customer_id")
     private Integer customerId;
     
