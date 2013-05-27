@@ -5,3 +5,4 @@
 *.DS_Store*
 WebContent/
 bin/
+*/*.error

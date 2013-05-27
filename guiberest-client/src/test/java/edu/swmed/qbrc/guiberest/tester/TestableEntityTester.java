@@ -453,6 +453,9 @@ public class TestableEntityTester {
 			clientIdentification.setSean();
 		else if (userName.equals("thomas"))
 			clientIdentification.setThomas();
+		else if (userName.equals("cook")) {
+			clientIdentification.setCook();
+		}
 		else
 			clientIdentification.setThomas();
 	}

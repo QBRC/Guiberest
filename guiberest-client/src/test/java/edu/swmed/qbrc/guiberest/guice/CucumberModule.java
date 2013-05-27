@@ -56,6 +56,8 @@ public class CucumberModule extends AbstractModule {
     	props.setProperty("Secret-irsauditer", getProperty("secret-irsauditer"));// Your Client Secret (private)
     	props.setProperty("ClientId-guest", getProperty("clientid-guest")); // Your Client Id (public)
     	props.setProperty("Secret-guest", getProperty("secret-guest"));// Your Client Secret (private)
+    	props.setProperty("ClientId-cook", getProperty("clientid-cook")); // Your Client Id (public)
+    	props.setProperty("Secret-cook", getProperty("secret-cook"));// Your Client Secret (private)
     	props.setProperty("HostName", getProperty("hostname")); // The Host name of the RESTful service (not the client; don't include http://)
     	props.setProperty("RestURL", getProperty("baseurl"));
     	return props;

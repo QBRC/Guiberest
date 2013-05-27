@@ -19,10 +19,12 @@ public class ClientIdentificationProvider implements Provider<ClientIdentificati
 			@Named("ClientId-irsauditer") final String irsauditer,
 			@Named("Secret-irsauditer") final String sirsauditer,
 			@Named("ClientId-guest") final String guest,
-			@Named("Secret-guest") final String sguest
+			@Named("Secret-guest") final String sguest,
+			@Named("ClientId-cook") final String cook,
+			@Named("Secret-cook") final String scook
 	) {
 		if (cid == null) {
-			cid = new ClientIdentification(thomas, sthomas, roger, sroger, sean, ssean, irsauditer, sirsauditer, guest, sguest);
+			cid = new ClientIdentification(thomas, sthomas, roger, sroger, sean, ssean, irsauditer, sirsauditer, guest, sguest, cook, scook);
 		}
 	}
 	

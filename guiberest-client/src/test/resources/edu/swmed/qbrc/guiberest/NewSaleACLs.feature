@@ -22,13 +22,20 @@ Feature: Create New Sale ACLS
             | <any> | thomas | NULL | read     | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
             | <any> | NULL   |    5 | read     | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
             | <any> | NULL   |    6 | read     | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
+            | <any> | NULL   |    7 | read     | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
             | <any> | thomas | NULL | update   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
             | <any> | NULL   |    6 | update   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
+            | <any> | NULL   |    7 | update   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
             | <any> | thomas | NULL | delete   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
             | <any> | NULL   |    6 | delete   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
-            | <any> | NULL   |    6 | DECREASE | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
+            | <any> | NULL   |    7 | DECREASE | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
+
+    Scenario: Insert Sales without UPDATE ACL to Sale's Store (although user has READ access to Sale's Store)
+        When I insert the following sale data as user sean:
+            | 51 | 12 | 23 |   38.92 |
+        Then I receive a NoAclException
             
-    Scenario: Insert Sales without READ ACL to Sales's Store
+    Scenario: Insert Sales without READ ACL to Sale's Store
         When I insert the following sale data as user thomas:
             | 51 | 13 | 23 |   38.92 |
         Then I receive a NoAclException
@@ -68,7 +75,7 @@ Feature: Create New Sale ACLS
         Then I receive a NoAclException
 
     Scenario: Decrease Sale Total as a valid manager user:
-        When I update the following sale data as user sean:
+        When I update the following sale data as user cook:
             | 50 | 12 | 21 |   34.95 |
         When I request sale data for the following ids as user thomas:
             | 50 |
