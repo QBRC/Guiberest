@@ -33,11 +33,11 @@ public class Sale implements Comparable, BaseEntity, TestableEntity<Sale> {
 	@Id
 	@CasHmacPKField
 	@CasHmacWriteAcl({
-		@CasHmacWriteAclParameter(access=CasHmacAccessLevels.READ, roles={ "SELF", "audit", "manager" }),
+		@CasHmacWriteAclParameter(access=CasHmacAccessLevels.READ, roles={ "SELF", "audit", "manager", "decreaser" }),
 		@CasHmacWriteAclParameter(access=CasHmacAccessLevels.UPDATE, roles={}),
-		@CasHmacWriteAclParameter(access=CasHmacAccessLevels.UPDATE, roles={ "manager" }),
+		@CasHmacWriteAclParameter(access=CasHmacAccessLevels.UPDATE, roles={ "manager", "decreaser" }),
 		@CasHmacWriteAclParameter(access=CasHmacAccessLevels.DELETE, roles={ "SELF", "manager" }),
-		@CasHmacWriteAclParameter(access="DECREASE", roles={ "manager" })
+		@CasHmacWriteAclParameter(access="DECREASE", roles={ "decreaser" })
 	})
     @Column(name="sale_id")
     private Integer id;

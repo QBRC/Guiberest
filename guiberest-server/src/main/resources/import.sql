@@ -2,6 +2,7 @@ insert into users (id, password, secret) values ('thomas', 'password', '12345678
 insert into users (id, password, secret) values ('roger', 'password', '987654321');
 insert into users (id, password, secret) values ('irsauditer', 'password', '2145551212');
 insert into users (id, password, secret) values ('sean', 'password', '3015551212');
+insert into users (id, password, secret) values ('cook', 'password', '4125551212');
 insert into users (id, password, secret) values ('guest', 'password', '9125551212');
 
 insert into roles (id, role) values (1, 'admin');
@@ -10,6 +11,7 @@ insert into roles (id, role) values (3, 'Guiberest-Writer');
 insert into roles (id, role) values (4, 'limited');
 insert into roles (id, role) values (5, 'audit');
 insert into roles (id, role) values (6, 'manager');
+insert into roles (id, role) values (7, 'decreaser');
 
 insert into roleusers (roleid, username) values (1, 'thomas');
 insert into roleusers (roleid, username) values (2, 'thomas');
@@ -22,6 +24,8 @@ insert into roleusers (roleid, username) values (2, 'irsauditer');
 insert into roleusers (roleid, username) values (6, 'sean');
 insert into roleusers (roleid, username) values (3, 'sean');
 insert into roleusers (roleid, username) values (4, 'guest');
+insert into roleusers (roleid, username) values (7, 'cook');
+insert into roleusers (roleid, username) values (3, 'cook');
 
 insert into acl (id, username, role_id, access, class, pk) values (1,  'thomas', null, 'update', 'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store', '11');
 insert into acl (id, username, role_id, access, class, pk) values (2,  'thomas', null, 'read',  'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store', '11');
@@ -38,6 +42,10 @@ insert into acl (id, username, role_id, access, class, pk) values (12, 'thomas',
 insert into acl (id, username, role_id, access, class, pk) values (13, 'thomas', null, 'update', 'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale', '36');
 insert into acl (id, username, role_id, access, class, pk) values (14, 'thomas', null, 'read', 'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale', '37');
 insert into acl (id, username, role_id, access, class, pk) values (15, 'thomas', null, 'read', 'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale', '38');
+insert into acl (id, username, role_id, access, class, pk) values (16,  null,    7,    'read',  'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store', '12');
+insert into acl (id, username, role_id, access, class, pk) values (17,  null,    7,    'update',  'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store', '12');
+insert into acl (id, username, role_id, access, class, pk) values (18,  null,    7,    'read',  'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store', '11');
+insert into acl (id, username, role_id, access, class, pk) values (19,  null,    7,    'update',  'edu.swmed.qbrc.guiberest.shared.domain.guiberest.Store', '11');
 
 insert into store (store_id, name) values (11, 'QBRC Market Grill');
 insert into store (store_id, name) values (12, '14th Floor Cafeteria');
