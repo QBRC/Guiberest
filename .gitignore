@@ -6,3 +6,4 @@
 WebContent/
 bin/
 */*.error
+*.error

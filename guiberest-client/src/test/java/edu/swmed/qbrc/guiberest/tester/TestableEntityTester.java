@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jboss.resteasy.client.ClientResponse;
-import org.jboss.resteasy.client.ClientResponseFailure;
+import javax.ws.rs.NotAllowedException;
+import javax.ws.rs.core.Response;
 import org.reflections.Store;
 import com.google.inject.Inject;
 import cucumber.table.DataTable;
@@ -148,7 +148,6 @@ public class TestableEntityTester {
 		this.entityLists.get(Sale.class.getName()).addAll(guiberestRestService.getSalesWithPreAuth(idArray).getData());		
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void putXfortheFollowingX(String className, DataTable inserts, String userName) {
 		switchIdentity(userName);
 		reset();
@@ -159,9 +158,9 @@ public class TestableEntityTester {
 		cache.clear();
 		
 		for (DataTableRow row : inserts.getGherkinRows()) {
-			ClientResponse<Integer> response = null;
+			Response response = null;
 			if (myClass.equals(Customer.class)) {
-	    		response = (ClientResponse<Integer>)guiberestRestService.putCustomer(
+	    		response = guiberestRestService.putCustomer(
 	    				Integer.parseInt(row.getCells().get(0).trim()),
 	    				Integer.parseInt(row.getCells().get(1).trim()),
 	    				row.getCells().get(2).trim()
@@ -169,14 +168,14 @@ public class TestableEntityTester {
 			}
 			
 			else if (myClass.equals(Store.class)) {
-	    		response = (ClientResponse<Integer>)guiberestRestService.putStore(
+	    		response = guiberestRestService.putStore(
 	    				Integer.parseInt(row.getCells().get(0).trim()),
 	    				row.getCells().get(1).trim()
 	    		);
 			}
 
 			else if (myClass.equals(Sale.class)) {
-	    		response = (ClientResponse<Integer>)guiberestRestService.putSale(
+	    		response = guiberestRestService.putSale(
 	    				Integer.parseInt(row.getCells().get(0).trim()),
 	    				Integer.parseInt(row.getCells().get(1).trim()),
 	    				Integer.parseInt(row.getCells().get(2).trim()),
@@ -186,7 +185,7 @@ public class TestableEntityTester {
 			
 			else if (myClass.equals(ACL.class)) {
 				StringArray roles = new StringArray(row.getCells().get(0).trim());
-				response = (ClientResponse<Integer>)guiberestRestService.addAcl(
+				response = guiberestRestService.addAcl(
 						row.getCells().get(1).trim(),
 						row.getCells().get(2).trim(),
 						row.getCells().get(3).trim(),
@@ -196,49 +195,48 @@ public class TestableEntityTester {
 
 			if (response != null) {
 				if (response.getStatus() == 200) {
-		    		Integer id = response.getEntity(Integer.class);
+		    		Integer id = response.readEntity(Integer.class);
 		    		System.out.println("Inserted " + className + " with ID: " + id);
 		    		cache.add(id);
-				} else if (response.getStatus() == 401) {
+				} else if (response.getStatus() == 405) {
 					this.threwNoAclException = true;
-		    		response.releaseConnection();
+		    		response.close();
 					break;
 				}
-	    		response.releaseConnection();
+	    		response.close();
 			}
 
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void deleteXfortheFollowingX(String className, DataTable inserts, String userName) {
 		switchIdentity(userName);
 		reset();
 		Class<?> myClass = matchObjectClass(className);
 
 		for (DataTableRow row : inserts.getGherkinRows()) {
-			ClientResponse<?> response = null;
+			Response response = null;
 			if (myClass.equals(Customer.class)) {
-	    		response = (ClientResponse<?>)guiberestRestService.deleteCustomer(
+	    		response = guiberestRestService.deleteCustomer(
 	    				Integer.parseInt(row.getCells().get(0).trim())
 	    		);
 			}
 			
 			else if (myClass.equals(Store.class)) {
-	    		response = (ClientResponse<Integer>)guiberestRestService.deleteStore(
+	    		response = guiberestRestService.deleteStore(
 	    				Integer.parseInt(row.getCells().get(0).trim())
 	    		);
 			}
 
 			else if (myClass.equals(Sale.class)) {
-	    		response = (ClientResponse<Integer>)guiberestRestService.deleteSale(
+	    		response = guiberestRestService.deleteSale(
 	    				Integer.parseInt(row.getCells().get(0).trim())
 	    		);
 			}
 
 			else if (myClass.equals(ACL.class)) {
 				StringArray roles = new StringArray(row.getCells().get(0).trim());
-				response = (ClientResponse<Integer>)guiberestRestService.deleteAcl(
+				response = guiberestRestService.deleteAcl(
 						row.getCells().get(1).trim(),
 						row.getCells().get(2).trim(),
 						row.getCells().get(3).trim(),
@@ -247,45 +245,44 @@ public class TestableEntityTester {
 			}
 
 			if (response != null) {
-				if (response.getStatus() == 401) {
+				if (response.getStatus() == 405) {
 					this.threwNoAclException = true;
-					response.releaseConnection();
+					response.close();
 					break;
 				}
-				response.releaseConnection();
+				response.close();
 			}
 
 		}
 	}
 
 	
-	@SuppressWarnings("unchecked")
 	public void deleteXfortheLastInsertedIds(String className, String userName) {
 		switchIdentity(userName);
 		reset();
 		Class<?> myClass = matchObjectClass(className);
 
 		for (Integer item : this.insertLists.get(myClass.getName())) {
-			ClientResponse<?> response = null;
+			Response response = null;
 			if (myClass.equals(Customer.class)) {
-	    		response = (ClientResponse<?>)guiberestRestService.deleteCustomer(item);
+	    		response = guiberestRestService.deleteCustomer(item);
 			}
 			
 			else if (myClass.equals(Store.class)) {
-	    		response = (ClientResponse<Integer>)guiberestRestService.deleteStore(item);
+	    		response = guiberestRestService.deleteStore(item);
 			}
 
 			else if (myClass.equals(Sale.class)) {
-	    		response = (ClientResponse<Integer>)guiberestRestService.deleteSale(item);
+	    		response = guiberestRestService.deleteSale(item);
 			}
 
 			if (response != null) {
-				if (response.getStatus() == 401) {
+				if (response.getStatus() == 405) {
 					this.threwNoAclException = true;
-					response.releaseConnection();
+					response.close();
 					break;
 				}
-				response.releaseConnection();
+				response.close();
 			}
 
 		}
@@ -351,14 +348,12 @@ public class TestableEntityTester {
 				entityLists.get(myClass.getName()).addAll(guiberestRestService.getSales(intList).getData());
 			}
 			
-    	} catch (ClientResponseFailure e) {
-    		if (e.getResponse().getStatus() == 401)
-    			this.threwNoAclException = true;
-    		else if (e.getResponse().getStatus() == 403)
+    	} catch (NotAllowedException e) {
+    		if (e.getResponse().getStatus() == 405 || e.getResponse().getStatus() == 403)
     			this.threwNoAclException = true;
     		else
     			throw e;
-    		e.getResponse().releaseConnection();
+    		e.getResponse().close();
     	} catch (Exception e) {
     		e.printStackTrace();
     	}
@@ -371,12 +366,12 @@ public class TestableEntityTester {
 			if (myClass.equals(Sale.class)) {
 				entityLists.get(myClass.getName()).addAll(guiberestRestService.getSalesByCustomer(singleInt).getData());
 			}
-    	} catch (ClientResponseFailure e) {
-    		if (e.getResponse().getStatus() == 403)
+    	} catch (NotAllowedException e) {
+    		if (e.getResponse().getStatus() == 405 || e.getResponse().getStatus() == 403)
     			this.threwNoAclException = true;
     		else
     			throw e;
-    		e.getResponse().releaseConnection();
+    		e.getResponse().close();
     	} catch (Exception e) {
     		e.printStackTrace();
     	}
@@ -390,12 +385,12 @@ public class TestableEntityTester {
 			if (myClass.equals(ACL.class)) {
 				entityLists.get(myClass.getName()).addAll(guiberestRestService.getAcls(matchObjectClass(itemClass).getName(), singleInt.toString()).getData());
 			}
-    	} catch (ClientResponseFailure e) {
-    		if (e.getResponse().getStatus() == 403)
+    	} catch (NotAllowedException e) {
+    		if (e.getResponse().getStatus() == 405 || e.getResponse().getStatus() == 403)
     			this.threwNoAclException = true;
     		else
     			throw e;
-    		e.getResponse().releaseConnection();
+    		e.getResponse().close();
     	} catch (Exception e) {
     		e.printStackTrace();
     	}
@@ -413,12 +408,12 @@ public class TestableEntityTester {
 				entityLists.get(myClass.getName()).addAll(guiberestRestService.getCustomers().getData());
 			}
 			
-    	} catch (ClientResponseFailure e) {
-    		if (e.getResponse().getStatus() == 403)
+    	} catch (NotAllowedException e) {
+    		if (e.getResponse().getStatus() == 405 || e.getResponse().getStatus() == 403)
     			this.threwNoAclException = true;
     		else
     			throw e;
-    		e.getResponse().releaseConnection();
+    		e.getResponse().close();
     	} catch (Exception e) {
     		e.printStackTrace();
     	}
