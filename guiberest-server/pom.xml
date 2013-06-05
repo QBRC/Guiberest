@@ -317,7 +317,7 @@
 				<guiberest.persistence.c3p0.timeout>300</guiberest.persistence.c3p0.timeout>
 				
 				<!-- CasHmac -->
-				<edu.swmed.qbrc.auth.cashmac.cas.serverLoginUrl>https://cas.jon.swmed.edu:8443/cas/login</edu.swmed.qbrc.auth.cashmac.cas.serverLoginUrl>
+				<edu.swmed.qbrc.auth.cashmac.cas.serverLoginUrl>https://qbrc.swmed.edu/cas/login</edu.swmed.qbrc.auth.cashmac.cas.serverLoginUrl>
 				<edu.swmed.qbrc.auth.cashmac.cas.serviceName>http://127.0.0.1:9090</edu.swmed.qbrc.auth.cashmac.cas.serviceName>
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.Role>roles</edu.swmed.qbrc.auth.cashmac.hmac.table.Role>
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.Role>id</edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.Role>
@@ -341,10 +341,11 @@
 				<edu.swmed.qbrc.auth.cashmac.hmac.password></edu.swmed.qbrc.auth.cashmac.hmac.password>
 				
 				<!-- CAS -->	
-				<cas.casserverurlprefix>https://cas.jon.swmed.edu:8443/cas/</cas.casserverurlprefix>
+				<cas.casserverurlprefix>https://qbrc.swmed.edu/cas/</cas.casserverurlprefix>
 				<cas.servername>http://127.0.0.1:9090</cas.servername>
 				<cas.proxycallbackurl>http://127.0.0.1:9090/proxyCallback</cas.proxycallbackurl>
 				<cas.proxyreceptorurl>/proxyCallback</cas.proxyreceptorurl>
+				<cas.timedrifttolerance>10000</cas.timedrifttolerance>
 				
 			</properties>
 			<build>
