@@ -24,7 +24,7 @@
         <maven-war-plugin.version>2.2</maven-war-plugin.version>
         <target.jdk>1.6</target.jdk>
 
-        <cashmac.version>1.0.0-SNAPSHOT</cashmac.version>
+        <cashmac.version>1.1.0-SNAPSHOT</cashmac.version>
 		<jacksonate.version>1.0.0-SNAPSHOT</jacksonate.version>
         <hibernate.jpa.version>2.0-cr-1</hibernate.jpa.version>
         <cas.version>3.2.1</cas.version>
