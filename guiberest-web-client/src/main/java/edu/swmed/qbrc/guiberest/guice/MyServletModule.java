@@ -30,6 +30,7 @@ public class MyServletModule extends ServletModule {
 
 		bind(GuiberestRestService.class).toProvider(GuiberestRestServiceProvider.class).in(Scopes.SINGLETON);
 		
+		serve("/info/*").with(Info.class);
 		serve("/*").with(MyServlet.class);
 		//super.configureServlets();
 	}
@@ -42,8 +43,8 @@ public class MyServletModule extends ServletModule {
     	Properties props = new Properties();
     	props.setProperty("ClientId", "thomas"); // Your Client Id (public)
     	props.setProperty("Secret", "123456789");// Your Client Secret (private)
-    	props.setProperty("HostName", "127.0.0.1:9090"); // The Host name of the RESTful service (not the client; don't include http://)
-    	props.setProperty("RestURL", "http://127.0.0.1:9090");
+    	props.setProperty("HostName", "jons-mac-mini.dhcp.swmed.org:9090"); // The Host name of the RESTful service (not the client; don't include http://)
+    	props.setProperty("RestURL", "https://jons-mac-mini.dhcp.swmed.org:9090");
     	return props;
 	}
 	

@@ -48,6 +48,14 @@
 			<version>2.3</version>
 			<scope>provided</scope>
 		</dependency>
+
+        <!-- Jasig CAS Client -->
+        <dependency>
+           <groupId>org.jasig.cas.client</groupId>
+           <artifactId>cas-client-core</artifactId>
+           <type>jar</type>
+           <version>${cas.version}</version>
+        </dependency>   
 		
 		<!-- DI dependencies -->
         <dependency>
@@ -99,6 +107,17 @@
 	
 	<build>
         <finalName>web-client</finalName>
+        
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>cas.properties</include>
+                </includes>
+            </resource>
+        </resources>        
+        
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -129,6 +148,20 @@
 
 			<properties>
 				<profile>dev</profile>
+				
+                <!-- CAS -->    
+                <cas.casserverurlprefix>https://qbridev.swmed.edu:8443/cas/</cas.casserverurlprefix>
+                <cas.servername>https://jons-mac-mini.dhcp.swmed.org:9091</cas.servername>
+                <cas.proxycallbackurl>https://jons-mac-mini.dhcp.swmed.org:9091/proxyCallback</cas.proxycallbackurl>
+                <cas.proxyreceptorurl>/proxyCallback</cas.proxyreceptorurl>
+                <cas.timedrifttolerance>60000</cas.timedrifttolerance>
+                <cas.casserverloginurl>https://qbridev.swmed.edu:8443/cas/login</cas.casserverloginurl>
+                <cas.renew>false</cas.renew>
+                <cas.gateway>false</cas.gateway>
+                <cas.allowedproxychains></cas.allowedproxychains>
+                <cas.acceptanyproxy>false</cas.acceptanyproxy>
+                <cas.redirectaftervalidation>true</cas.redirectaftervalidation>
+				
 			</properties>
 			<build>
 				<plugins>
@@ -142,10 +175,19 @@
 							<stopPort>9967</stopPort>
 							<stopKey>stop-jetty</stopKey>
 							<connectors>
+							    <!--
 								<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
 									<port>9091</port>
 									<maxIdleTime>60000</maxIdleTime>
 								</connector>
+								-->
+                                <connector implementation="org.eclipse.jetty.server.ssl.SslSelectChannelConnector">
+                                    <port>9091</port>
+                                    <maxIdleTime>60000</maxIdleTime>
+                                    <keystore>/Users/JYODE1/.jetty/jetty-ssl.keystore</keystore>
+                                    <password>changeit</password>
+                                    <keyPassword>changeit</keyPassword>
+                                </connector>
 							</connectors>
 
 							<webAppSourceDirectory>${webappDirectory}</webAppSourceDirectory>

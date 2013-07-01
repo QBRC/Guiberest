@@ -11,7 +11,7 @@ import org.jboss.resteasy.client.jaxrs.engines.ApacheHttpClient4Engine;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import edu.swmed.qbrc.auth.cashmac.client.CasHmacRestProvider;
-import edu.swmed.qbrc.auth.cashmac.client.ClientAuthInterceptor;
+import edu.swmed.qbrc.auth.cashmac.client.ClientAuthInterceptorCas;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
 import edu.swmed.qbrc.jacksonate.rest.jackson.JacksonConfigProvider;
 
@@ -52,9 +52,9 @@ public class GuiberestRestServiceProvider implements CasHmacRestProvider<Guibere
 		/* Here, we create and configure the Client Interceptor, which will intercept REST requests
 		 * to our RESTEasy service and add the headers for HMAC authentication.
 		 */
-		ClientAuthInterceptor interceptor = new ClientAuthInterceptor();
+		ClientAuthInterceptorCas interceptor = new ClientAuthInterceptorCas();
 		interceptor.setProvider(this);
-		interceptor.setHostName(hostName);			
+		interceptor.setHostName(hostName);
 
 		/* Optional:
 		 * 

@@ -287,7 +287,7 @@
 			<properties>
 				<profile>dev</profile>
 				<guiberest.persistence.unit>guiberest</guiberest.persistence.unit>
-                <restservice.baseurl>http://127.0.0.1:9090</restservice.baseurl>
+                <restservice.baseurl>https://jons-mac-mini.dhcp.swmed.org:9090</restservice.baseurl>
                 <restservice.packageurl>/datapackage.json</restservice.packageurl>                  
 
 				<!-- MySQL Settings -->
@@ -317,8 +317,8 @@
 				<guiberest.persistence.c3p0.timeout>300</guiberest.persistence.c3p0.timeout>
 				
 				<!-- CasHmac -->
-				<edu.swmed.qbrc.auth.cashmac.cas.serverLoginUrl>https://qbrc.swmed.edu/cas/login</edu.swmed.qbrc.auth.cashmac.cas.serverLoginUrl>
-				<edu.swmed.qbrc.auth.cashmac.cas.serviceName>http://127.0.0.1:9090</edu.swmed.qbrc.auth.cashmac.cas.serviceName>
+				<edu.swmed.qbrc.auth.cashmac.cas.serverLoginUrl>https://qbridev.swmed.edu:8443/cas/login</edu.swmed.qbrc.auth.cashmac.cas.serverLoginUrl>
+				<edu.swmed.qbrc.auth.cashmac.cas.serviceName>https://jons-mac-mini.dhcp.swmed.org:9090</edu.swmed.qbrc.auth.cashmac.cas.serviceName>
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.Role>roles</edu.swmed.qbrc.auth.cashmac.hmac.table.Role>
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.Role>id</edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.Role>
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.rolecol.Role>role</edu.swmed.qbrc.auth.cashmac.hmac.table.rolecol.Role>
@@ -341,11 +341,14 @@
 				<edu.swmed.qbrc.auth.cashmac.hmac.password></edu.swmed.qbrc.auth.cashmac.hmac.password>
 				
 				<!-- CAS -->	
-				<cas.casserverurlprefix>https://qbrc.swmed.edu/cas/</cas.casserverurlprefix>
-				<cas.servername>http://127.0.0.1:9090</cas.servername>
-				<cas.proxycallbackurl>http://127.0.0.1:9090/proxyCallback</cas.proxycallbackurl>
+				<cas.casserverurlprefix>https://qbridev.swmed.edu:8443/cas/</cas.casserverurlprefix>
+				<cas.servername>https://jons-mac-mini.dhcp.swmed.org:9090</cas.servername>
+				<cas.proxycallbackurl>https://jons-mac-mini.dhcp.swmed.org:9090/proxyCallback</cas.proxycallbackurl>
 				<cas.proxyreceptorurl>/proxyCallback</cas.proxyreceptorurl>
 				<cas.timedrifttolerance>60000</cas.timedrifttolerance>
+                <cas.allowedproxychains></cas.allowedproxychains>
+                <cas.acceptanyproxy>true</cas.acceptanyproxy>
+                <cas.redirectaftervalidation>false</cas.redirectaftervalidation>
 				
 			</properties>
 			<build>
@@ -411,10 +414,19 @@
 							<stopPort>9966</stopPort>
 							<stopKey>stop-jetty</stopKey>
 							<connectors>
+							    <!--
 								<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
 									<port>9090</port>
 									<maxIdleTime>60000</maxIdleTime>
 								</connector>
+								-->
+                                <connector implementation="org.eclipse.jetty.server.ssl.SslSelectChannelConnector">
+                                    <port>9090</port>
+                                    <maxIdleTime>60000</maxIdleTime>
+                                    <keystore>/Users/JYODE1/.jetty/jetty-ssl.keystore</keystore>
+                                    <password>changeit</password>
+                                    <keyPassword>changeit</keyPassword>
+                                </connector>
 							</connectors>
 
 							<webAppSourceDirectory>${webappDirectory}</webAppSourceDirectory>
