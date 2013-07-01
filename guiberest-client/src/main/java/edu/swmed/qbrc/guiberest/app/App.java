@@ -28,8 +28,8 @@ public class App {
 		GuiberestRestServiceProvider provider = new GuiberestRestServiceProvider(
 				"thomas",
 				"123456789",
-				"127.0.0.1:9090",
-				"http://127.0.0.1:9090",
+				"jons-mac-mini.dhcp.swmed.org:9090",
+				"https://jons-mac-mini.dhcp.swmed.org:9090",
 				jackson);
 		
 		// Get an instance of the web service from the provider.
