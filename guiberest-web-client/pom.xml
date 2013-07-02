@@ -201,7 +201,7 @@
                                 <connector implementation="org.eclipse.jetty.server.ssl.SslSelectChannelConnector">
                                     <port>9091</port>
                                     <maxIdleTime>60000</maxIdleTime>
-                                    <keystore>/Users/JYODE1/.jetty/jetty-ssl.keystore</keystore>
+                                    <keystore>/Users/JYODE1/Documents/CA/certs/jetty.keystore</keystore>
                                     <password>changeit</password>
                                     <keyPassword>changeit</keyPassword>
                                 </connector>
