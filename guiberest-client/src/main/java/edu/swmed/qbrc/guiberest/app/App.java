@@ -24,12 +24,17 @@ public class App {
 		Reflections reflections = new Reflections("edu.swmed.qbrc.guiberest.shared.domain.guiberest");
 		JacksonConfigProvider jackson = new JacksonConfigProvider(new GuiberestSerializationModule(reflectionFactory, reflections, null));
 		
+		String hostname = "localhost";
+		try {
+			hostname = java.net.InetAddress.getLocalHost().getHostName();
+		} catch (Exception e) {}
+		
 		// Manually instantiate our GuiberestRestServiceProvider (since we're not really using Guice in this test app).
 		GuiberestRestServiceProvider provider = new GuiberestRestServiceProvider(
 				"thomas",
 				"123456789",
-				"jons-mac-mini.dhcp.swmed.org:9090",
-				"https://jons-mac-mini.dhcp.swmed.org:9090",
+				hostname + ":9090",
+				"https://" + hostname + ":9090",
 				jackson);
 		
 		// Get an instance of the web service from the provider.

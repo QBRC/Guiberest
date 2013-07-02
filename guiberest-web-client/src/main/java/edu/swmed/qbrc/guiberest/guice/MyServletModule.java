@@ -40,11 +40,15 @@ public class MyServletModule extends ServletModule {
 	 * @return
 	 */
 	private Properties loadProperties() {
+		String hostname = "localhost";
+		try {
+			hostname = java.net.InetAddress.getLocalHost().getHostName();
+		} catch (Exception e) {}
     	Properties props = new Properties();
     	props.setProperty("ClientId", "thomas"); // Your Client Id (public)
     	props.setProperty("Secret", "123456789");// Your Client Secret (private)
-    	props.setProperty("HostName", "jons-mac-mini.dhcp.swmed.org:9090"); // The Host name of the RESTful service (not the client; don't include http://)
-    	props.setProperty("RestURL", "https://jons-mac-mini.dhcp.swmed.org:9090");
+    	props.setProperty("HostName", hostname + ":9090"); // The Host name of the RESTful service (not the client; don't include http://)
+    	props.setProperty("RestURL", "https://" + hostname + ":9090");
     	return props;
 	}
 	

@@ -234,6 +234,25 @@
         </testResources>
 
 		<plugins>
+		
+			<plugin>
+				<groupId>org.codehaus.groovy.maven</groupId>
+				<artifactId>gmaven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>generate-resources</phase>
+						<goals>
+    						<goal>execute</goal>
+						</goals>
+						<configuration>
+							<source>
+                                project.properties["hostname"] = InetAddress.getLocalHost().getHostName()
+							</source>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
 			<plugin>
             	<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -287,7 +306,7 @@
 			<properties>
 				<profile>dev</profile>
 				<guiberest.persistence.unit>guiberest</guiberest.persistence.unit>
-                <restservice.baseurl>https://jons-mac-mini.dhcp.swmed.org:9090</restservice.baseurl>
+                <restservice.baseurl>https://${hostname}:9090</restservice.baseurl>
                 <restservice.packageurl>/datapackage.json</restservice.packageurl>                  
 
 				<!-- MySQL Settings -->
@@ -318,7 +337,7 @@
 				
 				<!-- CasHmac -->
 				<edu.swmed.qbrc.auth.cashmac.cas.serverLoginUrl>https://qbridev.swmed.edu:8443/cas/login</edu.swmed.qbrc.auth.cashmac.cas.serverLoginUrl>
-				<edu.swmed.qbrc.auth.cashmac.cas.serviceName>https://jons-mac-mini.dhcp.swmed.org:9090</edu.swmed.qbrc.auth.cashmac.cas.serviceName>
+				<edu.swmed.qbrc.auth.cashmac.cas.serviceName>https://${hostname}:9090</edu.swmed.qbrc.auth.cashmac.cas.serviceName>
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.Role>roles</edu.swmed.qbrc.auth.cashmac.hmac.table.Role>
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.Role>id</edu.swmed.qbrc.auth.cashmac.hmac.table.keycol.Role>
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.rolecol.Role>role</edu.swmed.qbrc.auth.cashmac.hmac.table.rolecol.Role>
@@ -342,8 +361,8 @@
 				
 				<!-- CAS -->	
 				<cas.casserverurlprefix>https://qbridev.swmed.edu:8443/cas/</cas.casserverurlprefix>
-				<cas.servername>https://jons-mac-mini.dhcp.swmed.org:9090</cas.servername>
-				<cas.proxycallbackurl>https://jons-mac-mini.dhcp.swmed.org:9090/proxyCallback</cas.proxycallbackurl>
+				<cas.servername>https://${hostname}:9090</cas.servername>
+				<cas.proxycallbackurl>https://${hostname}:9090/proxyCallback</cas.proxycallbackurl>
 				<cas.proxyreceptorurl>/proxyCallback</cas.proxyreceptorurl>
 				<cas.timedrifttolerance>60000</cas.timedrifttolerance>
                 <cas.allowedproxychains></cas.allowedproxychains>

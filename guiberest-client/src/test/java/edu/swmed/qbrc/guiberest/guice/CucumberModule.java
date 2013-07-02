@@ -58,8 +58,19 @@ public class CucumberModule extends AbstractModule {
     	props.setProperty("Secret-guest", getProperty("secret-guest"));// Your Client Secret (private)
     	props.setProperty("ClientId-cook", getProperty("clientid-cook")); // Your Client Id (public)
     	props.setProperty("Secret-cook", getProperty("secret-cook"));// Your Client Secret (private)
-    	props.setProperty("HostName", getProperty("hostname")); // The Host name of the RESTful service (not the client; don't include http://)
-    	props.setProperty("RestURL", getProperty("baseurl"));
+    	
+    	// Get Host Name from .properties file first, then attempt to dynamically get local host name
+    	props.setProperty("HostName", getProperty("hostname") + ":" + getProperty("hostport")); // The Host name of the RESTful service (not the client; don't include http://)
+		try {
+	    	props.setProperty("HostName", java.net.InetAddress.getLocalHost().getHostName() + ":" + getProperty("hostport")); // The Host name of the RESTful service (not the client; don't include http://)
+		} catch (Exception e) {}
+		
+		// Get REST URL from .properties file first, then attempt to dynamically generate with local host name
+    	props.setProperty("RestURL", getProperty("baseurl") + ":" + getProperty("hostport") + "/");
+		try {
+	    	props.setProperty("RestURL", "https://" + java.net.InetAddress.getLocalHost().getHostName() + ":" + getProperty("hostport") + "/");
+		} catch (Exception e) {}
+		
     	return props;
 	}	
 	

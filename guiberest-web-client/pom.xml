@@ -120,6 +120,23 @@
         
         <plugins>
             <plugin>
+                <groupId>org.codehaus.groovy.maven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>
+                                project.properties["hostname"] = InetAddress.getLocalHost().getHostName()
+                            </source>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
@@ -151,8 +168,8 @@
 				
                 <!-- CAS -->    
                 <cas.casserverurlprefix>https://qbridev.swmed.edu:8443/cas/</cas.casserverurlprefix>
-                <cas.servername>https://jons-mac-mini.dhcp.swmed.org:9091</cas.servername>
-                <cas.proxycallbackurl>https://jons-mac-mini.dhcp.swmed.org:9091/proxyCallback</cas.proxycallbackurl>
+                <cas.servername>https://${hostname}:9091</cas.servername>
+                <cas.proxycallbackurl>https://${hostname}:9091/proxyCallback</cas.proxycallbackurl>
                 <cas.proxyreceptorurl>/proxyCallback</cas.proxyreceptorurl>
                 <cas.timedrifttolerance>60000</cas.timedrifttolerance>
                 <cas.casserverloginurl>https://qbridev.swmed.edu:8443/cas/login</cas.casserverloginurl>
