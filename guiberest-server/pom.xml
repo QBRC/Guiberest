@@ -365,8 +365,10 @@
 				<cas.proxycallbackurl>https://${hostname}:9090/proxyCallback</cas.proxycallbackurl>
 				<cas.proxyreceptorurl>/proxyCallback</cas.proxyreceptorurl>
 				<cas.timedrifttolerance>60000</cas.timedrifttolerance>
-                <cas.allowedproxychains></cas.allowedproxychains>
-                <cas.acceptanyproxy>true</cas.acceptanyproxy>
+                <cas.allowedproxychains>
+                    https://${hostname}:9091/proxyCallback
+                </cas.allowedproxychains>
+                <cas.acceptanyproxy>false</cas.acceptanyproxy>
                 <cas.redirectaftervalidation>false</cas.redirectaftervalidation>
 				
 			</properties>
