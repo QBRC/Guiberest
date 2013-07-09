@@ -2,52 +2,52 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>edu.swmed.qbrc</groupId>
-		<artifactId>guiberest</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
-		<relativePath>..</relativePath>
-	</parent>
-	<groupId>edu.swmed.qbrc.guiberest</groupId>
-	<artifactId>guiberest-web-client</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<packaging>war</packaging>
-	<name>Guiberest Web Client Sample Application</name>
-	<url>http://maven.apache.org</url>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>edu.swmed.qbrc</groupId>
+        <artifactId>guiberest</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>..</relativePath>
+    </parent>
+    <groupId>edu.swmed.qbrc.guiberest</groupId>
+    <artifactId>guiberest-web-client</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+    <name>Guiberest Web Client Sample Application</name>
+    <url>http://maven.apache.org</url>
 
-	<properties>
-		<jetty-plugin.version>8.1.0.v20120127</jetty-plugin.version>
-	</properties>
+    <properties>
+        <jetty-plugin.version>8.1.0.v20120127</jetty-plugin.version>
+    </properties>
 
 
-	<dependencies>
-
-		<dependency>
-			<groupId>edu.swmed.qbrc.auth.cashmac</groupId>
-			<artifactId>cashmac-client</artifactId>
-			<version>${cashmac.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>${pom.groupId}</groupId>
-			<artifactId>guiberest-shared</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
+    <dependencies>
 
         <dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
-			<scope>test</scope>
-		</dependency>
-		
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.3</version>
-			<scope>provided</scope>
-		</dependency>
+            <groupId>edu.swmed.qbrc.auth.cashmac</groupId>
+            <artifactId>cashmac-client</artifactId>
+            <version>${cashmac.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${pom.groupId}</groupId>
+            <artifactId>guiberest-shared</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.3</version>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- Jasig CAS Client -->
         <dependency>
@@ -56,8 +56,8 @@
            <type>jar</type>
            <version>${cas.version}</version>
         </dependency>   
-		
-		<!-- DI dependencies -->
+        
+        <!-- DI dependencies -->
         <dependency>
             <groupId>org.sonatype.sisu</groupId>
             <artifactId>sisu-guice</artifactId>
@@ -74,11 +74,11 @@
             <version>${guice.version}</version>
         </dependency>
 
-		<dependency>
-		    <groupId>org.jboss.resteasy</groupId>
-		    <artifactId>resteasy-jaxrs</artifactId>
-		    <version>${resteasy.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxrs</artifactId>
+            <version>${resteasy.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-client</artifactId>
@@ -90,13 +90,7 @@
             <artifactId>reflections</artifactId>
             <version>0.9.9-RC1</version>
         </dependency>
-        				
 
-        <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-            <version>0.9.9-RC1</version>
-        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -104,8 +98,8 @@
         </dependency>
         
      </dependencies>
-	
-	<build>
+    
+    <build>
         <finalName>web-client</finalName>
         
         <resources>
@@ -149,23 +143,23 @@
                    </configuration>
              </plugin>
          </plugins>  
-	</build>
+    </build>
   
-  	<profiles>
-		<profile>
-			<id>local-nonWin</id>
+    <profiles>
+        <profile>
+            <id>local-nonWin</id>
 
 
-			<activation>
-				<activeByDefault>true</activeByDefault>
-				<os>
-					<family>!windows</family>
-				</os>
-			</activation>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <os>
+                    <family>!windows</family>
+                </os>
+            </activation>
 
-			<properties>
-				<profile>dev</profile>
-				
+            <properties>
+                <profile>dev</profile>
+                
                 <!-- CAS -->    
                 <cas.casserverurlprefix>https://qbridev.swmed.edu:8443/cas/</cas.casserverurlprefix>
                 <cas.servername>https://${hostname}:9091</cas.servername>
@@ -178,26 +172,26 @@
                 <cas.allowedproxychains></cas.allowedproxychains>
                 <cas.acceptanyproxy>false</cas.acceptanyproxy>
                 <cas.redirectaftervalidation>true</cas.redirectaftervalidation>
-				
-			</properties>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.mortbay.jetty</groupId>
-						<artifactId>jetty-maven-plugin</artifactId>
-						<version>${jetty-plugin.version}</version>
-						<configuration>
+                
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.mortbay.jetty</groupId>
+                        <artifactId>jetty-maven-plugin</artifactId>
+                        <version>${jetty-plugin.version}</version>
+                        <configuration>
                             <!-- Disable automatic reloading so JRebel can take care of it -->
                             <scanIntervalSeconds>0</scanIntervalSeconds>
-							<stopPort>9967</stopPort>
-							<stopKey>stop-jetty</stopKey>
-							<connectors>
-							    <!--
-								<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-									<port>9091</port>
-									<maxIdleTime>60000</maxIdleTime>
-								</connector>
-								-->
+                            <stopPort>9967</stopPort>
+                            <stopKey>stop-jetty</stopKey>
+                            <connectors>
+                                <!--
+                                <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+                                    <port>9091</port>
+                                    <maxIdleTime>60000</maxIdleTime>
+                                </connector>
+                                -->
                                 <connector implementation="org.eclipse.jetty.server.ssl.SslSelectChannelConnector">
                                     <port>9091</port>
                                     <maxIdleTime>60000</maxIdleTime>
@@ -205,38 +199,38 @@
                                     <password>changeit</password>
                                     <keyPassword>changeit</keyPassword>
                                 </connector>
-							</connectors>
+                            </connectors>
 
-							<webAppSourceDirectory>${webappDirectory}</webAppSourceDirectory>
-							<webApp>
-								<descriptor>${webappDirectory}/WEB-INF</descriptor>
-							</webApp>
-						</configuration>
-						<executions>
-							<execution>
-								<id>start-jetty</id>
-								<phase>pre-integration-test</phase>
-								<goals>
-									<goal>run</goal>
-								</goals>
-								<configuration>
-									<daemon>true</daemon>
-									<scanIntervalSeconds>0</scanIntervalSeconds>
-								</configuration>
-							</execution>
-							<execution>
-								<id>stop-jetty</id>
-								<phase>post-integration-test</phase>
-								<goals>
-									<goal>stop</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
+                            <webAppSourceDirectory>${webappDirectory}</webAppSourceDirectory>
+                            <webApp>
+                                <descriptor>${webappDirectory}/WEB-INF</descriptor>
+                            </webApp>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>start-jetty</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <daemon>true</daemon>
+                                    <scanIntervalSeconds>0</scanIntervalSeconds>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>stop-jetty</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
   
-  				</plugins>
-  			</build>
-  		</profile>
-  	</profiles>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
   
 </project>
