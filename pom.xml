@@ -12,7 +12,6 @@
 	<modules>
 		<module>guiberest-server</module>
 		<module>guiberest-client</module>
-		<module>guiberest-web-client</module>
 		<module>guiberest-shared</module>
   </modules>
 
