@@ -75,22 +75,16 @@ Sale: 37 - 25/11 - 69.65<br/>
 Sale: 38 - 25/12 - 9.95<br/>
 ```
 
-Run Sample Web application
+Run Sample Web application with CAS Integration Tests
 ```bash
 # open new console window
-cd guiberest-web-client/
+cd guiberest-client/
 mvn jetty:run
 ```
 
-Browse to http://127.0.0.1:9091, and you should see the following output
-```bash
-Customer: 21 - Maurice Mango
-Customer: 23 - Chloe Stanley
-Sale: 37 - 25/11 - 69.65
-Sale: 38 - 25/12 - 9.95
-```
+Browse to http://127.0.0.1:9091, and you should see information that walks you through running integration tests with CAS authentication. In short, you log in to the test Guiberest client website with CAS, and the site in turn proxies your CAS credientials to the Guiberest server for authentication.
 
-You can also run the comprehensive integration tests from the client:
+You can also run the comprehensive integration tests (with HMAC authentication) from the client:
 ```bash
 cd guiberest-client
 mvn integration-test
