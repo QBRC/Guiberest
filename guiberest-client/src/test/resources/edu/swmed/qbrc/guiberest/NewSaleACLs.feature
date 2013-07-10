@@ -19,16 +19,16 @@ Feature: Create New Sale ACLS
             | 50 | 12 | 21 |   38.92 |
         And I request ACL data for the 50 id and the sale class as user thomas
         Then I see the following ACL results:
-            | <any> | thomas | NULL | read     | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
-            | <any> | NULL   |    5 | read     | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
-            | <any> | NULL   |    6 | read     | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
-            | <any> | NULL   |    7 | read     | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
-            | <any> | thomas | NULL | update   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
-            | <any> | NULL   |    6 | update   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
-            | <any> | NULL   |    7 | update   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
-            | <any> | thomas | NULL | delete   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
-            | <any> | NULL   |    6 | delete   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
-            | <any> | NULL   |    7 | DECREASE | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
+            | <any> | thomas-test | NULL | read     | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
+            | <any> | NULL        |    5 | read     | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
+            | <any> | NULL        |    6 | read     | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
+            | <any> | NULL        |    7 | read     | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
+            | <any> | thomas-test | NULL | update   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
+            | <any> | NULL        |    6 | update   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
+            | <any> | NULL        |    7 | update   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
+            | <any> | thomas-test | NULL | delete   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
+            | <any> | NULL        |    6 | delete   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
+            | <any> | NULL        |    7 | DECREASE | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 50 |
 
     Scenario: Insert Sales without UPDATE ACL to Sale's Store (although user has READ access to Sale's Store)
         When I insert the following sale data as user sean:

@@ -17,12 +17,12 @@ Feature: Test ACL Helper Methods
             | audit              | DECREASE | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
         And I request ACL data for the 500 id and the sale class as user thomas
         Then I see the following ACL results:
-            | <any> | thomas | NULL | read     | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
-            | <any> | thomas | NULL | update   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
-            | <any> | NULL   |    6 | update   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
-            | <any> | NULL   |    5 | update   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
-            | <any> | NULL   |    6 | delete   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
-            | <any> | NULL   |    5 | DECREASE | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
+            | <any> | thomas-test | NULL | read     | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
+            | <any> | thomas-test | NULL | update   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
+            | <any> | NULL        |    6 | update   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
+            | <any> | NULL        |    5 | update   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
+            | <any> | NULL        |    6 | delete   | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
+            | <any> | NULL        |    5 | DECREASE | edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale | 500 |
 
     Scenario: Delete ACLs
         When I delete the following ACL data as user thomas:            

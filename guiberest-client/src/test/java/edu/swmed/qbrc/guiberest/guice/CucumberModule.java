@@ -9,7 +9,10 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Names;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
 import edu.swmed.qbrc.guiberest.shared.rest.jackson.GuiberestSerializationModule;
-import edu.swmed.qbrc.guiberest.tester.TestableEntityTester;
+import edu.swmed.qbrc.guiberest.webapp.guice.ClientIdentification;
+import edu.swmed.qbrc.guiberest.webapp.guice.ClientIdentificationProvider;
+import edu.swmed.qbrc.guiberest.webapp.guice.TestableEntityTester;
+import edu.swmed.qbrc.guiberest.webapp.guice.TestableEntityTesterProvider;
 import edu.swmed.qbrc.jacksonate.rest.jackson.JacksonConfigProvider;
 import edu.swmed.qbrc.jacksonate.rest.jackson.JacksonSerializationModule;
 import edu.swmed.qbrc.jacksonate.rest.jackson.ReflectionFactory;
@@ -19,9 +22,7 @@ public class CucumberModule extends AbstractModule {
 
 	@Override
     protected void configure() {
-		
-		Properties props = loadProperties();
-		Names.bindProperties(binder(), props);
+		Names.bindProperties(binder(), loadProperties());
 		
 		bind(ReflectionFactory.class).in(Singleton.class);
 		bind(Reflections.class).toInstance(new Reflections("edu.swmed.qbrc.guiberest.shared.domain.guiberest"));
@@ -59,6 +60,8 @@ public class CucumberModule extends AbstractModule {
     	props.setProperty("ClientId-cook", getProperty("clientid-cook")); // Your Client Id (public)
     	props.setProperty("Secret-cook", getProperty("secret-cook"));// Your Client Secret (private)
     	
+    	props.setProperty("usingCAS", "false");// Not using CAS for default integration tests
+    	
     	// Get Host Name from .properties file first, then attempt to dynamically get local host name
     	props.setProperty("HostName", getProperty("hostname") + ":" + getProperty("hostport")); // The Host name of the RESTful service (not the client; don't include http://)
 		try {
@@ -70,6 +73,14 @@ public class CucumberModule extends AbstractModule {
 		try {
 	    	props.setProperty("RestURL", "https://" + java.net.InetAddress.getLocalHost().getHostName() + ":" + getProperty("hostport") + "/");
 		} catch (Exception e) {}
+		
+    	// CAS Passwords
+		props.setProperty("CASPassword-thomas", getProperty("cas-password-thomas"));
+		props.setProperty("CASPassword-roger", getProperty("cas-password-roger"));
+		props.setProperty("CASPassword-sean", getProperty("cas-password-sean"));
+		props.setProperty("CASPassword-irsauditer", getProperty("cas-password-irsauditer"));
+		props.setProperty("CASPassword-guest", getProperty("cas-password-guest"));
+		props.setProperty("CASPassword-cook", getProperty("cas-password-cook"));
 		
     	return props;
 	}	

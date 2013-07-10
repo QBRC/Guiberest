@@ -13,7 +13,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import org.jboss.resteasy.annotations.StringParameterUnmarshallerBinder;
 import org.jboss.resteasy.spi.MethodNotAllowedException;
-import edu.swmed.qbrc.auth.cashmac.shared.annotations.NoCasAuth;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.ACL;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Customer;
 import edu.swmed.qbrc.guiberest.shared.domain.guiberest.Sale;
@@ -87,14 +86,12 @@ public interface GuiberestRestService {
 	public TableJSONContainer<Store> getStores(@PathParam("param") @IntegerArrayAnnot IntegerArray ids);
 	
 	@RolesAllowed({"Guiberest-Writer"})
-	@NoCasAuth
 	@PUT
 	@Path("/store/{param}")
 	@Produces("application/json")
 	public Response putStore(@PathParam("param") Integer storeId, @QueryParam("name") String name);
 
 	@RolesAllowed({"Guiberest-Writer"})
-	@NoCasAuth
 	@POST
 	@Path("/store/{param}/delete")
 	@Produces("application/json")
@@ -114,14 +111,12 @@ public interface GuiberestRestService {
 	public TableJSONContainer<Customer> getCustomers(@PathParam("param") @IntegerArrayAnnot IntegerArray ids);
 	
 	@RolesAllowed({"Guiberest-Writer"})
-	@NoCasAuth
 	@PUT
 	@Path("/customer/{param}")
 	@Produces("application/json")
 	public Response putCustomer(@PathParam("param") Integer customerId, @QueryParam("preferred_store_id") Integer preferredStoreId, @QueryParam("name") String name);
 
 	@RolesAllowed({"Guiberest-Writer"})
-	@NoCasAuth
 	@POST
 	@Path("/customer/{param}/delete")
 	@Produces("application/json")
@@ -147,14 +142,12 @@ public interface GuiberestRestService {
 	public TableJSONContainer<Sale> getSalesByCustomer(@QueryParam("customer_id") Integer customerId);
 	
 	@RolesAllowed({"Guiberest-Writer"})
-	@NoCasAuth
 	@PUT
 	@Path("/sale/{param}")
 	@Produces("application/json")
 	public Response putSale(@PathParam("param") Integer saleId, @QueryParam("storeId") Integer storeId, @QueryParam("customerId") Integer customerId, @QueryParam("total") Float total) throws MethodNotAllowedException;
 
 	@RolesAllowed({"Guiberest-Writer"})
-	@NoCasAuth
 	@POST
 	@Path("/sale/{param}/delete")
 	@Produces("application/json")

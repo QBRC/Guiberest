@@ -13,6 +13,7 @@ import com.google.inject.name.Named;
 import edu.swmed.qbrc.auth.cashmac.client.CasHmacRestProvider;
 import edu.swmed.qbrc.auth.cashmac.client.ClientAuthInterceptor;
 import edu.swmed.qbrc.guiberest.shared.rest.GuiberestRestService;
+import edu.swmed.qbrc.guiberest.webapp.guice.ClientIdentification;
 import edu.swmed.qbrc.jacksonate.rest.jackson.JacksonConfigProvider;
 
 public class GuiberestRestServiceProvider implements CasHmacRestProvider<GuiberestRestService> {
@@ -24,7 +25,6 @@ public class GuiberestRestServiceProvider implements CasHmacRestProvider<Guibere
 	
 	private static GuiberestRestService guiberestRestService;
 
-	
 	@Inject
 	public GuiberestRestServiceProvider(
 							@Named("HostName") final String hostName,
