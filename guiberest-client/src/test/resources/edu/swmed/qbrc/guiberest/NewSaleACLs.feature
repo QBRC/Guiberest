@@ -50,12 +50,6 @@ Feature: Create New Sale ACLS
             | 50 |
         Then I receive a NoAclException
 
-    Scenario: Retrieve a New Sale as an IRS auditer:
-        When I request sale data for the following ids as user irsauditer:
-            | 50 |
-        Then I see the following sale results:
-            | 50 | 12 | 21 |   38.92 |
-
     Scenario: Increase Sale Total as another User (Roger) without an ACL
         When I update the following sale data as user roger:
             | 50 | 12 | 21 |   40.95 |
@@ -68,16 +62,22 @@ Feature: Create New Sale ACLS
             | 50 |
         Then I see the following sale results:
             | 50 | 12 | 21 |   40.95 |
- 
-    Scenario: Decrease Sale Total as a non manager user:
-        When I update the following sale data as user thomas:
-            | 50 | 12 | 21 |   34.95 |
-        Then I receive a NoAclException
 
     Scenario: Decrease Sale Total as a valid manager user:
         When I update the following sale data as user cook:
             | 50 | 12 | 21 |   34.95 |
-        When I request sale data for the following ids as user thomas:
+        When I request sale data for the following ids as user thomas (CAS user cook):
+            | 50 |
+        Then I see the following sale results (CAS user cook):
+            | 50 | 12 | 21 |   34.95 |
+
+    Scenario: Decrease Sale Total as a non manager user:
+        When I update the following sale data as user thomas:
+            | 50 | 12 | 21 |   32.92 |
+        Then I receive a NoAclException
+
+    Scenario: Retrieve a New Sale as an IRS auditer:
+        When I request sale data for the following ids as user irsauditer:
             | 50 |
         Then I see the following sale results:
             | 50 | 12 | 21 |   34.95 |
@@ -90,8 +90,8 @@ Feature: Create New Sale ACLS
     Scenario: Delete Sale as a Manager and Verify that no ACLs remain for Sale:
         When I delete the following sale data as user sean:
             | 50 |
-        When I request sale data for the following ids as user thomas:
+        When I request sale data for the following ids as user thomas (CAS user sean):
             | 50 |
-        And I request ACL data for the 50 id and the sale class as user thomas
-        Then I see no more than 0 ACL results
+        And I request ACL data for the 50 id and the sale class as user thomas (CAS user sean)
+        Then I see no more than 0 ACL results (CAS user cook)
  

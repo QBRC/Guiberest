@@ -18,33 +18,33 @@ Feature: Sales
 
     Scenario: Insert Sales
         When I insert the following sale data as user thomas:
-            | 50 | 12 | 21 |   38.92 |
-            | 51 | 11 | 23 |  123.57 |
+            | 60 | 12 | 21 |   38.92 |
+            | 61 | 11 | 23 |  123.57 |
         When I request sale data for the following ids as user thomas:
-            | 50 |
-            | 51 |
+            | 60 |
+            | 61 |
         Then I see the following sale results:
-            | 50 | 12 | 21 |   38.92 |
-            | 51 | 11 | 23 |  123.57 |
+            | 60 | 12 | 21 |   38.92 |
+            | 61 | 11 | 23 |  123.57 |
 
     Scenario: Update Sales
     
         When I update the following sale data as user thomas:
-            | 50 | 11 | 23 |   78.92 |
-            | 51 | 12 | 21 |  125.57 |
+            | 60 | 11 | 23 |   78.92 |
+            | 61 | 12 | 21 |  125.57 |
         When I request sale data for the following ids as user thomas:
-            | 50 |
-            | 51 |
+            | 60 |
+            | 61 |
         Then I see the following sale results:
-            | 50 | 11 | 23 |   78.92 |
-            | 51 | 12 | 21 |  125.57 |
+            | 60 | 11 | 23 |   78.92 |
+            | 61 | 12 | 21 |  125.57 |
 
     Scenario: Delete Sales
 
         When I delete the following sale data as user thomas:
-            | 50 |
-            | 51 |
+            | 60 |
+            | 61 |
         When I request sale data for the following ids as user thomas:
-            | 50 |
-            | 51 |
+            | 60 |
+            | 61 |
         Then I see no more than 0 sale results

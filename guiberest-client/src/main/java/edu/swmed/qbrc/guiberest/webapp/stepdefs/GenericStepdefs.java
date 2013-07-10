@@ -55,13 +55,27 @@ public class GenericStepdefs {
     	tester.requestXforTheFollowingIds(type, ids, userName);
     }
 
+    @When("^I request (\\S+) data for the following ids as user (\\S+) \\(CAS user (\\S+)\\):$")
+    public void I_request_x_data_with_the_following_ids_as_user_cas_user(String type, String userName, String casUser, DataTable ids) throws Throwable {
+    	// Don't run any tests for non-default users
+    	if (!userOK(casUser)) return;
+    	tester.requestXforTheFollowingIds(type, ids, userName);
+    }
+
+    @When("^I request (\\S+) data for the (\\d+) id and the (\\S+) class as user (\\S+) \\(CAS user (\\S+)\\)$")
+    public void I_request_x_data_for_the_x_id_as_user_cas_user(String type, Integer customerId, String className, String userName, String casUser) throws Throwable {
+    	// Don't run any tests for non-default users
+    	if (!userOK(casUser)) return;
+    	tester.requestXforThisIdAndClass(type, customerId, className, userName);
+    }
+    
     @When("^I request (\\S+) data for the (\\d+) id and the (\\S+) class as user (\\S+)$")
     public void I_request_x_data_for_the_x_id_as_user(String type, Integer customerId, String className, String userName) throws Throwable {
     	// Don't run any tests for non-default users
     	if (!userOK(userName)) return;
     	tester.requestXforThisIdAndClass(type, customerId, className, userName);
     }
-    
+
     @When("^I request (\\S+) data for the (\\d+) id as user (\\S+)$")
     public void I_request_x_data_for_the_x_id_as_user(String type, Integer customerId, String userName) throws Throwable {
     	// Don't run any tests for non-default users
@@ -75,7 +89,14 @@ public class GenericStepdefs {
     	if (!userOK()) return;
     	Assert.assertTrue(tester.checkTheFollowingXResults(type, results));
     }
-    
+
+    @Then("^I see the following (\\S+) results \\(CAS user (\\S+)\\):$")
+    public void I_see_the_following_x_results_cas_user(String type, String casUser, DataTable results) throws Throwable {
+    	// Don't run any tests for non-default users
+    	if (!userOK(casUser)) return;
+    	Assert.assertTrue(tester.checkTheFollowingXResults(type, results));
+    }
+
     @When("^I insert the following (\\S+) data as user (\\S+):$")
     public void I_insert_the_following_x_data_as_user(String type, String userName, DataTable inserts) throws Throwable {
     	// Don't run any tests for non-default users
@@ -102,6 +123,13 @@ public class GenericStepdefs {
     public void I_see_no_more_than_x_type_results(int results, String type) throws Throwable {
     	// Don't run any tests for non-default users
     	if (!userOK()) return;
+        Assert.assertTrue(tester.checkForLessThanOrEqualXresults(type, results));
+    }
+
+    @Then("^I see no more than (\\d+) (\\S+) results \\(CAS user (\\S+)\\)$")
+    public void I_see_no_more_than_x_type_results_cas_user(int results, String type, String casUser) throws Throwable {
+    	// Don't run any tests for non-default users
+    	if (!userOK(casUser)) return;
         Assert.assertTrue(tester.checkForLessThanOrEqualXresults(type, results));
     }
 

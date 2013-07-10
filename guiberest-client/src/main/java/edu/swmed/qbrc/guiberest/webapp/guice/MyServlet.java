@@ -52,15 +52,14 @@ public class MyServlet extends HttpServlet {
 				"Since there's no easy way to implement integration tests using CAS authentication, we've chosen to let you run the integration " +
 				"tests interactively.  To run the same integration tests with HMAC authentication, simply enter <strong><em>mvn integration-test</em></strong> " +
 				"while in the <em>probemapper-client</em> directory.</p>" +
-				"<p>To run the integration tests with CAS authentication, follow these steps:" +
+				"<p>To run the integration tests with CAS authentication, follow these steps (IN ORDER):" +
 				"<ol>" +
-				"<li>If you're logged in as another user, use the <em>Log Out</em> link to log out.</li>" +
-				"<li>Log in as the <em>" + getProperty("clientid-thomas") + "</em> CAS user with <em><strong>" + getProperty("cas-password-thomas") + "</strong></em> as the password.  The tests for <em>" + getProperty("clientid-thomas") + "</em> will be run.</li>" +
-				"<li>Log out and log in again as the <em>" + getProperty("clientid-roger") + "</em> CAS user with <em><strong>" + getProperty("cas-password-roger") + "</strong></em> as the password.  The tests for <em>" + getProperty("clientid-roger") + "</em> will be run.</li>" +
-				"<li>Log out and log in again as the <em>" + getProperty("clientid-sean") + "</em> CAS user with <em><strong>" + getProperty("cas-password-sean") + "</strong></em> as the password.  The tests for <em>" + getProperty("clientid-sean") + "</em> will be run.</li>" +
-				"<li>Log out and log in again as the <em>" + getProperty("clientid-irsauditer") + "</em> CAS user with <em><strong>" + getProperty("cas-password-irsauditer") + "</strong></em> as the password.  The tests for <em>" + getProperty("clientid-irsauditer") + "</em> will be run.</li>" +
-				"<li>Log out and log in again as the <em>" + getProperty("clientid-guest") + "</em> CAS user with <em><strong>" + getProperty("cas-password-guest") + "</strong></em> as the password.  The tests for <em>" + getProperty("clientid-guest") + "</em> will be run.</li>" +
+				"<li>Log out and log in again as the <em>" + getProperty("clientid-thomas") + "</em> CAS user with <em><strong>" + getProperty("cas-password-thomas") + "</strong></em> as the password.  The tests for <em>" + getProperty("clientid-thomas") + "</em> will be run.</li>" +
 				"<li>Log out and log in again as the <em>" + getProperty("clientid-cook") + "</em> CAS user with <em><strong>" + getProperty("cas-password-cook") + "</strong></em> as the password.  The tests for <em>" + getProperty("clientid-cook") + "</em> will be run.</li>" +
+				"<li>Log out and log in again as the <em>" + getProperty("clientid-roger") + "</em> CAS user with <em><strong>" + getProperty("cas-password-roger") + "</strong></em> as the password.  The tests for <em>" + getProperty("clientid-roger") + "</em> will be run.</li>" +
+				"<li>Log out and log in again as the <em>" + getProperty("clientid-irsauditer") + "</em> CAS user with <em><strong>" + getProperty("cas-password-irsauditer") + "</strong></em> as the password.  The tests for <em>" + getProperty("clientid-irsauditer") + "</em> will be run.</li>" +
+				"<li>Log out and log in again as the <em>" + getProperty("clientid-sean") + "</em> CAS user with <em><strong>" + getProperty("cas-password-sean") + "</strong></em> as the password.  The tests for <em>" + getProperty("clientid-sean") + "</em> will be run.</li>" +
+				"<li>Log out and log in again as the <em>" + getProperty("clientid-guest") + "</em> CAS user with <em><strong>" + getProperty("cas-password-guest") + "</strong></em> as the password.  The tests for <em>" + getProperty("clientid-guest") + "</em> will be run.</li>" +
 				"</ol>" +
 				"</p>");
 		
