@@ -82,7 +82,7 @@ cd guiberest-client/
 mvn jetty:run
 ```
 
-Browse to https://<your_host_name>:9091, and you should see information that walks you through running integration tests with CAS authentication. In short, you log in to the test Guiberest client website with CAS, and the site in turn proxies your CAS credientials to the Guiberest server for authentication.
+Browse to https://insert_your_host_name:9091, and you should see information that walks you through running integration tests with CAS authentication. In short, you log in to the test Guiberest client website with CAS, and the site in turn proxies your CAS credientials to the Guiberest server for authentication.
 
 You can also run the comprehensive integration tests (with HMAC authentication) from the client:
 ```bash
