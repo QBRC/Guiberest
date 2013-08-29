@@ -234,24 +234,6 @@
         </testResources>
 
 		<plugins>
-		
-			<plugin>
-				<groupId>org.codehaus.groovy.maven</groupId>
-				<artifactId>gmaven-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>generate-resources</phase>
-						<goals>
-    						<goal>execute</goal>
-						</goals>
-						<configuration>
-							<source>
-                                project.properties["hostname"] = InetAddress.getLocalHost().getHostName()
-							</source>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 			
 			<plugin>
             	<groupId>org.apache.maven.plugins</groupId>
@@ -444,7 +426,7 @@
                                 <connector implementation="org.eclipse.jetty.server.ssl.SslSelectChannelConnector">
                                     <port>9090</port>
                                     <maxIdleTime>60000</maxIdleTime>
-                                    <keystore>/Users/JYODE1/Documents/CA/certs/jetty.keystore</keystore>
+                                    <keystore>${basedir}/../.jetty/${hostname}/jetty.keystore</keystore>
                                     <password>changeit</password>
                                     <keyPassword>changeit</keyPassword>
                                 </connector>
