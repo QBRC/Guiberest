@@ -307,7 +307,7 @@
 				
 				<!-- H2 Settings -->
 				<guiberest.persistence.driver>org.h2.Driver</guiberest.persistence.driver>
-				<guiberest.persistence.url>jdbc:h2:~/guiberest-sample;AUTO_SERVER=TRUE</guiberest.persistence.url>
+				<guiberest.persistence.url>jdbc:h2:~/guiberest-sample;AUTO_SERVER=TRUE;IGNORECASE=TRUE;DB_CLOSE_ON_EXIT=FALSE</guiberest.persistence.url>
 				<guiberest.persistence.hbm2ddl.auto>create</guiberest.persistence.hbm2ddl.auto>
 				<guiberest.persistence.server.username>sa</guiberest.persistence.server.username>
 				<guiberest.persistence.server.password></guiberest.persistence.server.password>
@@ -337,7 +337,7 @@
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.classcol.ACL>class</edu.swmed.qbrc.auth.cashmac.hmac.table.classcol.ACL>
 				<edu.swmed.qbrc.auth.cashmac.hmac.table.pkcol.ACL>pk</edu.swmed.qbrc.auth.cashmac.hmac.table.pkcol.ACL>
 				<edu.swmed.qbrc.auth.cashmac.hmac.jdbcdriver>org.h2.Driver</edu.swmed.qbrc.auth.cashmac.hmac.jdbcdriver>
-				<edu.swmed.qbrc.auth.cashmac.hmac.jdbcurl>jdbc:h2:~/guiberest-sample;AUTO_SERVER=TRUE</edu.swmed.qbrc.auth.cashmac.hmac.jdbcurl>
+				<edu.swmed.qbrc.auth.cashmac.hmac.jdbcurl>jdbc:h2:~/guiberest-sample;AUTO_SERVER=TRUE;IGNORECASE=TRUE;DB_CLOSE_ON_EXIT=FALSE</edu.swmed.qbrc.auth.cashmac.hmac.jdbcurl>
 				<edu.swmed.qbrc.auth.cashmac.hmac.username>sa</edu.swmed.qbrc.auth.cashmac.hmac.username>
 				<edu.swmed.qbrc.auth.cashmac.hmac.password></edu.swmed.qbrc.auth.cashmac.hmac.password>
 				
